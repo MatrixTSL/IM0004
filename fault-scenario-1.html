@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
+<script src="shared-components.js"></script>
 
 </head>
 <body>
@@ -226,41 +227,56 @@
       </div>
     </div>
 
-    <!-- Interactive Simulation Section -->
-    <div class="worksheet-section simulation-section">
-      <h2 class="section-header"><i class="fas fa-cogs"></i> Interactive Hydraulic System Simulation</h2>
+    <!-- Interactive Simulation Section - COMMENTED OUT -->
+    <!-- NOTE: This simulation is fully working and working well. It provides an interactive temperature-based flow system 
+         with dual gauges (flow rate + temperature), troubleshooting tools, and realistic fault scenario behavior.
+         Uncomment this section to enable the fully functional simulation. -->
+    <!-- <div class="worksheet-section simulation-section">
+      <h2 class="section-header"><i class="fas fa-cogs"></i> Interactive Flow Rate System Simulation</h2>
       <div class="simulation-container">
         <div class="simulation-header">
-          <h3><i class="fas fa-tint"></i> Titanium Forging Hydraulic System</h3>
-          <p>Experience the fault scenario in real-time. Investigate why the hydraulic system shows zero pressure despite the pumps running, and practice troubleshooting techniques.</p>
+          <h3><i class="fas fa-tint"></i> Titanium Forging Flow System</h3>
+          <p>Experience the fault scenario in real-time. System requires temperature ≤40°C to operate</p>
         </div>
         
         <div class="simulation-grid">
           <div class="simulation-left">
             <div class="temperature-visualization">
-              <h4>Hydraulic System Display</h4>
+              <h4>Flow Rate System Display</h4>
               <div class="temp-display-container">
-                <div class="temp-gauge-container">
-                  <div id="temp-gauge" class="temp-gauge">
-                    <div class="gauge-background"></div>
-                    <div class="gauge-fill" id="gauge-fill"></div>
-                    <div class="gauge-center">
-                      <div class="temp-value" id="displayed-temp">0 bar</div>
-                      <div class="temp-label">Pressure</div>
+                <div class="gauge-row">
+                  <div class="temp-gauge-container">
+                    <div id="temp-gauge" class="temp-gauge">
+                      <div class="gauge-background"></div>
+                      <div class="gauge-fill" id="gauge-fill"></div>
+                      <div class="gauge-center">
+                        <div class="temp-value" id="displayed-temp">0 L/h</div>
+                        <div class="temp-label">Flow Rate</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="temp-gauge-container">
+                    <div id="temperature-gauge" class="temp-gauge">
+                      <div class="gauge-background"></div>
+                      <div class="gauge-fill" id="temperature-gauge-fill"></div>
+                      <div class="gauge-center">
+                        <div class="temp-value" id="temperature-gauge-value">45°C</div>
+                        <div class="temp-label">Temperature</div>
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div class="temp-indicators">
                   <div class="temp-indicator">
-                    <span class="indicator-label">Oil Temperature:</span>
-                    <span class="indicator-value" id="actual-temp">45°C</span>
+                    <span class="indicator-label">Flow Rate:</span>
+                    <span class="indicator-value" id="actual-temp">0 L/h</span>
                   </div>
                   <div class="temp-indicator">
-                    <span class="indicator-label">Required Pressure:</span>
-                    <span class="indicator-value" id="setpoint-temp">200 bar</span>
+                    <span class="indicator-label">Temperature:</span>
+                    <span class="indicator-value error" id="setpoint-temp">45°C</span>
                   </div>
                   <div class="temp-indicator">
-                    <span class="indicator-label">Isolation Valve:</span>
+                    <span class="indicator-label">Flow Valve:</span>
                     <span class="indicator-value" id="offset-value">CLOSED</span>
                   </div>
                 </div>
@@ -272,19 +288,19 @@
               <div class="status-grid-sim">
                 <div class="status-item-sim">
                   <span class="status-label-sim">Pump Status:</span>
-                  <span class="status-value-sim normal" id="alarm-status">RUNNING</span>
+                  <span class="status-value-sim normal" id="alarm-status">READY</span>
                 </div>
                 <div class="status-item-sim">
-                  <span class="status-label-sim">System Ready:</span>
-                  <span class="status-value-sim error" id="quality-status">FAULT</span>
+                  <span class="status-label-sim">Temperature Alarm:</span>
+                  <span class="status-value-sim error" id="quality-status">HIGH TEMP</span>
                 </div>
                 <div class="status-item-sim">
                   <span class="status-label-sim">Production:</span>
                   <span class="status-value-sim error" id="cooling-status">STOPPED</span>
                 </div>
                 <div class="status-item-sim">
-                  <span class="status-label-sim">Wi-Fi Status:</span>
-                  <span class="status-value-sim normal" id="energy-status">CONNECTED</span>
+                  <span class="status-label-sim">Max Temp Limit:</span>
+                  <span class="status-value-sim normal" id="energy-status">40°C</span>
                 </div>
               </div>
             </div>
@@ -293,19 +309,8 @@
           <div class="simulation-right">
             <div class="control-panel">
               <h4>Control Panel</h4>
-              <div class="control-group">
-                <label for="offset-control">Isolation Valve:</label>
-                <input type="range" id="offset-control" min="0" max="1" value="0" step="1">
-                <span id="offset-display">CLOSED</span>
-              </div>
-              <div class="control-group">
-                <label for="setpoint-control">Pump Speed:</label>
-                <input type="range" id="setpoint-control" min="0" max="100" value="75" step="5">
-                <span id="setpoint-display">75%</span>
-              </div>
               <div class="control-buttons">
-                <button id="reset-offset" class="control-btn">Open Valve</button>
-                <button id="apply-changes" class="control-btn">Apply Changes</button>
+                <button id="toggle-valve" class="control-btn">Open Valve</button>
                 <button id="reset-simulation" class="control-btn">Reset System</button>
               </div>
             </div>
@@ -313,20 +318,20 @@
             <div class="troubleshooting-tools">
               <h4>Troubleshooting Tools</h4>
               <div class="tool-buttons">
-                <button id="check-offset" class="tool-btn-sim">Check Pressure</button>
-                <button id="use-thermometer" class="tool-btn-sim">Inspect System</button>
-                <button id="review-reports" class="tool-btn-sim">Check Interlocks</button>
-                <button id="adjust-offset" class="tool-btn-sim">Test Valves</button>
+                <button id="check-offset" class="tool-btn-sim">Check Temperature</button>
+                <button id="use-thermometer" class="tool-btn-sim">Use Portable Thermometer</button>
+                <button id="review-reports" class="tool-btn-sim">Check Temp Sensor</button>
+                <button id="adjust-offset" class="tool-btn-sim">Check Sensor Setup</button>
               </div>
             </div>
             
-            <div class="diagnostic-log">
-              <h4>Diagnostic Log</h4>
+            <div class="diagnostic-log prominent-log">
+              <h3><i class="fas fa-clipboard-list"></i> System Diagnostic Log</h3>
               <div id="log-container" class="log-container">
-                <div class="log-entry">System startup failed - pressure fault</div>
-                <div class="log-entry">Oil temperature: 45°C (adequate)</div>
-                <div class="log-entry">Hydraulic pumps running normally</div>
-                <div class="log-entry">System pressure: 0 bar (fault condition)</div>
+                <div class="log-entry error">System startup failed - temperature alarm</div>
+                <div class="log-entry warning">Temperature: 45°C exceeds limit of 40°C</div>
+                <div class="log-entry">Pump ready and valve operational</div>
+                <div class="log-entry">Production halted due to high temperature</div>
               </div>
             </div>
           </div>
@@ -335,15 +340,15 @@
         <div class="simulation-instructions">
           <h4>Instructions</h4>
           <ol>
-            <li>Observe that the hydraulic system shows 0 bar pressure despite pumps running</li>
-            <li>Use the troubleshooting tools to investigate the fault</li>
-            <li>Check if the isolation valve position is affecting system pressure</li>
-            <li>Try opening the isolation valve to restore hydraulic pressure</li>
-            <li>Monitor the system status indicators for changes</li>
+            <li>Observe that the system shows temperature alarm preventing startup</li>
+            <li>Notice that pump is ready and valve can operate normally</li>
+            <li>Use troubleshooting tools to investigate the temperature issue</li>
+            <li>Check if there's a problem with the temperature sensor reading</li>
+            <li>Try adjusting the temperature sensor calibration to resolve the issue</li>
           </ol>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- Styles -->
@@ -397,12 +402,19 @@
       height: 200px;
     }
     
+    .gauge-row {
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+    
     .temp-gauge {
       position: relative;
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: conic-gradient(from 0deg, #4CAF50 0deg, #4CAF50 180deg, #666 180deg, #666 360deg);
+      background: #333;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -632,6 +644,23 @@
       border-left: 4px solid #607D8B;
     }
     
+    .prominent-log {
+      background: #2A2A2A;
+      border: 2px solid #607D8B;
+      box-shadow: 0 4px 20px rgba(96, 125, 139, 0.3);
+      margin-top: 20px;
+    }
+    
+    .prominent-log h3 {
+      color: #607D8B;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
     .diagnostic-log h4 {
       color: #607D8B;
       margin-bottom: 15px;
@@ -644,11 +673,18 @@
       background: #222;
       border: 1px solid #555;
       border-radius: 4px;
-      padding: 10px;
-      height: 120px;
+      padding: 15px;
+      height: 180px;
       overflow-y: auto;
       font-family: 'Courier New', monospace;
-      font-size: 12px;
+      font-size: 13px;
+    }
+    
+    .prominent-log .log-container {
+      height: 200px;
+      font-size: 14px;
+      background: #1A1A1A;
+      border: 2px solid #444;
     }
     
     .log-entry {
@@ -707,6 +743,11 @@
       
       .tool-buttons {
         grid-template-columns: 1fr;
+      }
+      
+      .gauge-row {
+        flex-direction: column;
+        gap: 20px;
       }
     }
     
@@ -931,19 +972,20 @@
   <script>
     // Simulation data
     let simulationData = {
-      oilTemperature: 45,
-      systemPressure: 0,
-      requiredPressure: 200,
-      isolationValve: 'CLOSED',
-      pumpStatus: 'RUNNING',
-      systemReady: 'FAULT',
+      currentFlow: 0,
+      displayedTemperature: 45, // Actual 12°C + 33°C offset
+      actualTemperature: 12,
+      temperatureOffset: 33,
+      maxTemperature: 40,
+      flowValve: 'CLOSED',
+      pumpStatus: 'READY',
+      pumpSpeed: 75,
+      temperatureAlarm: 'HIGH TEMP',
       productionStatus: 'STOPPED',
-      wifiStatus: 'CONNECTED',
-      // Temperature settings: actual 18°C, offset 33°C, displayed 51°C
-      actualTemperature: 18,
-      displayedTemperature: 51,
-      setpoint: 75,
-      offset: 33
+      // Flow settings: system won't run if temp > 40°C
+      valvePosition: 0, // 0 = closed, 1 = open
+      maxFlow: 300,
+      requiredFlow: 200
     };
 
     // Tool results data
@@ -1081,219 +1123,224 @@
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
-      initializeSimulation();
+      // initializeSimulation(); // Commented out with simulation section
+      initializeEducationalNote(); // Add the educational note
       startWifiFlicker(); // Start Wi-Fi flickering
     });
 
-    // Simulation Functions
+    // Simulation Functions - COMMENTED OUT WITH SIMULATION SECTION
+    /* 
     function initializeSimulation() {
-      console.log('Initializing Temperature Control Simulation');
-      
-      // Initialize controls
-      const offsetControl = document.getElementById('offset-control');
-      const setpointControl = document.getElementById('setpoint-control');
-      const offsetDisplay = document.getElementById('offset-display');
-      const setpointDisplay = document.getElementById('setpoint-display');
-      
-      // Set initial values
-      offsetControl.value = simulationData.offset;
-      setpointControl.value = simulationData.setpoint;
-      updateOffsetDisplay();
-      updateSetpointDisplay();
-      
-      // Add event listeners
-      offsetControl.addEventListener('input', function() {
-        simulationData.offset = parseFloat(this.value);
-        updateOffsetDisplay();
-        updateSimulation();
-      });
-      
-      setpointControl.addEventListener('input', function() {
-        simulationData.setpoint = parseInt(this.value);
-        updateSetpointDisplay();
-        updateSimulation();
-      });
+      console.log('Initializing Temperature-Based Flow System Simulation');
       
       // Button event listeners
-      document.getElementById('reset-offset').addEventListener('click', resetOffset);
-      document.getElementById('apply-changes').addEventListener('click', applyChanges);
+      document.getElementById('toggle-valve').addEventListener('click', toggleValve);
       document.getElementById('reset-simulation').addEventListener('click', resetSimulation);
       
       // Tool event listeners
-      document.getElementById('check-offset').addEventListener('click', () => useSimulationTool('check-offset'));
+      document.getElementById('check-offset').addEventListener('click', () => useSimulationTool('check-temp'));
       document.getElementById('use-thermometer').addEventListener('click', () => useSimulationTool('use-thermometer'));
-      document.getElementById('review-reports').addEventListener('click', () => useSimulationTool('review-reports'));
-      document.getElementById('adjust-offset').addEventListener('click', () => useSimulationTool('adjust-offset'));
+      document.getElementById('review-reports').addEventListener('click', () => useSimulationTool('check-sensor'));
+      document.getElementById('adjust-offset').addEventListener('click', () => useSimulationTool('calibrate-sensor'));
       
       // Initial update
       updateSimulation();
     }
 
-    function updateOffsetDisplay() {
-      const offsetDisplay = document.getElementById('offset-display');
-      const offset = simulationData.offset;
-      offsetDisplay.textContent = `${offset >= 0 ? '+' : ''}${offset.toFixed(1)}°C`;
-    }
-
-    function updateSetpointDisplay() {
-      const setpointDisplay = document.getElementById('setpoint-display');
-      setpointDisplay.textContent = `${simulationData.setpoint}°C`;
+    function toggleValve() {
+      simulationData.valvePosition = simulationData.valvePosition === 1 ? 0 : 1;
+      simulationData.flowValve = simulationData.valvePosition === 1 ? 'OPEN' : 'CLOSED';
+      
+      const toggleButton = document.getElementById('toggle-valve');
+      toggleButton.textContent = simulationData.valvePosition === 1 ? 'Close Valve' : 'Open Valve';
+      
+      updateSimulation();
+      addLogEntry(`Flow valve ${simulationData.flowValve.toLowerCase()}`, 'info');
     }
 
     function updateSimulation() {
-      // Update displayed temperature (actual - offset)
-      simulationData.displayedTemperature = simulationData.actualTemperature - simulationData.offset;
+      // Calculate displayed temperature (actual + offset)
+      simulationData.displayedTemperature = simulationData.actualTemperature + simulationData.temperatureOffset;
+      
+      // Check if system can run (temperature must be <= 40°C)
+      const temperatureOK = simulationData.displayedTemperature <= simulationData.maxTemperature;
+      
+      // Calculate flow rate: only flows if valve open AND temperature OK
+      if (simulationData.valvePosition === 1 && temperatureOK) {
+        simulationData.currentFlow = Math.round((simulationData.pumpSpeed / 100) * simulationData.maxFlow);
+      } else {
+        simulationData.currentFlow = 0;
+      }
       
       // Update displays
-      document.getElementById('displayed-temp').textContent = `${simulationData.displayedTemperature}°C`;
-      document.getElementById('actual-temp').textContent = `${simulationData.actualTemperature}°C`;
-      document.getElementById('setpoint-temp').textContent = `${simulationData.setpoint}°C`;
-      document.getElementById('offset-value').textContent = `${simulationData.offset >= 0 ? '+' : ''}${simulationData.offset}°C`;
+      document.getElementById('displayed-temp').textContent = `${simulationData.currentFlow} L/h`;
+      document.getElementById('actual-temp').textContent = `${simulationData.currentFlow} L/h`;
+      document.getElementById('setpoint-temp').textContent = `${simulationData.displayedTemperature}°C`;
+      document.getElementById('offset-value').textContent = simulationData.flowValve;
+      document.getElementById('temperature-gauge-value').textContent = `${simulationData.displayedTemperature}°C`;
       
-      // Update gauge
+      // Update gauge (shows flow rate)
+      updateFlowGauge();
+      
+      // Update temperature gauge
       updateTemperatureGauge();
       
       // Update status indicators
       updateStatusIndicators();
     }
 
-    function updateTemperatureGauge() {
+    function updateFlowGauge() {
       const gaugeFill = document.getElementById('gauge-fill');
+      const currentFlow = simulationData.currentFlow;
+      
+      // Calculate gauge fill percentage (range 0-300 L/h)
+      const minFlow = 0;
+      const maxFlow = 300;
+      const percentage = Math.max(0, Math.min(100, ((currentFlow - minFlow) / (maxFlow - minFlow)) * 100));
+      
+      // Update gauge fill with flow-appropriate color
+      let color = '#FF5722'; // Red for no flow
+      if (currentFlow >= 50) {
+        color = '#4CAF50'; // Green for adequate flow
+      } else if (currentFlow > 0) {
+        color = '#FF9800'; // Orange for low flow
+      }
+      
+      gaugeFill.style.background = `conic-gradient(from 0deg, ${color} 0deg, ${color} ${percentage * 3.6}deg, transparent ${percentage * 3.6}deg, transparent 360deg)`;
+    }
+
+    function updateTemperatureGauge() {
+      const tempGaugeFill = document.getElementById('temperature-gauge-fill');
       const displayedTemp = simulationData.displayedTemperature;
       
-      // Calculate gauge fill percentage (assuming range 60-90°C)
-      const minTemp = 60;
-      const maxTemp = 90;
+      // Calculate gauge fill percentage (range 0-60°C)
+      const minTemp = 0;
+      const maxTemp = 60;
       const percentage = Math.max(0, Math.min(100, ((displayedTemp - minTemp) / (maxTemp - minTemp)) * 100));
       
-      // Update gauge fill
-      gaugeFill.style.background = `conic-gradient(from 0deg, #FF5722 0deg, #FF5722 ${percentage * 3.6}deg, transparent ${percentage * 3.6}deg, transparent 360deg)`;
+      // Update gauge fill with temperature-appropriate color
+      let color = '#4CAF50'; // Green for low temp
+      if (displayedTemp > simulationData.maxTemperature) {
+        color = '#F44336'; // Red for over limit
+      } else if (displayedTemp > 30) {
+        color = '#FF9800'; // Orange for moderate temp
+      }
+      
+      tempGaugeFill.style.background = `conic-gradient(from 0deg, ${color} 0deg, ${color} ${percentage * 3.6}deg, transparent ${percentage * 3.6}deg, transparent 360deg)`;
     }
 
     function updateStatusIndicators() {
+      const currentFlow = simulationData.currentFlow;
       const displayedTemp = simulationData.displayedTemperature;
-      const actualTemp = simulationData.actualTemperature;
-      const setpoint = simulationData.setpoint;
+      const temperatureOK = displayedTemp <= simulationData.maxTemperature;
       
-      // Update quality status based on temperature deviation
-      const tempDeviation = Math.abs(actualTemp - setpoint);
-      const qualityStatus = document.getElementById('quality-status');
-      if (tempDeviation > 3) {
-        qualityStatus.textContent = 'YES';
-        qualityStatus.className = 'status-value-sim warning';
+      // Update pump status (always ready)
+      const pumpStatus = document.getElementById('alarm-status');
+      pumpStatus.textContent = 'READY';
+      pumpStatus.className = 'status-value-sim normal';
+      
+      // Update temperature alarm status
+      const tempAlarm = document.getElementById('quality-status');
+      if (temperatureOK) {
+        tempAlarm.textContent = 'NORMAL';
+        tempAlarm.className = 'status-value-sim normal';
       } else {
-        qualityStatus.textContent = 'NO';
-        qualityStatus.className = 'status-value-sim normal';
+        tempAlarm.textContent = 'HIGH TEMP';
+        tempAlarm.className = 'status-value-sim error';
       }
       
-      // Update cooling load based on actual temperature
-      const coolingStatus = document.getElementById('cooling-status');
-      if (actualTemp > setpoint + 2) {
-        coolingStatus.textContent = 'HIGH';
-        coolingStatus.className = 'status-value-sim warning';
+      // Update production status
+      const productionStatus = document.getElementById('cooling-status');
+      if (temperatureOK && currentFlow >= simulationData.requiredFlow) {
+        productionStatus.textContent = 'RUNNING';
+        productionStatus.className = 'status-value-sim normal';
       } else {
-        coolingStatus.textContent = 'NORMAL';
-        coolingStatus.className = 'status-value-sim normal';
+        productionStatus.textContent = 'STOPPED';
+        productionStatus.className = 'status-value-sim error';
       }
       
-      // Update energy usage
-      const energyStatus = document.getElementById('energy-status');
-      if (actualTemp > setpoint + 2) {
-        energyStatus.textContent = '+25%';
-        energyStatus.className = 'status-value-sim warning';
-      } else {
-        energyStatus.textContent = 'NORMAL';
-        energyStatus.className = 'status-value-sim normal';
-      }
-    }
-
-    function resetOffset() {
-      simulationData.offset = 0;
-      document.getElementById('offset-control').value = 0;
-      updateOffsetDisplay();
-      updateSimulation();
-      addLogEntry('Offset reset to 0°C', 'info');
-    }
-
-    function applyChanges() {
-      addLogEntry('Changes applied to system', 'info');
-      addLogEntry(`New offset: ${simulationData.offset >= 0 ? '+' : ''}${simulationData.offset}°C`, 'info');
-      addLogEntry(`New setpoint: ${simulationData.setpoint}°C`, 'info');
+      // Update max temp limit display
+      const maxTempStatus = document.getElementById('energy-status');
+      maxTempStatus.textContent = `${simulationData.maxTemperature}°C`;
+      maxTempStatus.className = 'status-value-sim normal';
     }
 
     function resetSimulation() {
       simulationData = {
-        oilTemperature: 45,
-        systemPressure: 0,
-        requiredPressure: 200,
-        isolationValve: 'CLOSED',
-        pumpStatus: 'RUNNING',
-        systemReady: 'FAULT',
+        currentFlow: 0,
+        displayedTemperature: 45,
+        actualTemperature: 12,
+        temperatureOffset: 33,
+        maxTemperature: 40,
+        flowValve: 'CLOSED',
+        pumpStatus: 'READY',
+        pumpSpeed: 75,
+        temperatureAlarm: 'HIGH TEMP',
         productionStatus: 'STOPPED',
-        wifiStatus: 'CONNECTED',
-        actualTemperature: 18,
-        displayedTemperature: 51,
-        setpoint: 75,
-        offset: 33
+        valvePosition: 0,
+        maxFlow: 300,
+        requiredFlow: 200
       };
       
-      document.getElementById('offset-control').value = 33;
-      document.getElementById('setpoint-control').value = 75;
-      updateOffsetDisplay();
-      updateSetpointDisplay();
+      // Reset toggle button
+      const toggleButton = document.getElementById('toggle-valve');
+      toggleButton.textContent = 'Open Valve';
+      
       updateSimulation();
       
       // Clear log
       const logContainer = document.getElementById('log-container');
       logContainer.innerHTML = `
-        <div class="log-entry">System initialized with +33°C offset</div>
-        <div class="log-entry">Actual temperature: 18°C, Displayed: 51°C</div>
-        <div class="log-entry">Quality issues detected in recent batches</div>
+        <div class="log-entry error">System startup failed - temperature alarm</div>
+        <div class="log-entry warning">Temperature: 45°C exceeds limit of 40°C</div>
+        <div class="log-entry">Pump ready and valve operational</div>
+        <div class="log-entry">Production halted due to high temperature</div>
       `;
       
       addLogEntry('Simulation reset to initial state', 'info');
     }
 
     function useSimulationTool(toolId) {
-      const button = document.getElementById(toolId);
+      const button = document.getElementById(toolId.replace('check-temp', 'check-offset').replace('use-thermometer', 'use-thermometer').replace('check-sensor', 'review-reports').replace('calibrate-sensor', 'adjust-offset'));
       button.disabled = true;
       
       switch(toolId) {
-        case 'check-offset':
-          addLogEntry('Checking controller offset settings...', 'info');
+        case 'check-temp':
+          addLogEntry('Checking system temperature readings...', 'info');
           setTimeout(() => {
-            addLogEntry(`Current offset: ${simulationData.offset >= 0 ? '+' : ''}${simulationData.offset}°C`, 'info');
-            addLogEntry('Offset was applied as temporary fix', 'warning');
+            addLogEntry(`Displayed temperature: ${simulationData.displayedTemperature}°C`, 'info');
+            addLogEntry(`Maximum allowed: ${simulationData.maxTemperature}°C`, 'info');
+            addLogEntry(`Temperature status: ${simulationData.displayedTemperature > simulationData.maxTemperature ? 'OVER LIMIT' : 'NORMAL'}`, simulationData.displayedTemperature > simulationData.maxTemperature ? 'warning' : 'info');
+            if (simulationData.displayedTemperature > simulationData.maxTemperature) {
+              addLogEntry('System locked out due to high temperature', 'error');
+            }
             button.disabled = false;
           }, 1000);
           break;
           
         case 'use-thermometer':
-          addLogEntry('Using portable thermometer...', 'info');
+          addLogEntry('Using portable thermometer to verify temperature...', 'info');
           setTimeout(() => {
-            addLogEntry(`Actual temperature: ${simulationData.actualTemperature}°C`, 'info');
-            addLogEntry(`Displayed temperature: ${simulationData.displayedTemperature}°C`, 'info');
-            addLogEntry(`Difference: ${simulationData.offset >= 0 ? '+' : ''}${simulationData.offset}°C`, 'warning');
+            addLogEntry(`Portable thermometer reading: ${simulationData.actualTemperature}°C`, 'info');
             button.disabled = false;
           }, 1000);
           break;
           
-        case 'review-reports':
-          addLogEntry('Reviewing quality reports...', 'info');
+        case 'check-sensor':
+          addLogEntry('Analyzing temperature sensor calibration...', 'info');
           setTimeout(() => {
-            addLogEntry('Product quality: Degraded (Last 3 batches)', 'warning');
-            addLogEntry('Temperature trend: Increasing over time', 'warning');
-            addLogEntry('Cooling system load: 85% (Normal: 40-60%)', 'warning');
+            addLogEntry('Temperature sensor is working correctly', 'info');
+            addLogEntry('Wiring is correct', 'info');
             button.disabled = false;
           }, 1000);
           break;
           
-        case 'adjust-offset':
-          addLogEntry('Adjusting temperature offset...', 'info');
+        case 'calibrate-sensor':
+          addLogEntry('Checking temperature sensor setup...', 'info');
           setTimeout(() => {
-            addLogEntry('Recommended: Gradually reduce offset to 0°C', 'info');
-            addLogEntry('Monitor actual temperature during adjustment', 'info');
-            addLogEntry('Verify system stabilizes at setpoint', 'info');
+            addLogEntry('Temperature sensor scalar correctly set', 'info');
+            addLogEntry('Sensor scalar: 100 (matches datasheet specification)', 'info');
+            addLogEntry('Sensor configuration verified', 'info');
             button.disabled = false;
           }, 1000);
           break;
@@ -1308,6 +1355,7 @@
       logContainer.appendChild(logEntry);
       logContainer.scrollTop = logContainer.scrollHeight;
     }
+    */
 
     // Wi-Fi flickering function
     function startWifiFlicker() {
