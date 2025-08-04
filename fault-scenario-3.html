@@ -120,6 +120,14 @@
           <h3>System Status</h3>
           <div class="status-grid">
             <div class="status-item">
+              <span class="status-label">System Operation:</span>
+              <span class="status-value">RUNNING</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Flow Rate:</span>
+              <span class="status-value" id="flow-rate">150 L/hour</span>
+            </div>
+            <div class="status-item">
               <span class="status-label">HMI Status:</span>
               <span class="status-value">NORMAL</span>
             </div>
@@ -408,7 +416,29 @@
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
-      initializeEducationalNote(); // Add the educational note
+      
+      // Flow rate dithering functionality
+      function updateFlowRate() {
+        const flowElement = document.getElementById('flow-rate');
+        if (flowElement) {
+          // Generate random flow rate between 147 and 154 L/hour
+          const minFlow = 147;
+          const maxFlow = 154;
+          const currentFlow = Math.floor(Math.random() * (maxFlow - minFlow + 1)) + minFlow;
+          flowElement.textContent = `${currentFlow} L/hour`;
+        }
+      }
+      
+      // Start the flow rate dithering every 2-3 seconds for realistic behavior
+      function startFlowRateDithering() {
+        updateFlowRate(); // Initial update
+        setInterval(() => {
+          updateFlowRate();
+        }, 2000 + Math.random() * 1000); // Random interval between 2-3 seconds
+      }
+      
+      // Start dithering
+      startFlowRateDithering();
       
       // Initialize simulations - COMMENTED OUT
       /*

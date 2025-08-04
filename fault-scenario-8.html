@@ -132,20 +132,16 @@
               <span class="status-value warning">SUSPECT</span>
             </div>
             <div class="status-item">
-              <span class="status-label">New Colleague:</span>
-              <span class="status-value">EXPERIENCED</span>
+              <span class="status-label">PID Mode:</span>
+              <span class="status-value">Manual</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Flow Rate:</span>
+              <span class="status-value" id="flow-rate">150 L/min</span>
             </div>
             <div class="status-item">
               <span class="status-label">Management Status:</span>
               <span class="status-value">WANTS ROLLBACK</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">HMI Access:</span>
-              <span class="status-value">AVAILABLE</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">System Speed:</span>
-              <span class="status-value warning">FULL SPEED ATTEMPTED</span>
             </div>
             <div class="status-item">
               <span class="status-label">Safety Status:</span>
@@ -332,6 +328,29 @@
     
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
+      // Flow rate dithering functionality
+      function updateFlowRate() {
+        const flowElement = document.getElementById('flow-rate');
+        if (flowElement) {
+          // Generate random flow rate between 50 and 300
+          const minFlow = 50;
+          const maxFlow = 300;
+          const currentFlow = Math.floor(Math.random() * (maxFlow - minFlow + 1)) + minFlow;
+          flowElement.textContent = `${currentFlow} L/min`;
+        }
+      }
+      
+      // Start the flow rate dithering every 2-3 seconds for realistic behavior
+      function startFlowRateDithering() {
+        updateFlowRate(); // Initial update
+        setInterval(() => {
+          updateFlowRate();
+        }, 2000 + Math.random() * 1000); // Random interval between 2-3 seconds
+      }
+      
+      // Start dithering
+      startFlowRateDithering();
+      
       // Load observations
       const savedObservations = localStorage.getItem('fault8_observations');
       if (savedObservations !== null) {

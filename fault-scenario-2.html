@@ -81,13 +81,13 @@
               <strong>Company:</strong> Pharmaceutical Manufacturing Plant
             </div>
             <div class="info-item">
-              <strong>Process:</strong> Sterile liquid solution production for IV bags
+              <strong>Process:</strong> Sterile IV solution production
             </div>
             <div class="info-item">
-              <strong>Shift:</strong> Production shift start
+              <strong>Shift:</strong> Production shift maintenance
             </div>
             <div class="info-item">
-              <strong>Urgency:</strong> High - Production blocked by low-flow alarm
+              <strong>Urgency:</strong> High - System keeps shutting down
             </div>
             <div class="info-item">
               <strong>Difficulty:</strong> Intermediate
@@ -102,11 +102,7 @@
           <div class="background-text">
             <div class="scenario-description">
               <h3>Background</h3>
-              <p>You work in a pharmaceutical plant that produces sterile liquid solutions for IV bags. The flow system is critical for maintaining precise fluid levels in mixing tanks. As your shift starts, the production team reports a low-flow alarm preventing the system from running.</p>
-              
-              <p>The supervisor mentions that the flow was fine earlier, but now the pump seems to be running at full speed with barely any flow. The system is designed to maintain precise fluid levels for pharmaceutical production, and any interruption could affect product quality and sterility.</p>
-              
-              <p>The flow sensor is showing minimal flow despite the pump running at maximum capacity. This suggests either a blockage, pump failure, or sensor malfunction that needs immediate attention.</p>
+              <p>You work in a pharmaceutical plant producing sterile IV solutions, the process tank is fitted with sensors to ensure the lid and ports are properly secured to prevent contamination. The system will not operate if any sensor or the tank lid is removed, as the environment is not vacuum sealed and the fluid could become contaminated. Currently, the system starts briefly but shuts down after a few seconds each time. This older system has no alarm or fault display.</p>
             </div>
           </div>
           
@@ -120,28 +116,28 @@
           <h3>System Status</h3>
           <div class="status-grid">
             <div class="status-item">
-              <span class="status-label">Flow Rate:</span>
-              <span class="status-value error">LOW</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Pump Speed:</span>
-              <span class="status-value">100%</span>
-            </div>
-            <div class="status-item">
-              <span class="status-label">Flow Sensor:</span>
-              <span class="status-value warning">MINIMAL FLOW</span>
-            </div>
-            <div class="status-item">
               <span class="status-label">System Operation:</span>
-              <span class="status-value error">BLOCKED</span>
+              <span class="status-value error">STARTS THEN SHUTS DOWN</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Run Time:</span>
+              <span class="status-value warning">4 SECONDS</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Tank Lid Sensor:</span>
+              <span class="status-value" id="tank-lid-sensor">SECURE</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Safety System:</span>
+              <span class="status-value warning">CONTAMINATION PREVENTION</span>
             </div>
             <div class="status-item">
               <span class="status-label">Production Status:</span>
-              <span class="status-value error">STOPPED</span>
+              <span class="status-value error">BLOCKED</span>
             </div>
             <div class="status-item">
-              <span class="status-label">Alarm Status:</span>
-              <span class="status-value warning">LOW FLOW ALARM</span>
+              <span class="status-label">Environment:</span>
+              <span class="status-value warning">NOT VACUUM SEALED</span>
             </div>
           </div>
         </div>
@@ -153,10 +149,11 @@
       <h2 class="section-header"><i class="fas fa-lightbulb"></i> Troubleshooting Tips</h2>
       <div class="worksheet-content">
         <ul class="objectives-list">
-          <li>Check for blockages in the flow system and piping</li>
-          <li>Verify pump performance and mechanical condition</li>
-          <li>Test flow sensor accuracy and calibration</li>
-          <li>Inspect for air entrainment or cavitation issues</li>
+          <li>Check tank lid sensor for proper connection and secure mounting</li>
+          <li>Inspect all port sensors for contamination prevention system</li>
+          <li>Verify sensor wiring and electrical connections</li>
+          <li>Test safety interlock system functionality</li>
+          <li>Check for loose or damaged sensor hardware</li>
         </ul>
       </div>
     </div>
@@ -549,6 +546,24 @@
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
       initializeEducationalNote();
+      
+      // Tank lid sensor blinking functionality
+      function updateTankLidSensor() {
+        const sensorElement = document.getElementById('tank-lid-sensor');
+        if (sensorElement) {
+          // Toggle between SECURE and LOOSE
+          if (sensorElement.textContent === 'SECURE') {
+            sensorElement.textContent = 'LOOSE';
+            sensorElement.className = 'status-value error';
+          } else {
+            sensorElement.textContent = 'SECURE';
+            sensorElement.className = 'status-value';
+          }
+        }
+      }
+      
+      // Start the tank lid sensor blinking every 5 seconds
+      setInterval(updateTankLidSensor, 5000);
     });
   </script>
 </body>

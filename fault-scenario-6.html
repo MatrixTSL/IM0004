@@ -124,6 +124,26 @@
               <span class="status-value error">SHUT DOWN</span>
             </div>
             <div class="status-item">
+              <span class="status-label">EStop LED:</span>
+              <span class="status-value error" id="estop-led">ON</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">EStop Channel 1:</span>
+              <span class="status-value">ON</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">EStop Channel 2:</span>
+              <span class="status-value">OFF</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Tank High Float Switch [NC]:</span>
+              <span class="status-value">ON</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Tank Low Float Switch [NO]:</span>
+              <span class="status-value">ON</span>
+            </div>
+            <div class="status-item">
               <span class="status-label">PLC Module:</span>
               <span class="status-value">RECENTLY REPLACED</span>
             </div>
@@ -345,7 +365,25 @@
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
+      startEstopLedFlashing(); // Start EStop LED flashing
     });
+
+    // EStop LED flashing function
+    function startEstopLedFlashing() {
+      const estopLed = document.getElementById('estop-led');
+      let isOn = true;
+      
+      setInterval(() => {
+        if (isOn) {
+          estopLed.textContent = 'OFF';
+          estopLed.className = 'status-value';
+        } else {
+          estopLed.textContent = 'ON';
+          estopLed.className = 'status-value error';
+        }
+        isOn = !isOn;
+      }, 500); // Flash every 500ms (twice per second)
+    }
   </script>
 </body>
 </html> 

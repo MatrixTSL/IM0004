@@ -11,7 +11,7 @@ Fault Scenario 3: CNC Machines Factory Cooling 8
 Fault Scenario 4: Marketing 9
 Fault Scenario 5: Potash Mine 10
 Fault Scenario 6: First Day On The Job 11
-Fault Scenario 7: Why’s It Always The Temperature? 12
+Fault Scenario 7: Whyï¿½s It Always The Temperature? 12
 Fault Scenario 8: Settings 13
 Safety Note 14
 Version Control 16
@@ -24,8 +24,8 @@ This is the second curriculum, please complete the Worksheets curriculum first b
 
 Curriculum
 This curriculum is divided into 8 fault-finding & troubleshooting scenarios. Each scenario requires you to write down your observations, highlight the troublesome component and rectify or reset the issue in the software.
-Your training system is designed to simulate various faults commonly encountered in industrial environments. These faults range from emergency stops to incorrect sensor readings, requiring you to diagnose and correct each issue. We encourage you to approach each scenario with curiosity and diligence. Flick through the screens and look for what’s changed. These are often a key giveaway in the real world.
-Let’s get started!
+Your training system is designed to simulate various faults commonly encountered in industrial environments. These faults range from emergency stops to incorrect sensor readings, requiring you to diagnose and correct each issue. We encourage you to approach each scenario with curiosity and diligence. Flick through the screens and look for whatï¿½s changed. These are often a key giveaway in the real world.
+Letï¿½s get started!
 
 
 
@@ -39,10 +39,10 @@ FAULT SCENARIOS
 
 
 Fault Scenarios
-You have already encountered many faults if you’ve worked through our worksheets.
+You have already encountered many faults if youï¿½ve worked through our worksheets.
 Effective fault finding relies on observation, logic, and understanding system behaviour. Faults can stem from sensor errors, incorrect responses, or unstable conditions. Your role is to spot anomalies and find the root cause.
 Industrial systems depend on many components working together. Failures to start, poor performance, or fluctuating readings are chances to build your troubleshooting skills. Faults may be consistent or intermittent, so identifying patterns and using diagnostic tools is essential.
-This training presents varied challenges—some obvious, others requiring deeper analysis of system inputs and outputs.
+This training presents varied challengesï¿½some obvious, others requiring deeper analysis of system inputs and outputs.
 You will need to:
 * Assess system behaviour and identify deviations from normal operation.
 * Examine sensor readings and determine if they accurately reflect real-world conditions.
@@ -50,18 +50,18 @@ You will need to:
 * Analyse control logic to verify if the system responds correctly to input changes.
 * Identify cases where incorrect scaling, offsets, or forced values affect system performance.
 Important Note
-There is no requirement for you to “fix” anything with this system as all the faults are software based, i.e. the system will not be ejecting any wires or destroying any components, it will simply trick the controller into thinking there’s a problem. You merely need to reset the fault in software. 
+There is no requirement for you to ï¿½fixï¿½ anything with this system as all the faults are software based, i.e. the system will not be ejecting any wires or destroying any components, it will simply trick the controller into thinking thereï¿½s a problem. You merely need to reset the fault in software. 
 
 
 Alarms & Faults Pages Disabled
 During all fault scenarios, the Alarms and Faults pages on the HMI are deliberately disabled. 
-This simulates real-world conditions where automated diagnostic tools are often limited or unclear, and the reason a system won’t run is not immediately obvious. In many industrial settings, engineers must rely on live IO feedback, system behaviour, and prior knowledge to identify and resolve issues without the aid of clear alarm messages. 
-This approach encourages deeper analysis, reinforcing the importance of understanding the system’s logic and interpreting raw data during fault diagnosis.
+This simulates real-world conditions where automated diagnostic tools are often limited or unclear, and the reason a system wonï¿½t run is not immediately obvious. In many industrial settings, engineers must rely on live IO feedback, system behaviour, and prior knowledge to identify and resolve issues without the aid of clear alarm messages. 
+This approach encourages deeper analysis, reinforcing the importance of understanding the systemï¿½s logic and interpreting raw data during fault diagnosis.
 
 
 Fault Scenario 1: Titanium Forging
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 1. Press the Reset button to clear any previous faults, to avoid confusion.
-You work night shifts in a titanium forging factory that produces frames for Boeing aeroplanes. As you start your shift, you're told the system won’t run, and no one knows why. The day shift maintenance engineer tells you they had a problem earlier in the day because the oil was too cold. Harry, the Marketing Manager, thinks it’s just the Wi-Fi acting up again.
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 1. Press the Reset button to clear any previous faults, to avoid confusion.
+You work night shifts in a titanium forging factory that produces frames for Boeing aeroplanes. As you start your shift, you're told the system wonï¿½t run, and no one knows why. The day shift maintenance engineer tells you they had a problem earlier in the day because the oil was too cold. Harry, the Marketing Manager, thinks itï¿½s just the Wi-Fi acting up again.
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -77,8 +77,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 2: Pharmaceutical Plant
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 2. Press the Reset button to clear any previous faults, to avoid confusion.
-You work in a pharmaceutical plant that produces sterile liquid solutions for IV bags. The flow system is critical for maintaining precise fluid levels in mixing tanks. As your shift starts, the production team reports a low-flow alarm preventing the system from running. The supervisor mentions that the flow was fine earlier, but now the pump seems to be running at full speed with barely any flow.
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 2. Press the Reset button to clear any previous faults, to avoid confusion.
+You work in a pharmaceutical plant producing sterile IV solutions, the process tank is fitted with sensors to ensure the lid and ports are properly secured to prevent contamination. The system will not operate if any sensor or the tank lid is removed, as the environment is not vacuum sealed and the fluid could become contaminated. Currently, the system starts briefly but shuts down after a few seconds each time. This older system has no alarm or fault display.
 Tip: Try pressing the reset button a few times and try running the pump.
 Observations:
 ___________________________________________________________________
@@ -96,8 +96,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 3: CNC Machines Factory Cooling
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 3. Press the Reset button to clear any previous faults, to avoid confusion.
-You maintain the cooling system for CNC machines in an automotive parts plant. The system circulates temperature-controlled coolant to prevent overheating. The night shift operator flags you down. No alarms. No fault codes. Everything on the HMI looks normal. But he’s certain something is off. He points to the return line. Coolant is splashing aggressively into the reservoir, creating turbulence he’s never seen before. A few machines have developed slight condensation near the cooling blocks – “This is not normal” he shouts. 
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 3. Press the Reset button to clear any previous faults, to avoid confusion.
+You maintain the cooling system for CNC machines in an automotive parts plant. The system circulates temperature-controlled coolant to prevent overheating. The night shift operator flags you down. No alarms. No fault codes. Everything on the HMI looks normal. But heï¿½s certain something is off. He points to the return line. Coolant is splashing aggressively into the reservoir, creating turbulence heï¿½s never seen before. A few machines have developed slight condensation near the cooling blocks ï¿½ ï¿½This is not normalï¿½ he shouts. 
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -113,8 +113,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 4: Marketing
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 4. Press the Reset button to clear any previous faults, to avoid confusion.
-A large beverage factory depends on your flow system to mix syrup concentrations. The maintenance team left early. You get called in. The system starts, runs for a few seconds then slams to a halt. Management have had consultants on the phone who reckon it’s an electrical noise issue. The maintenance manager had a quick look for a few seconds and everything looks good, you’ve been asked to investigate further.
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 4. Press the Reset button to clear any previous faults, to avoid confusion.
+A large beverage factory depends on your flow system to mix syrup concentrations. The maintenance team left early. You get called in. The system starts, runs for a few seconds then slams to a halt. Management have had consultants on the phone who reckon itï¿½s an electrical noise issue. The maintenance manager had a quick look for a few seconds and everything looks good, youï¿½ve been asked to investigate further.
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -130,8 +130,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 5: Potash Mine
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 5. Press the Reset button to clear any previous faults, to avoid confusion.
-Your company has installed a new oil level monitoring system into a Potash mine in Yorkshire. This system monitors the oil level of two mining shafts that carry workers and potash minerals up a shaft. This system was known for having many huge leaks, which would lead to miners being stuck down in the mine. Your company installed a system to monitor if the oil is too high or too low. They’ve asked you to come out and fix the system as it won’t start. There’s an alarm active on the system, the system LED is red, but the alarm screen shows nothing. You’re told the oil level is normal.
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 5. Press the Reset button to clear any previous faults, to avoid confusion.
+Your company has installed a new oil level monitoring system into a Potash mine in Yorkshire. This system monitors the oil level of two mining shafts that carry workers and potash minerals up a shaft. This system was known for having many huge leaks, which would lead to miners being stuck down in the mine. Your company installed a system to monitor if the oil is too high or too low. Theyï¿½ve asked you to come out and fix the system as it wonï¿½t start. Thereï¿½s an alarm active on the system, the system LED is red, but the alarm screen shows nothing. Youï¿½re told the oil level is normal.
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -147,8 +147,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 6: First Day On The Job
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 6. Press the Reset button to clear any previous faults, to avoid confusion.
-You start your first day on the job at River Bridge Waste Company and their wastewater system is in bad shape. The maintenance guys are all mechanical and you’re electrical biased so it’s now your job to fix things. They’ve recently swapped out a broken PLC module, repaired the Estop and fixed the temperature sensor wiring. They’ve said the float switches need to be replaced at some point. Even with those repairs, the system keeps shutting down randomly. It’s just happened again, please help. 
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 6. Press the Reset button to clear any previous faults, to avoid confusion.
+You start your first day on the job at River Bridge Waste Company and their wastewater system is in bad shape. The maintenance guys are all mechanical and youï¿½re electrical biased so itï¿½s now your job to fix things. Theyï¿½ve recently swapped out a broken PLC module, repaired the Estop and fixed the temperature sensor wiring. Theyï¿½ve said the float switches need to be replaced at some point. Even with those repairs, the system keeps shutting down randomly. Itï¿½s just happened again, please help. 
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -163,9 +163,9 @@ ___________________________________________________________________
 ___________________________________________________________________
 
 
-Fault Scenario 7: Why’s It Always The Temperature?
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 7. Press the Reset button to clear any previous faults, to avoid confusion.
-Those CNC machines you fixed in Scenario 3 are down again. The night shift operator has reiterated that he’s checked all the offsets on all the inputs and outputs – there’s nothing! The system just won’t run. You know that the operators like to play with settings so you’re sure it’s the offsets again.
+Fault Scenario 7: Whyï¿½s It Always The Temperature?
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 7. Press the Reset button to clear any previous faults, to avoid confusion.
+Those CNC machines you fixed in Scenario 3 are down again. The night shift operator has reiterated that heï¿½s checked all the offsets on all the inputs and outputs ï¿½ thereï¿½s nothing! The system just wonï¿½t run. You know that the operators like to play with settings so youï¿½re sure itï¿½s the offsets again.
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -181,8 +181,8 @@ ___________________________________________________________________
 
 
 Fault Scenario 8: Settings
-Navigate to the Main Menu and select the “Fault Scenarios” page then select Scenario 8. Press the Reset button to clear any previous faults, to avoid confusion.
-You’re part of the maintenance team at an Aerospace manufacturer. You’re aware that a new colleague has joined the team full of experience and has been tinkering in order to get the system up to full speed quicker. The managers were happy with your colleague’s progress until this morning, when things started behaving more violently. The system can’t maintain the correct flow. Your new colleague suspects it’s the hand valve you replaced a while ago. Management would like to roll the system back but want to also know what the issue is. Go through the HMI and figure out what’s happened.
+Navigate to the Main Menu and select the ï¿½Fault Scenariosï¿½ page then select Scenario 8. Press the Reset button to clear any previous faults, to avoid confusion.
+Youï¿½re part of the maintenance team at an Aerospace manufacturer. Youï¿½re aware that a new colleague has joined the team full of experience and has been tinkering in order to get the system up to full speed quicker. The managers were happy with your colleagueï¿½s progress until this morning, when things started behaving more violently. The system canï¿½t maintain the correct flow. Your new colleague suspects itï¿½s the hand valve you replaced a while ago. Management would like to roll the system back but want to also know what the issue is. Go through the HMI and figure out whatï¿½s happened.
 Observations:
 ___________________________________________________________________
 ___________________________________________________________________
@@ -199,21 +199,21 @@ ___________________________________________________________________
 
 SAFETY NOTE
 As you step into the world of industrial maintenance, safety must always come first. Every machine, tool, and system you work with has risks, but following the right procedures keeps you and your team safe. 
-There are official safety standards and regulations, like the Machinery Directive 2006/42/EC, that exist to ensure all maintenance work is carried out correctly and safely. In the EU there is the EN 60204-1 (electrical safety for machinery) and in the US, OSHA 1910 (general industry safety) and NFPA 70E (electrical safety for workers). These standards help maintenance engineers work safely, reduce risks, and comply with legal requirements. Once you get into Industry, get a copy of these and learn them. They may save your life. The best engineers aren’t just good at fixing machines; they’re smart enough to work safely.
+There are official safety standards and regulations, like the Machinery Directive 2006/42/EC, that exist to ensure all maintenance work is carried out correctly and safely. In the EU there is the EN 60204-1 (electrical safety for machinery) and in the US, OSHA 1910 (general industry safety) and NFPA 70E (electrical safety for workers). These standards help maintenance engineers work safely, reduce risks, and comply with legal requirements. Once you get into Industry, get a copy of these and learn them. They may save your life. The best engineers arenï¿½t just good at fixing machines; theyï¿½re smart enough to work safely.
 1. Lock It Out, Stay Safe
-Before you touch any machine, make sure it’s isolated from power. Use Lockout/Tagout (LOTO) procedures to lock off energy sources (electricity, hydraulics, pneumatics). Machines can start unexpectedly, so always check before working.
+Before you touch any machine, make sure itï¿½s isolated from power. Use Lockout/Tagout (LOTO) procedures to lock off energy sources (electricity, hydraulics, pneumatics). Machines can start unexpectedly, so always check before working.
 2. Read the Manual, Know the Rules
-Every machine has a manufacturer’s manual it’s there for a reason. Read it. Follow it. Never assume you know how something works without checking first.
+Every machine has a manufacturerï¿½s manual itï¿½s there for a reason. Read it. Follow it. Never assume you know how something works without checking first.
 3. Wear the Right Gear
-Your Personal Protective Equipment (PPE) isn’t optional. Safety glasses, gloves, boots, and hearing protection help prevent injuries that could end your career before it starts.
+Your Personal Protective Equipment (PPE) isnï¿½t optional. Safety glasses, gloves, boots, and hearing protection help prevent injuries that could end your career before it starts.
 4. Only Work on What You Understand
-If you’re unsure about something, ask. Rushing in without the right knowledge can be dangerous. Learning the correct procedures now will make you a better and safer engineer in the long run.
+If youï¿½re unsure about something, ask. Rushing in without the right knowledge can be dangerous. Learning the correct procedures now will make you a better and safer engineer in the long run.
 5. Keep Your Workspace Clear
 Slips, trips, and falls are some of the most common accidents in maintenance. Keep tools, cables, and waste tidy to prevent hazards.
 6. Electrical Safety is No Joke
 Always turn off and test before working on electrical systems. Use insulated tools and check grounding a bad connection can be deadly.
 7. Moving Parts Can Kill
-Machines have stored energy, even when turned off. Always block, chock, or brace moving parts before working on them. Never assume something is safe just because it’s not running.
+Machines have stored energy, even when turned off. Always block, chock, or brace moving parts before working on them. Never assume something is safe just because itï¿½s not running.
 8. Watch Out for Pressure
 Hydraulics and pneumatics store energy in pipes, hoses, and tanks.
 * Always depressurize systems before working on them.
@@ -222,12 +222,12 @@ Hydraulics and pneumatics store energy in pipes, hoses, and tanks.
 9. Be Ready for Emergencies
 Know where emergency stops, fire extinguishers, and first aid stations are. If something goes wrong, you need to act fast and correctly.
 10. Speak Up About Faults
-If you find something wrong don’t ignore it. Report faults immediately, and don’t use unsafe equipment. A quick fix now could prevent a serious accident later.
+If you find something wrong donï¿½t ignore it. Report faults immediately, and donï¿½t use unsafe equipment. A quick fix now could prevent a serious accident later.
 
 
 VERSION CONTROL
 15 05 25 		 First Revision Created
 0Fault Scenarios		
 
-	Copyright © 2025 Matrix Technology Solutions Limited	Page 2 of 2
+	Copyright ï¿½ 2025 Matrix Technology Solutions Limited	Page 2 of 2
 

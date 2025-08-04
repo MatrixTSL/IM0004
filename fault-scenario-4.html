@@ -151,6 +151,10 @@
               <span class="status-label">Investigation Required:</span>
               <span class="status-value warning">FURTHER ANALYSIS</span>
             </div>
+            <div class="status-item">
+              <span class="status-label">Tank Temperature:</span>
+              <span class="status-value" id="tank-temp">25°C</span>
+            </div>
           </div>
         </div>
       </div>
@@ -359,7 +363,24 @@
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
-      initializeEducationalNote(); // Add the educational note
+      
+      // Tank temperature blipping functionality
+      function updateTankTemperature() {
+        const tempElement = document.getElementById('tank-temp');
+        if (tempElement) {
+          // Blink to below 0 degrees for 1 second, then back to normal
+          tempElement.textContent = '-2°C';
+          tempElement.className = 'status-value error';
+          
+          setTimeout(() => {
+            tempElement.textContent = '25°C';
+            tempElement.className = 'status-value';
+          }, 1000);
+        }
+      }
+      
+      // Start the temperature blipping every 15 seconds
+      setInterval(updateTankTemperature, 15000);
       
       // Initialize simulations - COMMENTED OUT
       /*

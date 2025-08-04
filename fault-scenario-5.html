@@ -124,8 +124,24 @@
               <span class="status-value error">WON'T START</span>
             </div>
             <div class="status-item">
-              <span class="status-label">System LED:</span>
-              <span class="status-value error">RED</span>
+              <span class="status-label">Status LED:</span>
+              <span class="status-value warning">ORANGE</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Tank High Float Switch [NC]:</span>
+              <span class="status-value">ON</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Tank Low Float Switch [NO]:</span>
+              <span class="status-value">OFF</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">EStop Channel 1:</span>
+              <span class="status-value">ON</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">EStop Channel 2:</span>
+              <span class="status-value">ON</span>
             </div>
             <div class="status-item">
               <span class="status-label">Alarm Status:</span>
@@ -136,8 +152,12 @@
               <span class="status-value">SHOWS NOTHING</span>
             </div>
             <div class="status-item">
-              <span class="status-label">Oil Level:</span>
-              <span class="status-value">NORMAL</span>
+              <span class="status-label">Oil Visual Check:</span>
+              <span class="status-value">Good</span>
+            </div>
+            <div class="status-item">
+              <span class="status-label">Oil Quality:</span>
+              <span class="status-value warning">Dirty</span>
             </div>
             <div class="status-item">
               <span class="status-label">Shaft 1 Status:</span>
@@ -357,7 +377,6 @@
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
       loadSavedAnswers();
-      initializeEducationalNote();
     });
   </script>
 </body>
