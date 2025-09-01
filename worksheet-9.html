@@ -137,10 +137,11 @@
       </div>
     </div>
 
-    <!-- So What Section -->
+        <!-- So What Section -->
     <div class="worksheet-section so-what-section">
       <h2 class="section-header"><i class="fas fa-lightbulb"></i> 3. So What?</h2>
       <div class="so-what-content">
+        
         <!-- Proximity Switch Overview Card -->
         <div class="explanation-card">
           <div class="card-header">
@@ -148,44 +149,89 @@
             <h3>Proximity Switch System Overview</h3>
           </div>
           <div class="card-content">
-            <p>Proximity switches improve automation and safety by detecting objects without physical contact, reducing wear and increasing durability. They are commonly used to monitor guards, access points, and object positions. Proximity sensors are sometimes overridden during maintenance by presenting a different metal object to simulate detection.</p>
+            <p>Proximity switches improve automation and safety by detecting objects without physical contact, reducing wear and increasing durability.</p>
           </div>
         </div>
 
         <!-- Sensor Types Card -->
-        <div class="explanation-card">
+        <div class="explanation-card" style="background: #1a1a2f; border-left: 4px solid #2196F3;">
           <div class="card-header">
             <i class="fas fa-microchip"></i>
             <h3>Types of Proximity Sensors</h3>
           </div>
           <div class="card-content">
-            <ul>
-              <li><strong>Inductive</strong> – detects metal objects only</li>
-              <li><strong>Capacitive</strong> – detects both metal and non-metal materials</li>
-              <li><strong>Photoelectric</strong> – uses light to detect objects</li>
-            </ul>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+              <div style="text-align: center; padding: 15px; background: #2a2a2a; border-radius: 8px;">
+                <i class="fas fa-magnet" style="font-size: 24px; color: #4CAF50; margin-bottom: 10px;"></i>
+                <h4 style="color: #4CAF50; margin: 10px 0;">Inductive</h4>
+                <p style="color: #AAA; font-size: 14px; margin: 0;">Detects metal objects only</p>
+              </div>
+              <div style="text-align: center; padding: 15px; background: #2a2a2a; border-radius: 8px;">
+                <i class="fas fa-bolt" style="font-size: 24px; color: #FF9800; margin-bottom: 10px;"></i>
+                <h4 style="color: #FF9800; margin: 10px 0;">Capacitive</h4>
+                <p style="color: #AAA; font-size: 14px; margin: 0;">Detects both metal and non-metal materials</p>
+              </div>
+              <div style="text-align: center; padding: 15px; background: #2a2a2a; border-radius: 8px;">
+                <i class="fas fa-lightbulb" style="font-size: 24px; color: #9C27B0; margin-bottom: 10px;"></i>
+                <h4 style="color: #9C27B0; margin: 10px 0;">Photoelectric</h4>
+                <p style="color: #AAA; font-size: 14px; margin: 0;">Uses light to detect objects</p>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- Safety Applications Card -->
-        <div class="explanation-card">
+        <div class="explanation-card" style="background: #1a2f1a; border-left: 4px solid #4CAF50;">
           <div class="card-header">
             <i class="fas fa-shield-alt"></i>
             <h3>Safety Applications</h3>
           </div>
           <div class="card-content">
-            <p>A common use for an inductive sensor is to confirm whether a metal component, such as a tank lid, is in place. If the sensor fails to detect the metal, the system may be prevented from operating to avoid unsafe conditions.</p>
+            <ul style="margin: 0; padding-left: 20px; color: #FFFFFF;">
+              <li>Confirms metal components (like tank lids) are in place</li>
+              <li>Prevents system operation if required objects are missing</li>
+              <li>Monitors guards and access points</li>
+              <li>Ensures safe operating conditions</li>
+            </ul>
           </div>
         </div>
 
         <!-- Fault Detection Card -->
-        <div class="explanation-card">
+        <div class="explanation-card" style="background: #2f1a1a; border-left: 4px solid #F44336;">
           <div class="card-header">
             <i class="fas fa-exclamation-triangle"></i>
             <h3>Fault Detection and Prevention</h3>
           </div>
           <div class="card-content">
-            <p>Misalignment, poor mounting, wiring faults, or environmental factors like dust or moisture can all cause false signals or detection failures. Using the correct sensor type and installing it properly is essential for reliable and safe operation.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div>
+                <h4 style="color: #FF9800; margin-bottom: 10px;"><i class="fas fa-tools"></i> Installation Issues</h4>
+                <ul style="color: #AAA; font-size: 14px; margin: 0; padding-left: 20px;">
+                  <li>Misalignment</li>
+                  <li>Poor mounting</li>
+                  <li>Wiring faults</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="color: #F44336; margin-bottom: 10px;"><i class="fas fa-cloud"></i> Environmental Factors</h4>
+                <ul style="color: #AAA; font-size: 14px; margin: 0; padding-left: 20px;">
+                  <li>Dust accumulation</li>
+                  <li>Moisture exposure</li>
+                  <li>Temperature extremes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Maintenance Override Card -->
+        <div class="explanation-card" style="background: #2f2f1a; border-left: 4px solid #FF9800;">
+          <div class="card-header">
+            <i class="fas fa-wrench"></i>
+            <h3>Maintenance Override</h3>
+          </div>
+          <div class="card-content">
+            <p style="color: #FFFFFF; margin: 0;">During maintenance, sensors can be overridden by presenting a different metal object to simulate detection, allowing safe testing and calibration.</p>
           </div>
         </div>
 
@@ -393,13 +439,6 @@
     <!-- Simulation Section -->
     <div class="simulation-section">
       <h2 class="section-header"><i class="fas fa-cogs"></i> 3. Interactive Proximity Switch System Maintenance</h2>
-      <div id="proximity-panel" class="simulation-container">
-        <div class="simulation-loading">
-          <i class="fas fa-spinner fa-spin"></i>
-          <p>Loading proximity switch simulation...</p>
-          <p>Simulation will initialize automatically</p>
-        </div>
-      </div>
       
       <!-- Introduction -->
       <div class="simulation-intro" style="background: #2a2a2a; padding: 20px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px;">
@@ -407,8 +446,8 @@
         <p style="color: #aaa; margin: 10px 0;">This simulation demonstrates how an inductive proximity sensor works in an industrial setting. Follow the steps below to learn about sensor operation, detection ranges, and proper positioning.</p>
       </div>
 
-      <!-- Main Simulation Area -->
-      <div class="simulation-container" style="display: grid; grid-template-columns: 300px 1fr; gap: 20px; margin: 20px 0;">
+             <!-- Main Simulation Area -->
+       <div class="simulation-container" style="display: grid; grid-template-columns: 300px 1fr; gap: 20px; margin: 20px 0; overflow: hidden;">
         <!-- Control Panel -->
         <div class="control-panel" style="background: #2a2a2a; padding: 20px; border-radius: 12px; border: 1px solid #333;">
           <h4 style="color: #2196F3; margin-top: 0;">Sensor Controls</h4>
@@ -416,11 +455,11 @@
           <!-- Target Position Control -->
           <div style="margin: 20px 0;">
             <label style="color: #aaa; display: block; margin-bottom: 10px;">Target Distance (mm)</label>
-            <input type="range" id="target-distance" min="0" max="60" value="20" step="1" 
+            <input type="range" id="target-distance" min="0" max="100" value="20" step="1" 
                    style="width: 100%; background: #2196F3; height: 10px; border-radius: 5px; -webkit-appearance: none;">
             <div style="display: flex; justify-content: space-between; margin-top: 5px;">
               <span style="color: #666;">0mm</span>
-              <span id="distance-value" style="color: #2196F3;">50mm</span>
+              <span id="distance-value" style="color: #2196F3;">20mm</span>
               <span style="color: #666;">100mm</span>
             </div>
           </div>
@@ -429,7 +468,7 @@
           <div class="sensor-status" style="margin-top: 20px; padding: 15px; background: #1a1a1a; border-radius: 5px;">
             <p style="margin: 0; color: #aaa;">Sensor Status: <span id="sensor-state" style="color: #FF5722;">Not Detecting</span></p>
             <p style="margin: 10px 0; color: #aaa;">Detection Range: <span style="color: #4CAF50;">0-40mm</span></p>
-            <p style="margin: 10px 0; color: #aaa;">Current Distance: <span id="current-distance" style="color: #2196F3;">50mm</span></p>
+            <p style="margin: 10px 0; color: #aaa;">Current Distance: <span id="current-distance" style="color: #2196F3;">20mm</span></p>
           </div>
 
           <!-- Step Progress -->
@@ -461,22 +500,19 @@
             </div>
           </div>
           
-          <!-- Sensor Visualization -->
-          <div class="sensor-visualization" style="position: relative; height: 200px; background: #1a1a1a; border-radius: 8px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                     <!-- Sensor Visualization -->
+           <div class="sensor-visualization" style="position: relative; height: 200px; background: #1a1a1a; border-radius: 8px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); width: 100%; min-width: 400px;">
             <!-- Sensor body with detection face -->
             <div id="sensor-body" style="position: absolute; left: 40px; top: 50%; transform: translateY(-50%); width: 30px; height: 80px; background: #666; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
               <div id="sensor-face" style="width: 20px; height: 20px; background: #2196F3; border-radius: 50%; position: absolute; right: -10px; top: 50%; transform: translateY(-50%); box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);"></div>
             </div>
             <!-- Detection zone (0-40mm range) -->
             <div id="detection-zone" style="position: absolute; left: 70px; top: 50%; transform: translateY(-50%); height: 100px; border: 2px dashed #2196F3; border-radius: 5px; opacity: 0.1;"></div>
+            <!-- Full range background (0-100mm) -->
+            <div id="full-range-zone" style="position: absolute; left: 70px; top: 50%; transform: translateY(-50%); height: 100px; width: 300px; background: rgba(255, 255, 255, 0.02); border-radius: 5px; border: 1px solid rgba(255, 255, 255, 0.05);"></div>
             <!-- Target object -->
             <div id="target-object" style="position: absolute; left: 150px; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: #FF5722; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"></div>
-            <!-- Distance scale -->
-            <div style="position: absolute; bottom: 10px; left: 70px; right: 40px; height: 20px; display: flex; justify-content: space-between; color: #888; font-size: 12px; font-weight: 500;">
-              <span>0mm</span>
-              <span>20mm</span>
-              <span>40mm</span>
-            </div>
+            
           </div>
 
           <!-- Detection Graph -->
@@ -542,7 +578,10 @@
           console.log('Initializing', initFunc);
           window[initFunc]();
         } else {
-          document.querySelector('.simulation-loading').innerHTML = '<p>Simulation ready - Proximity Switch System Maintenance</p>';
+          const loadingElement = document.querySelector('.simulation-loading');
+          if (loadingElement) {
+            loadingElement.innerHTML = '<p>Simulation ready - Proximity Switch System Maintenance</p>';
+          }
         }
       }, 1000);
       loadSavedAnswers();

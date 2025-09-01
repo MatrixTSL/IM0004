@@ -1,6 +1,6 @@
 // Global variables
 let chart = null;
-let targetDistance = 20;
+let targetDistance = 20; // Start at 20mm (middle of 0-40mm range)
 let sensorState = false;
 
 // Initialize simulation
@@ -8,11 +8,12 @@ function initializeProximitySwitchSimulation() {
     console.log('Initializing proximity switch simulation...');
     
     try {
-        // Setup initial detection zone
+        // Setup initial detection zone and full range zone
         const detectionZone = document.getElementById('detection-zone');
-        if (detectionZone) {
-            detectionZone.style.width = '120px'; // 40mm * 3px scale
+        const fullRangeZone = document.getElementById('full-range-zone');
+        if (detectionZone && fullRangeZone) {
             detectionZone.style.opacity = '0.1';
+            // Width and position will be set dynamically in updateVisualization()
         }
 
         // Setup chart
@@ -31,8 +32,8 @@ function initializeProximitySwitchSimulation() {
         // Initial display update
         updateDisplay();
         
-        // Start update loop
-        setInterval(updateDisplay, 100);
+        // Start update loop - reduced frequency to prevent layout shifts
+        setInterval(updateDisplay, 200);
         
         console.log('Proximity switch simulation initialized successfully!');
     } catch (error) {
@@ -142,29 +143,48 @@ function updateDisplay() {
 }
 
 // Update visualization
+// Scale: 3 pixels = 1mm, so 100mm = 300 pixels total, 40mm = 120 pixels detection zone
 function updateVisualization() {
     const targetObject = document.getElementById('target-object');
     const detectionZone = document.getElementById('detection-zone');
     const sensorBody = document.getElementById('sensor-body');
     
     if (targetObject && detectionZone && sensorBody) {
-        // Get sensor position
-        const sensorLeft = sensorBody.offsetLeft;
-        const sensorWidth = sensorBody.offsetWidth;
+        // Use fixed positioning values to prevent layout shifts
+        const sensorLeft = 40; // Fixed sensor left position
+        const sensorWidth = 30; // Fixed sensor width
         const sensorRight = sensorLeft + sensorWidth;
         
-        // Set detection zone position and size
-        const detectionRangeInMM = 40; // 40mm detection range
-        const pixelsPerMM = 3; // 3 pixels per mm
-        const detectionZoneWidth = detectionRangeInMM * pixelsPerMM;
+        // Use fixed positioning values to prevent layout shifts
+        const leftMargin = 70; // Left edge where 0mm starts
+        const rightMargin = 40; // Right edge where 100mm ends
+        const availableWidth = 300; // Fixed width for 0-100mm range (prevents layout shifts)
         
-        // Position detection zone
-        detectionZone.style.left = sensorRight + 'px';
+        // Position detection zone (0-40mm range)
+        // Detection zone covers 0-40mm (40% of the total range)
+        const detectionZoneLeft = leftMargin;
+        const detectionZoneWidth = (40 / 100) * availableWidth;
+        
+        detectionZone.style.left = detectionZoneLeft + 'px';
         detectionZone.style.width = detectionZoneWidth + 'px';
         
-        // Position target object
-        const targetLeft = sensorRight + (targetDistance * pixelsPerMM);
+        // Ensure full-range-zone covers exactly 0-100mm
+        const fullRangeZone = document.getElementById('full-range-zone');
+        if (fullRangeZone) {
+            fullRangeZone.style.left = leftMargin + 'px';
+            fullRangeZone.style.width = availableWidth + 'px';
+        }
+        
+        // Position target object within the 0-100mm range
+        // Calculate target position: 0mm = leftMargin, 100mm = leftMargin + availableWidth
+        const targetLeft = leftMargin + (targetDistance / 100) * availableWidth;
         targetObject.style.left = targetLeft + 'px';
+        
+        // Ensure target doesn't go beyond the visualization area
+        const maxTargetLeft = leftMargin + availableWidth;
+        if (targetLeft > maxTargetLeft) {
+            targetObject.style.left = maxTargetLeft + 'px';
+        }
         
         // Update detection zone visibility
         detectionZone.style.opacity = sensorState ? '0.3' : '0.1';

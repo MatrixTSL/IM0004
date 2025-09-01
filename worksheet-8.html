@@ -141,6 +141,7 @@
     <div class="worksheet-section so-what-section">
       <h2 class="section-header"><i class="fas fa-lightbulb"></i> 3. So What?</h2>
       <div class="so-what-content">
+        
         <!-- System Overview Card -->
         <div class="explanation-card">
           <div class="card-header">
@@ -148,9 +149,59 @@
             <h3>Float Switch System Overview</h3>
           </div>
           <div class="card-content">
-            <p>Float switches monitor liquid levels and help protect the system. The low-level switch is normally open (NO) and only closes when there is enough liquid. This allows the pump to run. If the level drops, it opens and stops the pump to avoid dry running.</p>
-            <p>The high-level switch is normally closed (NC) and breaks the circuit when the tank is full. This stops filling or triggers an alarm to prevent overflow.</p>
-            <p>This setup is fail-safe. If a wire breaks or a switch fails, the system detects the change and shuts down safely. NC switches are used where a constant signal confirms safety. NO switches are used where action is only needed in specific conditions, like confirming enough fluid is present.</p>
+            <p>Float switches monitor liquid levels and help protect the system from damage and safety hazards.</p>
+          </div>
+        </div>
+
+        <!-- Low Level Switch Card -->
+        <div class="explanation-card" style="background: #1a2f1a; border-left: 4px solid #4CAF50;">
+          <div class="card-header">
+            <i class="fas fa-arrow-down"></i>
+            <h3>Low-Level Switch (NO - Normally Open)</h3>
+          </div>
+          <div class="card-content">
+            <ul style="margin: 0; padding-left: 20px; color: #FFFFFF;">
+              <li>Only closes when there is enough liquid</li>
+              <li>Allows the pump to run when closed</li>
+              <li>Opens and stops the pump if level drops too low</li>
+              <li>Prevents pump dry-running damage</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- High Level Switch Card -->
+        <div class="explanation-card" style="background: #2f1a1a; border-left: 4px solid #F44336;">
+          <div class="card-header">
+            <i class="fas fa-arrow-up"></i>
+            <h3>High-Level Switch (NC - Normally Closed)</h3>
+          </div>
+          <div class="card-content">
+            <ul style="margin: 0; padding-left: 20px; color: #FFFFFF;">
+              <li>Breaks the circuit when tank is full</li>
+              <li>Stops filling or triggers overflow alarm</li>
+              <li>Prevents tank overflow and spills</li>
+              <li>Provides constant safety monitoring</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Fail-Safe Design Card -->
+        <div class="explanation-card" style="background: #1a1a2f; border-left: 4px solid #2196F3;">
+          <div class="card-header">
+            <i class="fas fa-shield-alt"></i>
+            <h3>Fail-Safe Design Principles</h3>
+          </div>
+          <div class="card-content">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+              <div>
+                <h4 style="color: #4CAF50; margin-bottom: 10px;"><i class="fas fa-check-circle"></i> NC Switches (Safety)</h4>
+                <p style="color: #AAA; font-size: 14px;">Constant signal confirms safety. If signal is lost, system shuts down safely.</p>
+              </div>
+              <div>
+                <h4 style="color: #FF9800; margin-bottom: 10px;"><i class="fas fa-exclamation-triangle"></i> NO Switches (Action)</h4>
+                <p style="color: #AAA; font-size: 14px;">Signal only when action is needed. Used for confirming specific conditions.</p>
+              </div>
+            </div>
           </div>
         </div>
 
