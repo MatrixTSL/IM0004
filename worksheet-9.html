@@ -471,24 +471,27 @@
             <p style="margin: 10px 0; color: #aaa;">Current Distance: <span id="current-distance" style="color: #2196F3;">20mm</span></p>
           </div>
 
-          <!-- Step Progress -->
-          <div class="step-progress" style="margin-top: 20px;">
-            <h5 style="color: #aaa; margin: 0 0 10px 0;">Learning Progress:</h5>
-            <div class="progress-steps">
-              <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px; margin-bottom: 10px;">
-                <span style="color: #aaa;">1. Basic Detection</span>
-                <span id="step1-complete" style="float: right; color: #FF5722;">❌</span>
-              </div>
-              <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px; margin-bottom: 10px;">
-                <span style="color: #aaa;">2. Range Testing</span>
-                <span id="step2-complete" style="float: right; color: #FF5722;">❌</span>
-              </div>
-              <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px;">
-                <span style="color: #aaa;">3. Hysteresis Check</span>
-                <span id="step3-complete" style="float: right; color: #FF5722;">❌</span>
-              </div>
-            </div>
-          </div>
+                     <!-- Step Progress -->
+           <div class="step-progress" style="margin-top: 20px;">
+             <h5 style="color: #aaa; margin: 0 0 10px 0;">Learning Progress:</h5>
+             <div class="progress-steps">
+               <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px; margin-bottom: 10px;">
+                 <span style="color: #aaa;">1. Basic Detection</span>
+                 <span id="step1-complete" style="float: right; color: #FF5722;">❌</span>
+               </div>
+               <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px; margin-bottom: 10px;">
+                 <span style="color: #aaa;">2. Range Testing</span>
+                 <span id="step2-complete" style="float: right; color: #FF5722;">❌</span>
+               </div>
+               <div class="step" style="padding: 10px; background: #1a1a1a; border-radius: 5px;">
+                 <span style="color: #aaa;">3. Hysteresis Check</span>
+                 <span id="step3-complete" style="float: right; color: #FF5722;">❌</span>
+               </div>
+             </div>
+             <button id="reset-progress-btn" onclick="resetProgress()" style="margin-top: 15px; padding: 8px 16px; background: #666; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+               Reset Progress
+             </button>
+           </div>
         </div>
 
         <!-- Visualization Area -->

@@ -3,11 +3,21 @@ let chart = null;
 let targetDistance = 20; // Start at 20mm (middle of 0-40mm range)
 let sensorState = false;
 
+// Progress tracking variables
+let step1Completed = false; // Basic Detection
+let step2Completed = false; // Range Testing  
+let step3Completed = false; // Hysteresis Check
+let hasTestedFullRange = false; // Track if user has moved through 0-100mm
+let lastDetectionState = false; // Track previous detection state for hysteresis
+
 // Initialize simulation
 function initializeProximitySwitchSimulation() {
     console.log('Initializing proximity switch simulation...');
     
     try {
+        // Load any previously saved progress
+        loadProgress();
+        
         // Setup initial detection zone and full range zone
         const detectionZone = document.getElementById('detection-zone');
         const fullRangeZone = document.getElementById('full-range-zone');
@@ -142,6 +152,46 @@ function updateDisplay() {
     }
 }
 
+// Progress tracking functions
+function updateProgress() {
+    let progressChanged = false;
+    
+    // Step 1: Basic Detection - Complete when target is in detection range
+    if (!step1Completed && targetDistance <= 40) {
+        step1Completed = true;
+        document.getElementById('step1-complete').textContent = '✅';
+        document.getElementById('step1-complete').style.color = '#4CAF50';
+        console.log('Step 1 completed: Basic Detection');
+        progressChanged = true;
+    }
+    
+    // Step 2: Range Testing - Complete when user has tested full 0-100mm range
+    if (!step2Completed && hasTestedFullRange) {
+        step2Completed = true;
+        document.getElementById('step2-complete').textContent = '✅';
+        document.getElementById('step2-complete').style.color = '#4CAF50';
+        console.log('Step 2 completed: Range Testing');
+        progressChanged = true;
+    }
+    
+    // Step 3: Hysteresis Check - Complete when user observes different ON/OFF points
+    if (!step3Completed && lastDetectionState !== sensorState && (targetDistance > 40 && targetDistance <= 42)) {
+        step3Completed = true;
+        document.getElementById('step3-complete').textContent = '✅';
+        document.getElementById('step3-complete').style.color = '#4CAF50';
+        console.log('Step 3 completed: Hysteresis Check');
+        progressChanged = true;
+    }
+    
+    // Save progress if any step was completed
+    if (progressChanged) {
+        saveProgress();
+    }
+    
+    // Update last detection state for hysteresis tracking
+    lastDetectionState = sensorState;
+}
+
 // Update visualization
 // Scale: 3 pixels = 1mm, so 100mm = 300 pixels total, 40mm = 120 pixels detection zone
 function updateVisualization() {
@@ -195,6 +245,81 @@ function updateVisualization() {
             sensorFace.style.boxShadow = sensorState ? 
                 '0 0 10px rgba(33, 150, 243, 0.8)' : 
                 '0 0 5px rgba(33, 150, 243, 0.3)';
+        }
+        
+        // Track range testing - mark as complete when user has moved through full range
+        if (targetDistance >= 100 || targetDistance <= 0) {
+            hasTestedFullRange = true;
+        }
+        
+        // Update learning progress
+        updateProgress();
+    }
+}
+
+// Progress persistence functions
+function saveProgress() {
+    const progress = {
+        step1Completed,
+        step2Completed,
+        step3Completed,
+        hasTestedFullRange
+    };
+    localStorage.setItem('proximitySwitchProgress', JSON.stringify(progress));
+}
+
+function resetProgress() {
+    // Reset all progress variables
+    step1Completed = false;
+    step2Completed = false;
+    step3Completed = false;
+    hasTestedFullRange = false;
+    lastDetectionState = false;
+    
+    // Reset visual indicators
+    document.getElementById('step1-complete').textContent = '❌';
+    document.getElementById('step1-complete').style.color = '#FF5722';
+    document.getElementById('step2-complete').textContent = '❌';
+    document.getElementById('step2-complete').style.color = '#FF5722';
+    document.getElementById('step3-complete').textContent = '❌';
+    document.getElementById('step3-complete').style.color = '#FF5722';
+    
+    // Clear saved progress
+    localStorage.removeItem('proximitySwitchProgress');
+    
+    console.log('Progress reset successfully');
+}
+
+function loadProgress() {
+    const savedProgress = localStorage.getItem('proximitySwitchProgress');
+    if (savedProgress) {
+        const progress = JSON.parse(savedProgress);
+        step1Completed = progress.step1Completed || false;
+        step2Completed = progress.step2Completed || false;
+        step3Completed = progress.step3Completed || false;
+        hasTestedFullRange = progress.hasTestedFullRange || false;
+        
+        // Update visual indicators for already completed steps
+        if (step1Completed) {
+            const step1Element = document.getElementById('step1-complete');
+            if (step1Element) {
+                step1Element.textContent = '✅';
+                step1Element.style.color = '#4CAF50';
+            }
+        }
+        if (step2Completed) {
+            const step2Element = document.getElementById('step2-complete');
+            if (step2Element) {
+                step2Element.textContent = '✅';
+                step2Element.style.color = '#4CAF50';
+            }
+        }
+        if (step3Completed) {
+            const step3Element = document.getElementById('step3-complete');
+            if (step3Element) {
+                step3Element.textContent = '✅';
+                step3Element.style.color = '#4CAF50';
+            }
         }
     }
 }
