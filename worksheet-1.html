@@ -534,7 +534,7 @@
               </div>
             </div>
           </div>
-          <canvas id="pid-chart" width="800" height="400"></canvas>
+          <canvas id="pid-chart"></canvas>
         </div>
         
         <!-- Educational Note about Error Values -->
@@ -756,6 +756,177 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   
+  <style>
+    /* Mobile Responsiveness for Simulation Section */
+    @media (max-width: 768px) {
+      .simulation-section {
+        padding: 15px !important;
+      }
+      
+      .pid-education {
+        margin-bottom: 20px !important;
+      }
+      
+      .education-card {
+        padding: 15px !important;
+      }
+      
+      .pid-components {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+      }
+      
+      .parameter-display {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+      }
+      
+      .parameter-card {
+        padding: 12px !important;
+      }
+      
+      .pid-controls {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+      }
+      
+      .control-group {
+        margin-bottom: 15px !important;
+      }
+      
+      .pid-chart-container {
+        margin-top: 20px !important;
+        width: 100% !important;
+        overflow-x: auto !important;
+      }
+      
+      #pid-chart {
+        width: 100% !important;
+        height: 300px !important;
+        max-width: 100% !important;
+        display: block !important;
+      }
+      
+      .pid-chart-container canvas {
+        width: 100% !important;
+        height: 300px !important;
+      }
+      
+      .chart-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
+      }
+      
+      .chart-legend {
+        flex-direction: column !important;
+        gap: 8px !important;
+      }
+      
+      .legend-item {
+        font-size: 12px !important;
+      }
+      
+      h3 {
+        font-size: 18px !important;
+      }
+      
+      h4 {
+        font-size: 16px !important;
+      }
+      
+      .component h4 {
+        font-size: 14px !important;
+      }
+      
+      .parameter-header span {
+        font-size: 12px !important;
+      }
+      
+      .parameter-value {
+        font-size: 18px !important;
+      }
+      
+      .parameter-unit {
+        font-size: 10px !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .simulation-section {
+        padding: 10px !important;
+      }
+      
+      .education-card {
+        padding: 10px !important;
+      }
+      
+      .pid-components {
+        gap: 10px !important;
+      }
+      
+      .parameter-display {
+        gap: 10px !important;
+      }
+      
+      .parameter-card {
+        padding: 10px !important;
+      }
+      
+      .pid-controls {
+        gap: 10px !important;
+      }
+      
+      .control-group {
+        margin-bottom: 10px !important;
+      }
+      
+      h3 {
+        font-size: 16px !important;
+      }
+      
+      h4 {
+        font-size: 14px !important;
+      }
+      
+      .component h4 {
+        font-size: 12px !important;
+      }
+      
+      .parameter-header span {
+        font-size: 11px !important;
+      }
+      
+      .parameter-value {
+        font-size: 16px !important;
+      }
+      
+      .parameter-unit {
+        font-size: 9px !important;
+      }
+      
+      .legend-item {
+        font-size: 11px !important;
+      }
+      
+      .pid-chart-container {
+        margin-top: 15px !important;
+      }
+      
+      #pid-chart {
+        height: 250px !important;
+      }
+      
+      .pid-chart-container canvas {
+        height: 250px !important;
+      }
+      
+      .chart-header h4 {
+        font-size: 14px !important;
+      }
+    }
+  </style>
+  
   <script>
     // Initialize PID simulation
     document.addEventListener('DOMContentLoaded', function() {
@@ -937,8 +1108,7 @@
           },
                   options: {
             responsive: true,
-            maintainAspectRatio: true,
-            aspectRatio: 2,
+            maintainAspectRatio: false,
             animation: {
               duration: 0
             },
