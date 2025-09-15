@@ -851,9 +851,10 @@ function markOptionsForQuestion(questionContainer, correctLetter, selectedLetter
   radios.forEach(radio => {
     const label = radio.closest('label');
     if (label) {
-      // reset previous styles
-      label.style.borderColor = '#555';
-      label.style.background = '#222';
+      // reset previous styles and classes
+      label.style.borderColor = '';
+      label.style.background = '';
+      label.classList.remove('correct', 'incorrect');
     }
   });
   radios.forEach(radio => {
@@ -861,11 +862,9 @@ function markOptionsForQuestion(questionContainer, correctLetter, selectedLetter
     const label = radio.closest('label');
     if (!label) return;
     if (letter === correctLetter) {
-      label.style.borderColor = '#4CAF50';
-      label.style.background = '#1a2f1a';
+      label.classList.add('correct');
     } else if (radio.checked && selectedLetter && letter !== correctLetter) {
-      label.style.borderColor = '#f44336';
-      label.style.background = '#2f1a1a';
+      label.classList.add('incorrect');
     }
   });
 }
