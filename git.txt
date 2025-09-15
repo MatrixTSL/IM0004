@@ -1,5 +1,9 @@
 git add -A
-git commit -m "added google analytics"
+git commit -m "removed some buttons"
 git push origin main; git push matrixIM0004 main
 
 python -m http.server 8000
+
+
+git tag -d v1.2.3
+git push origin :refs/tags/v1.2.3

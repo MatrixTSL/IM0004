@@ -270,6 +270,52 @@
       font-size: 12px;
     }
 
+    /* Info Cards */
+    .info-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #333333, #555555);
+      border: 2px solid #666666;
+      border-radius: 8px;
+      color: #FFFFFF;
+      text-decoration: none;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .info-card:hover {
+      background: linear-gradient(135deg, #FFFFFF, #F5F5F5);
+      color: #000;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(255, 255, 255, 0.4);
+      border: 2px solid #FFFFFF;
+    }
+
+    .info-card i {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: var(--accent-color);
+    }
+
+    .info-card:hover i {
+      color: #000;
+    }
+
+    .info-text {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .info-card small {
+      opacity: 0.7;
+      font-size: 12px;
+    }
+
     /* Center Content */
     .center-content {
       display: flex;
@@ -455,7 +501,7 @@
 
         <!-- CENTER CONTENT -->
         <div class="center-content">
-            <h2 class="center-title">Industrial Maintenance</h2>
+            <h2 class="center-title">Maintenance of Closed Loop Systems</h2>
             <p class="center-subtitle">
                 Comprehensive training platform for industrial maintenance technicians. 
                 Master closed-loop control systems through interactive worksheets and real-world scenarios.
@@ -482,20 +528,20 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDE - DOCUMENTATION -->
+        <!-- RIGHT SIDE - SYSTEM OVERVIEW -->
         <div class="side-content">
-            <h2 class="side-header documentation">DOCUMENTATION</h2>
+            <h2 class="side-header documentation">SYSTEM OVERVIEW</h2>
             <img src="assets/cad2.png" alt="CAD Diagram 2" class="cad-image">
             <div class="button-container">
-                <a href="#" class="side-button" onclick="openPDF('docs/IM0004 - Maintenance of Closed Loop Systems User Manual.pdf')">
-                    <i class="fas fa-book"></i>
-                    <span class="button-text">User Manual</span>
-                    <small>(IM0004)</small>
+                <a href="#" class="info-card" onclick="window.location='cp0539-worksheets.html'">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span class="info-text">Interactive Training</span>
+                    <small>14 Worksheets + 8 Scenarios</small>
                 </a>
-                <a href="#" class="side-button" onclick="openPDF('docs/IM0004 Electrical Drawings RevG.pdf')">
-                    <i class="fas fa-bolt"></i>
-                    <span class="button-text">Electrical Drawings</span>
-                    <small>(RevG)</small>
+                <a href="#" class="info-card" onclick="window.location='tracking-dashboard.html'">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="info-text">Progress Tracking</span>
+                    <small>Real-time Analytics</small>
                 </a>
             </div>
         </div>
