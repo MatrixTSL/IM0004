@@ -704,8 +704,8 @@ function loadStepProgress() {
 
 // Answer handling functions
 function submitAnswer(questionNumber) {
-  const answerInput = document.querySelector(`[data-question="${questionNumber}"]`);
-  if (!answerInput) return;
+  const questionContainer = document.querySelector(`[data-question="${questionNumber}"]`);
+  if (!questionContainer) return;
   
   const selectedOption = document.querySelector(`input[name="question-${questionNumber}"]:checked`);
   if (!selectedOption) {
@@ -713,22 +713,21 @@ function submitAnswer(questionNumber) {
     return;
   }
   
-  const answer = selectedOption.value;
+  const rawValue = selectedOption.value;
+  const selectedLetter = normalizeAnswerValueToLetter(rawValue);
   
   // Save with enhanced tracking if available
   if (typeof worksheetTracker !== 'undefined') {
     const worksheetId = getUrlParameter('id') || getWorksheetIdFromUrl();
-    // Detect if this is a fault scenario based on URL
     const path = window.location.pathname;
     const isFaultScenario = path.includes('fault-scenario');
     const type = getUrlParameter('type') || (isFaultScenario ? 'fault' : 'maintenance');
-    worksheetTracker.saveAnswer(worksheetId, questionNumber, answer, type);
+    worksheetTracker.saveAnswer(worksheetId, questionNumber, rawValue, type);
   } else {
-    // Fallback to original save method
-    saveAnswer(questionNumber, answer);
+    saveAnswer(questionNumber, rawValue);
   }
   
-  const submitBtn = answerInput.querySelector('.submit-question-btn');
+  const submitBtn = questionContainer.querySelector('.submit-question-btn');
   if (submitBtn) {
     submitBtn.textContent = 'Answer Saved!';
     submitBtn.style.background = '#4CAF50';
@@ -738,11 +737,8 @@ function submitAnswer(questionNumber) {
     }, 2000);
   }
   
-  // Show correct answer if available
-  const correctAnswer = answerInput.querySelector('.correct-answer');
-  if (correctAnswer) {
-    correctAnswer.style.display = 'block';
-  }
+  const correctLetter = getCorrectLetterForQuestion(questionContainer);
+  showCorrectnessFeedback(questionContainer, selectedLetter, correctLetter);
 }
 
 // Helper function to get worksheet ID from URL
@@ -759,21 +755,88 @@ function getWorksheetIdFromUrl() {
 }
 
 function submitMultipleChoiceQuestion(questionId) {
+  const questionContainer = document.querySelector(`[data-question="${questionId}"]`);
   const selectedOption = document.querySelector(`input[name="question-${questionId}"]:checked`);
   if (!selectedOption) {
     alert('Please select an answer before submitting.');
     return;
   }
   
-  const answerValue = selectedOption.value;
-  saveAnswer(questionId, answerValue);
+  const rawValue = selectedOption.value;
+  const selectedLetter = normalizeAnswerValueToLetter(rawValue);
+  saveAnswer(questionId, rawValue);
   
-  // Show feedback (this would be enhanced with actual feedback logic)
-  const feedbackDiv = document.querySelector(`[data-question="${questionId}"] .answer-feedback`);
-  if (feedbackDiv) {
-    feedbackDiv.style.display = 'block';
-    feedbackDiv.querySelector('.feedback-content').innerHTML = '<p style="color: #4CAF50;">Answer submitted successfully!</p>';
+  const correctLetter = getCorrectLetterForQuestion(questionContainer);
+  showCorrectnessFeedback(questionContainer, selectedLetter, correctLetter);
+}
+
+// --- Minimal helpers for correctness without changing HTML across the site ---
+function normalizeAnswerValueToLetter(value) {
+  // If already a letter like 'A', 'B', 'C', 'D'
+  if (typeof value === 'string' && value.length === 1 && value.toUpperCase() >= 'A' && value.toUpperCase() <= 'D') {
+    return value.toUpperCase();
   }
+  // If numeric index '0', '1', '2', '3' → map to A-D
+  const index = parseInt(value, 10);
+  if (!isNaN(index) && index >= 0 && index <= 25) {
+    return String.fromCharCode('A'.charCodeAt(0) + index);
+  }
+  return '';
+}
+
+function getCorrectLetterForQuestion(questionContainer) {
+  // 1) Prefer explicit data attribute
+  const dataLetter = (questionContainer && questionContainer.getAttribute('data-correct-letter')) || '';
+  if (dataLetter) {
+    return dataLetter.trim().toUpperCase();
+  }
+  // 2) Fallback: parse from the existing hidden .correct-answer text
+  const correctAnswerEl = questionContainer ? questionContainer.querySelector('.correct-answer') : null;
+  if (correctAnswerEl) {
+    const text = correctAnswerEl.textContent || '';
+    // Look for patterns like "Correct Answer: A) ..." or "Correct Answer: A)"
+    const match = text.match(/Correct\s*Answer:\s*([A-D])\)/i);
+    if (match && match[1]) {
+      return match[1].toUpperCase();
+    }
+  }
+  return '';
+}
+
+function showCorrectnessFeedback(questionContainer, selectedLetter, correctLetter) {
+  // Always show the explanation block if present
+  const correctAnswerEl = questionContainer ? questionContainer.querySelector('.correct-answer') : null;
+  if (correctAnswerEl) {
+    correctAnswerEl.style.display = 'block';
+  }
+  
+  // Create or reuse a simple feedback area
+  let feedbackDiv = questionContainer ? questionContainer.querySelector('.answer-feedback') : null;
+  if (!feedbackDiv) {
+    feedbackDiv = document.createElement('div');
+    feedbackDiv.className = 'answer-feedback';
+    feedbackDiv.style.marginTop = '15px';
+    feedbackDiv.style.padding = '15px';
+    feedbackDiv.style.borderRadius = '4px';
+    questionContainer.appendChild(feedbackDiv);
+  }
+  
+  // If we don't know the correct letter, keep existing neutral feedback
+  if (!correctLetter) {
+    feedbackDiv.style.display = 'block';
+    feedbackDiv.style.background = '#2a2a2a';
+    feedbackDiv.style.borderLeft = '3px solid #888';
+    feedbackDiv.innerHTML = '<p style="color: #ddd; margin: 0;">Answer submitted.</p>';
+    return;
+  }
+  
+  const isCorrect = selectedLetter && selectedLetter === correctLetter;
+  feedbackDiv.style.display = 'block';
+  feedbackDiv.style.background = isCorrect ? '#1a2f1a' : '#2f1a1a';
+  feedbackDiv.style.borderLeft = isCorrect ? '3px solid #4CAF50' : '3px solid #f44336';
+  feedbackDiv.innerHTML = isCorrect
+    ? `<p style="color: #4CAF50; margin: 0;">Correct! (${correctLetter})</p>`
+    : `<p style=\"color: #f44336; margin: 0;\">Not quite. Correct answer is ${correctLetter}.</p>`;
 }
 
 function saveAnswer(questionNumber, answer) {
