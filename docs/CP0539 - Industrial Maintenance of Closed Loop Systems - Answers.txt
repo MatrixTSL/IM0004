@@ -61,11 +61,11 @@ Questions:
 5. Why should you avoid making rapid changes to the valve?
 
 Answers:
-1. To continuously adjust flow using sensor feedback to meet a setpoint, maintaining accuracy and stability even if conditions change.
-2. Ensure the hand valve is in the open position, fully anti-clockwise.
-3. The flow drops, the sensor detects this and sends data to the PLC, which increases pump speed and adjusts the valve to restore flow.
-4. The PLC is a computer that makes real-time decisions based on sensor data to control devices like pumps and valves.
-5. Rapid changes can cause oscillations in flow, making the system unstable; gradual adjustments help maintain smooth control.
+1. To maintain flow at a set target.
+2. Hand valve is open.
+3. System adjusts to restore flow.
+4. Controls the system.
+5. Prevents system instability.
 
 
 Worksheet 2 � Emergency Stops
@@ -77,11 +77,11 @@ Questions:
 5. Why is it important to regularly inspect the E-Stop?
 
 Answers:
-1. To quickly stop a machine or system in an emergency to protect people and equipment.
-2. Twist the E-Stop anti-clockwise, then press the blue reset button or the HMI reset button.
-3. It has two contact channels; both must be closed for operation, and either opening will stop the system, this redundancy ensures safety.
-4. Only during emergencies, not for regular stopping of the machine.
-5. To ensure it is free from damage or faults and will work properly when needed.
+1. Emergency safety stop.
+2. Twist and press reset.
+3. Dual safety contacts.
+4. Emergencies only.
+5. Ensures reliability.
 
 
 Worksheet 3 � Status LED
@@ -141,11 +141,11 @@ Questions:
 5. What are some signs that maintenance engineers should look for to detect pump issues early?
 
 Answers:
-1. To move fluids through a system by creating flow and pressure, supporting process control and system regulation.
+1. Moves fluids through system.
 2. By varying the voltage (0�24V), using PWM signals, or through a Variable Frequency Drive (VFD) to adjust speed proportionally.
-3. It could signal a system fault such as a partially closed valve, clogged filter, or restriction in the piping.
-4. Pumps use the fluid as coolant and lubricant; running dry can cause overheating or damage. A low-level sensor in the tank prevents this.
-5. Gradual drops in flow with rising power use, unusual noises, or excessive vibration are signs of potential pump problems.
+3. System fault detected.
+4. Prevents dry running.
+5. Flow drops, noise, vibration.
 
 
 Worksheet 7 � Valve
@@ -157,8 +157,8 @@ Questions:
 5. Why is it important to observe valve behaviour during an Emergency Stop?
 
 Answers:
-1. To control the flow of fluids by opening, closing, or partially restricting the passage through the system.
-2. By using Pulse Width Modulation (PWM) to vary voltage, which proportionally adjusts how open or closed the valve is.
+1. Controls fluid flow.
+2. PWM voltage control.
 3. Deadband refers to the range (typically 0�10% demand) where the valve remains shut and doesn�t begin opening until demand exceeds this threshold.
 4. Carefully feel for warmth on the valve�s electrical connector  , it typically gets warm when active (never check for leaks by hand).
 5. To ensure the valve fails to the correct position (open or closed) for safety  , in this system, it should go fully closed.
@@ -205,11 +205,11 @@ Questions:
 5. Why is regular calibration of flow sensors important?
 
 Answers:
-1. It measures fluid movement and helps regulate flow, which is critical for system reliability, detecting faults, and maintaining performance.
-2. It uses a spinning rotor, and the number of spins (pulses) is counted to determine the flow rate.
-3. The PLC counts pulses from the turbine sensor and calculates the flow rate, which is shown on the HMI.
-4. They could indicate blockages, valve restrictions, air pockets, sensor faults, or wiring issues.
-5. Calibration ensures the sensor remains accurate over time and helps prevent false readings or system faults.
+1. Measures fluid flow.
+2. Spinning rotor counts pulses.
+3. PLC counts and calculates flow.
+4. Blockages or sensor faults.
+5. Maintains accuracy.
 
 
 Worksheet 11 � Temperature Sensor
@@ -237,11 +237,11 @@ Questions:
 5. Can you name the seven digital inputs used in the training system?
 
 Answers:
-1. A digital sensor sends a simple on/off signal, usually using 24V DC.
-2. You can view the input status directly on the PLC or on the IO screen of the HMI.
-3. A NO sensor sends a signal only when triggered, while an NC sensor sends a signal when idle and stops when triggered.
-4. So that if a wire breaks or becomes disconnected, the system sees it as a fault and shuts down for safety.
-5. Flow sensor, tank high switch, tank low switch, tank lid proximity switch, two E-Stop channels, and the blue reset switch.
+1. On/off signal.
+2. View on PLC or HMI.
+3. NO sends signal when triggered.
+4. Wire break safety.
+5. Seven digital inputs.
 
 
 Worksheet 13 � Analogue Sensors
