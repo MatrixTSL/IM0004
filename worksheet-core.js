@@ -837,6 +837,37 @@ function showCorrectnessFeedback(questionContainer, selectedLetter, correctLette
   feedbackDiv.innerHTML = isCorrect
     ? `<p style="color: #4CAF50; margin: 0;">Correct! (${correctLetter})</p>`
     : `<p style=\"color: #f44336; margin: 0;\">Not quite. Correct answer is ${correctLetter}.</p>`;
+
+  // Visually mark correct and incorrect options for this question
+  markOptionsForQuestion(questionContainer, correctLetter, selectedLetter);
+}
+
+function markOptionsForQuestion(questionContainer, correctLetter, selectedLetter) {
+  if (!questionContainer || !correctLetter) return;
+  const qnum = questionContainer.getAttribute('data-question');
+  if (!qnum) return;
+  
+  const radios = questionContainer.querySelectorAll(`input[name="question-${qnum}"]`);
+  radios.forEach(radio => {
+    const label = radio.closest('label');
+    if (label) {
+      // reset previous styles
+      label.style.borderColor = '#555';
+      label.style.background = '#222';
+    }
+  });
+  radios.forEach(radio => {
+    const letter = normalizeAnswerValueToLetter(radio.value);
+    const label = radio.closest('label');
+    if (!label) return;
+    if (letter === correctLetter) {
+      label.style.borderColor = '#4CAF50';
+      label.style.background = '#1a2f1a';
+    } else if (radio.checked && selectedLetter && letter !== correctLetter) {
+      label.style.borderColor = '#f44336';
+      label.style.background = '#2f1a1a';
+    }
+  });
 }
 
 function saveAnswer(questionNumber, answer) {

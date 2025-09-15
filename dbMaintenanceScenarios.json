@@ -31,12 +31,12 @@
                     "type": "multiple_choice",
                     "options": [
                         "Only check if the power is on",
-                        "Ensure the hand valve is in the open position, with the handle in line with the piping",
+                        "Ensure the hand valve is in the open position, fully anti-clockwise",
                         "Just check the temperature sensor",
                         "Only verify the pump is working"
                     ],
                     "correct_answer": 1,
-                    "explanation": "Before starting the system, you must ensure the hand valve is in the open position, with the handle in line with the piping. This allows proper flow through the system."
+                    "explanation": "Before starting the system, you must ensure the hand valve is in the open position, fully anti-clockwise. This allows proper flow through the system."
                 },
                 {
                     "id": "1.3",
