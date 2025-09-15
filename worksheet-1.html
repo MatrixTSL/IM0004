@@ -305,11 +305,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) System adjusts to restore flow</span>
+              <span class="option-text">A) The system shuts down immediately</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) The system shuts down immediately</span>
+              <span class="option-text">B) System adjusts to restore flow</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
@@ -324,7 +324,7 @@
             <button class="submit-question-btn" onclick="submitAnswer(3)">Submit Answer</button>
           </div>
           <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> A) System adjusts to restore flow.
+            <strong style="color: #4CAF50;">Correct Answer:</strong> B) System adjusts to restore flow.
           </div>
         </div>
         <div class="question-item" data-question="4">
@@ -332,15 +332,15 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Controls the system</span>
+              <span class="option-text">A) The PLC only displays data on the HMI</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) The PLC only displays data on the HMI</span>
+              <span class="option-text">B) The PLC is used for manual control only</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) The PLC is used for manual control only</span>
+              <span class="option-text">C) Controls the system</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
@@ -351,7 +351,7 @@
             <button class="submit-question-btn" onclick="submitAnswer(4)">Submit Answer</button>
           </div>
           <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> A) Controls the system.
+            <strong style="color: #4CAF50;">Correct Answer:</strong> C) Controls the system.
           </div>
         </div>
         <div class="question-item" data-question="5">
@@ -359,26 +359,26 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Prevents system instability</span>
+              <span class="option-text">A) Rapid changes save energy</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) Rapid changes save energy</span>
+              <span class="option-text">B) Rapid changes are required for safety</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
-              <span class="option-text">C) Rapid changes are required for safety</span>
+              <span class="option-text">C) Rapid changes increase system accuracy</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="D" class="option-radio">
-              <span class="option-text">D) Rapid changes increase system accuracy</span>
+              <span class="option-text">D) Prevents system instability</span>
             </label>
           </div>
           <div class="question-actions">
             <button class="submit-question-btn" onclick="submitAnswer(5)">Submit Answer</button>
           </div>
           <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> A) Prevents system instability.
+            <strong style="color: #4CAF50;">Correct Answer:</strong> D) Prevents system instability.
           </div>
         </div>
       </div>
@@ -1248,9 +1248,9 @@
       const correctAnswers = {
         "1": "A",
         "2": "A",
-        "3": "A",
-        "4": "A",
-        "5": "A"
+        "3": "B",
+        "4": "C",
+        "5": "D"
       };
       
       // Apply visual feedback
