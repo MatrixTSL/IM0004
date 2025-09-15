@@ -1229,6 +1229,73 @@
     }
     
     // Submit answer
+    function submitAnswer(questionNumber) {
+      const answerInput = document.querySelector(`[data-question="${questionNumber}"]`);
+      if (!answerInput) return;
+      
+      const selectedOption = document.querySelector(`input[name="question-${questionNumber}"]:checked`);
+      if (!selectedOption) {
+        alert('Please select an answer before submitting.');
+        return;
+      }
+      
+      const answer = selectedOption.value;
+      
+      // Save with enhanced tracking
+      worksheetTracker.saveAnswer(1, questionNumber, answer, 'maintenance');
+      
+      // Define correct answers for worksheet 1
+      const correctAnswers = {
+        "1": "A",
+        "2": "A",
+        "3": "A",
+        "4": "A",
+        "5": "A"
+      };
+      
+      // Apply visual feedback
+      const allOptions = answerInput.querySelectorAll('.option-label');
+      const correctAnswer = correctAnswers[questionNumber];
+      
+      allOptions.forEach(option => {
+        const radio = option.querySelector('.option-radio');
+        const optionValue = radio.value;
+        
+        if (optionValue === correctAnswer) {
+          option.classList.add('correct');
+        } else if (optionValue === answer && answer !== correctAnswer) {
+          option.classList.add('incorrect');
+        }
+      });
+      
+      // Mark question as submitted to disable further interaction
+      answerInput.classList.add('submitted');
+      
+      // Show feedback on button
+      const submitBtn = answerInput.querySelector('.submit-question-btn');
+      if (submitBtn) {
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = answer === correctAnswer ? 'Correct!' : 'Incorrect!';
+        submitBtn.style.background = answer === correctAnswer ? '#4CAF50' : '#f44336';
+        
+        // Add incorrect class for enhanced styling
+        if (answer !== correctAnswer) {
+          submitBtn.classList.add('incorrect');
+        }
+        
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.style.background = '#4CAF50';
+          submitBtn.classList.remove('incorrect');
+        }, 2000);
+      }
+      
+      // Show correct answer if available
+      const correctAnswerDiv = answerInput.querySelector('.correct-answer');
+      if (correctAnswerDiv) {
+        correctAnswerDiv.style.display = 'block';
+      }
+    }
 
 function loadSavedAnswers() {
   // This function is now handled by the tracking system
