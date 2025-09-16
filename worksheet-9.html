@@ -18,6 +18,67 @@
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple mobile layout for the simulation section */
+    @media (max-width: 768px) {
+      /* Stack the simulation container vertically */
+      .simulation-section .simulation-container {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Make control panel full width */
+      .simulation-section .control-panel {
+        width: 100% !important;
+        padding: 16px !important;
+      }
+
+      /* Make sensor visualization responsive */
+      .simulation-section .sensor-visualization {
+        min-width: 100% !important;
+        height: 150px !important;
+      }
+
+      /* Make charts full width and adjust height */
+      .simulation-section canvas {
+        width: 100% !important;
+        height: 200px !important;
+      }
+
+      /* Adjust slider for mobile */
+      .simulation-section input[type="range"] {
+        height: 12px !important;
+      }
+
+      /* Make buttons easier to tap */
+      .simulation-section button {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* Make option labels full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+
+      /* Stack the sensor types grid on mobile */
+      .simulation-section .explanation-card .card-content > div[style*="grid-template-columns"] {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Stack the fault detection grid on mobile */
+      .simulation-section .explanation-card .card-content > div[style*="grid-template-columns: 1fr 1fr"] {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -308,7 +369,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To detect the presence of an object without physical contact, helping with automation, positioning, and safety</span>
+              <span class="option-text">A) To provide power to equipment</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -320,7 +381,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="D" class="option-radio">
-              <span class="option-text">D) To provide power to equipment</span>
+              <span class="option-text">D) Detects objects without contact</span>
             </label>
           </div>
           <div class="question-actions">
@@ -336,7 +397,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) It detects metal objects only</span>
+              <span class="option-text">A) Detects metal objects only</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -364,7 +425,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) To ensure the tank lid is in place before the system runs, preventing water from being pumped without the lid</span>
+              <span class="option-text">A) Ensures tank lid is in place</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -392,11 +453,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Inductive (metal), capacitive (metal and non-metal), and photoelectric (uses light to detect objects)</span>
+              <span class="option-text">A) Magnetic, electrical, and mechanical</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) Magnetic, electrical, and mechanical</span>
+              <span class="option-text">B) Inductive, capacitive, photoelectric</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
@@ -420,11 +481,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Misalignment, poor mounting, wiring faults, dust, or moisture</span>
+              <span class="option-text">A) High temperature, low pressure, or electrical noise</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) High temperature, low pressure, or electrical noise</span>
+              <span class="option-text">B) Misalignment, mounting, wiring, dust, moisture</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
@@ -614,13 +675,13 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(9, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 9
+          // Define correct answers for worksheet 9 (reshuffled to DAABB)
           const correctAnswers = {
-                "1": "A",
-                "2": "C",
-                "3": "B",
-                "4": "D",
-                "5": "C"
+                "1": "D",
+                "2": "A",
+                "3": "A",
+                "4": "B",
+                "5": "B"
           };
           
           // Apply visual feedback
@@ -660,9 +721,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }

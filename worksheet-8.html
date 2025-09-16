@@ -18,6 +18,54 @@
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple mobile layout for the simulation section */
+    @media (max-width: 768px) {
+      /* Stack the tank simulation containers vertically */
+      .simulation-section .tank-simulation-container {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Make control panels full width */
+      .simulation-section .tank-control-panel {
+        width: 100% !important;
+        padding: 16px !important;
+      }
+
+      /* Make tank visual smaller on mobile */
+      .simulation-section .tank-visual {
+        height: 150px !important;
+      }
+
+      /* Make charts full width and adjust height */
+      .simulation-section canvas {
+        width: 100% !important;
+        height: 200px !important;
+      }
+
+      /* Make buttons easier to tap */
+      .simulation-section .control-btn {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* Make option labels full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+
+      /* Stack the fail-safe design grid on mobile */
+      .simulation-section .explanation-card .card-content > div[style*="grid-template-columns"] {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -287,7 +335,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To detect liquid levels in a tank and trigger actions such as stopping a pump or sounding an alarm</span>
+              <span class="option-text">A) To control the flow rate of the liquid</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -295,7 +343,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
-              <span class="option-text">C) To control the flow rate of the liquid</span>
+              <span class="option-text">C) Detects liquid levels</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="D" class="option-radio">
@@ -315,7 +363,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) A NO switch only sends a signal when activated (float is lifted). An NC switch sends a signal when inactivated and breaks the signal when lifted</span>
+              <span class="option-text">A) A NO switch measures temperature, an NC switch measures pressure</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -323,7 +371,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
-              <span class="option-text">C) A NO switch measures temperature, an NC switch measures pressure</span>
+              <span class="option-text">C) NO sends signal when activated</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="D" class="option-radio">
@@ -343,7 +391,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) So, the pump only runs when there is enough fluid. If the level drops, the circuit opens and stops the pump to prevent dry running</span>
+              <span class="option-text">A) So the pump uses less energy</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -355,7 +403,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) So the pump uses less energy</span>
+              <span class="option-text">D) Prevents dry running</span>
             </label>
           </div>
           <div class="question-actions">
@@ -371,7 +419,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) So, the system constantly monitors for overflow. If the tank gets too full, the circuit breaks and stops the filling process or triggers an alarm</span>
+              <span class="option-text">A) So the tank uses less energy</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -383,7 +431,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
-              <span class="option-text">D) So the tank uses less energy</span>
+              <span class="option-text">D) Prevents overflow</span>
             </label>
           </div>
           <div class="question-actions">
@@ -399,7 +447,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Sticking, misalignment, or contact failure. These can be identified by testing float movement and checking IO screen signals</span>
+              <span class="option-text">A) Sticking, misalignment, failure</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -562,13 +610,13 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(8, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 8
+          // Define correct answers for worksheet 8 (reshuffled to CCDDA)
           const correctAnswers = {
-                "1": "A",
-                "2": "B",
-                "3": "C",
+                "1": "C",
+                "2": "C",
+                "3": "D",
                 "4": "D",
-                "5": "B"
+                "5": "A"
           };
           
           // Apply visual feedback
@@ -608,9 +656,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }
