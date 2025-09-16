@@ -252,11 +252,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) System status indication</span>
+              <span class="option-text">A) Work area lighting</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) Work area lighting</span>
+              <span class="option-text">B) System status indication</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
@@ -280,7 +280,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) System normal</span>
+              <span class="option-text">A) System shutting down</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -292,7 +292,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="D" class="option-radio">
-              <span class="option-text">D) System shutting down</span>
+              <span class="option-text">D) System normal</span>
             </label>
           </div>
           <div class="question-actions">
@@ -308,7 +308,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) Orange - fault needs investigation</span>
+              <span class="option-text">A) Yellow - system starting</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -320,7 +320,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) Yellow - system starting</span>
+              <span class="option-text">D) Orange - fault needs investigation</span>
             </label>
           </div>
           <div class="question-actions">
@@ -1236,11 +1236,11 @@
       // Save with enhanced tracking
       worksheetTracker.saveAnswer(3, questionNumber, answer, 'maintenance');
       
-      // Define correct answers for worksheet 3
+      // Define correct answers for worksheet 3 (reshuffled to BDDAA)
       const correctAnswers = {
-        "1": "A",
-        "2": "A",
-        "3": "A",
+        "1": "B",
+        "2": "D",
+        "3": "D",
         "4": "A",
         "5": "A"
       };
