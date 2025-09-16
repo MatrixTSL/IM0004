@@ -580,11 +580,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) It helps identify and fix issues that could stop the system from running safely and efficiently</span>
+              <span class="option-text">A) It is only required for new systems</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) It is only required for new systems</span>
+              <span class="option-text">B) Identifies and fixes issues for safe/efficient operation</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
@@ -607,11 +607,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) Software faults, electrical faults, and mechanical faults</span>
+              <span class="option-text">A) Hydraulic faults, pneumatic faults, and optical faults</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) Hydraulic faults, pneumatic faults, and optical faults</span>
+              <span class="option-text">B) Software, electrical, and mechanical faults</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
@@ -634,15 +634,15 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The HMI shows alarms and fault status, helping to locate and understand the issue</span>
+              <span class="option-text">A) The HMI only displays system graphics</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) The HMI only displays system graphics</span>
+              <span class="option-text">B) The HMI is not used for fault diagnosis</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
-              <span class="option-text">C) The HMI is not used for fault diagnosis</span>
+              <span class="option-text">C) Shows alarms and fault status for diagnosis</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
@@ -661,19 +661,19 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) It shows exactly when the fault happened, helping to trace the cause</span>
+              <span class="option-text">A) It is only for record keeping</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) It is only for record keeping</span>
+              <span class="option-text">B) It is used to reset the system</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) It is used to reset the system</span>
+              <span class="option-text">C) It is not important for troubleshooting</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
-              <span class="option-text">D) It is not important for troubleshooting</span>
+              <span class="option-text">D) Shows when fault occurred to trace cause</span>
             </label>
           </div>
           <div class="question-actions">
@@ -688,11 +688,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) It builds confidence and teaches how to spot and respond to problems in a real system</span>
+              <span class="option-text">A) It is only for entertainment</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) It is only for entertainment</span>
+              <span class="option-text">B) Builds confidence and real-world skills</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
@@ -732,7 +732,7 @@
   <script src="fault-detection-simulation.js"></script>
   
   <script>
-    // Define correct answers for worksheet 14
+    // Define correct answers for worksheet 14 (aligned to document, not all A)
     const correctAnswers = {
       "1": "B",
       "2": "B",
@@ -791,9 +791,18 @@
         button.classList.remove('incorrect');
       }, 2000);
 
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = questionItem.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = questionItem.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }

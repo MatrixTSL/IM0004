@@ -22,179 +22,217 @@ function initializeAnalogueSensorsSimulation() {
     }
     
     panel.innerHTML = `
-        <div class="simulation-header" style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h3 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-wave-square"></i> Analogue Sensors System
-            </h3>
-            <p style="color: #aaa; margin: 10px 0;">Interactive analogue sensors maintenance and troubleshooting simulation</p>
-            
-            <div style="background: #23272b; padding: 15px; border-radius: 5px; margin-top: 15px;">
-                <h4 style="color: #4CAF50; margin-top: 0;">How to Use This Simulation:</h4>
-                <ul style="color: #aaa; margin: 10px 0; padding-left: 20px; line-height: 1.4;">
-                    <li><strong>Signal Controls:</strong> Adjust voltage, scaling, offset, and noise</li>
-                    <li><strong>Live Chart:</strong> Monitor signal behavior in real-time</li>
-                    <li><strong>Status Indicators:</strong> Track signal quality and calibration</li>
-                    <li><strong>Maintenance Tools:</strong> Calibrate and verify signal accuracy</li>
-                </ul>
-            </div>
+        <style>
+          #analogue-sensors-panel .card { background: #1a1a1a; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+          #analogue-sensors-panel .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #analogue-sensors-panel .two-col { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #analogue-sensors-panel .signal-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+          #analogue-sensors-panel .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+          #analogue-sensors-panel .signal-value { background: #1a1a1a; padding: 12px; border-radius: 8px; text-align: center; }
+          #analogue-sensors-panel .signal-label { color: #aaa; font-size: 0.85em; margin-bottom: 4px; }
+          #analogue-sensors-panel .signal-number { font-size: 20px; font-weight: bold; margin: 6px 0; }
+          #analogue-sensors-panel .signal-unit { color: #666; font-size: 0.75em; }
+          #analogue-sensors-panel .voltage .signal-number { color: #2196F3; }
+          #analogue-sensors-panel .raw .signal-number { color: #FF5722; }
+          #analogue-sensors-panel .scaled .signal-number { color: #4CAF50; }
+          #analogue-sensors-panel .signal-chart { height: 160px; margin: 12px 0; position: relative; }
+          #analogue-sensors-panel .control-group { 
+            background: #23272b; 
+            padding: 16px; 
+            border-radius: 8px; 
+            margin-bottom: 20px; 
+            border: 1px solid #333;
+          }
+          #analogue-sensors-panel .control-header { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 12px; 
+          }
+          #analogue-sensors-panel .control-label { 
+            color: #2196F3; 
+            font-size: 1em; 
+            font-weight: bold; 
+          }
+          #analogue-sensors-panel .control-value { 
+            color: #4CAF50; 
+            font-size: 1.1em; 
+            font-weight: bold; 
+            background: #1a1a1a; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            min-width: 60px; 
+            text-align: center; 
+          }
+          #analogue-sensors-panel .control-slider { 
+            margin: 12px 0; 
+          }
+          #analogue-sensors-panel .control-range { 
+            color: #666; 
+            font-size: 0.8em; 
+            text-align: center; 
+            margin-top: 8px; 
+          }
+          #analogue-sensors-panel .status-card { background: #23272b; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #333; transition: all 0.3s ease; }
+          #analogue-sensors-panel .status-icon { font-size: 20px; margin-bottom: 6px; }
+          #analogue-sensors-panel .status-label { color: #aaa; font-size: 0.8em; margin-bottom: 4px; }
+          #analogue-sensors-panel .status-value { font-size: 16px; font-weight: bold; }
+          #analogue-sensors-panel .status-good { color: #4CAF50; text-shadow: 0 0 8px rgba(76,175,80,0.4); }
+          #analogue-sensors-panel .status-fair { color: #FFC107; text-shadow: 0 0 8px rgba(255,193,7,0.4); }
+          #analogue-sensors-panel .status-poor { color: #FF5722; text-shadow: 0 0 8px rgba(255,87,34,0.4); }
+          #analogue-sensors-panel .maintenance-btn, #analogue-sensors-panel .fault-btn { width: 100%; padding: 10px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; font-size: 0.9em; }
+          #analogue-sensors-panel .maintenance-btn { background: #2196F3; }
+          #analogue-sensors-panel .maintenance-btn:hover { background: #1976D2; box-shadow: 0 0 12px rgba(33,150,243,0.3); }
+          #analogue-sensors-panel .fault-btn { background: #FF5722; }
+          #analogue-sensors-panel .fault-btn:hover { background: #F4511E; box-shadow: 0 0 12px rgba(255,87,34,0.3); }
+          #analogue-sensors-panel .task-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 8px; background: #23272b; border-radius: 5px; cursor: pointer; }
+          #analogue-sensors-panel .task-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+          #analogue-sensors-panel .task-item label { color: #aaa; cursor: pointer; flex: 1; font-size: 0.9em; }
+          #analogue-sensors-panel .diagnostic-log { background: #23272b; padding: 12px; border-radius: 5px; max-height: 160px; overflow-y: auto; font-family: monospace; color: #aaa; margin-top: 8px; font-size: 0.85em; }
+          #analogue-sensors-panel .diagnostic-log p { margin: 4px 0; padding: 4px; border-radius: 3px; transition: background-color 0.3s ease; }
+          #analogue-sensors-panel .diagnostic-log p:hover { background: rgba(255,255,255,0.05); }
+          @media (min-width: 900px) {
+            #analogue-sensors-panel .two-col { grid-template-columns: 1fr 320px; }
+            #analogue-sensors-panel .signal-grid { grid-template-columns: repeat(3, 1fr); }
+            #analogue-sensors-panel .status-grid { grid-template-columns: repeat(3, 1fr); }
+          }
+        </style>
+        <div class="card">
+          <h3 style="color:#2196F3; margin:0; display:flex; align-items:center; gap:10px;">
+            <i class="fas fa-wave-square"></i> Analogue Sensors System
+          </h3>
+          <p style="color:#aaa; margin:8px 0 0 0;">Interactive analogue sensors maintenance and troubleshooting simulation</p>
         </div>
-        
-        <div class="simulation-grid" style="display: grid; grid-template-columns: 1fr 300px; gap: 20px;">
-            <div class="simulation-left">
-                <!-- Signal Display -->
-                <div class="signal-display">
-                    <div class="signal-indicators">
-                        <div class="signal-value voltage">
-                            <div class="signal-label">Voltage Input</div>
-                            <div id="voltage-value" class="signal-number">5.0</div>
-                            <div class="signal-unit">Volts DC</div>
-                        </div>
-                        <div class="signal-value raw">
-                            <div class="signal-label">PLC Raw Value</div>
-                            <div id="raw-value" class="signal-number">0</div>
-                            <div class="signal-unit">0-32767</div>
-                        </div>
-                        <div class="signal-value scaled">
-                            <div class="signal-label">Scaled Value</div>
-                            <div id="scaled-value" class="signal-number">0</div>
-                            <div class="signal-unit">Engineering Units</div>
-                        </div>
-                    </div>
-                    
-                    <!-- Signal Chart -->
-                    <div class="signal-chart">
-                        <canvas id="signal-chart"></canvas>
-                    </div>
+        <div class="two-col">
+          <div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-chart-line"></i> Signal Display</h4>
+              <div class="signal-grid">
+                <div class="signal-value voltage">
+                  <div class="signal-label">Voltage Input</div>
+                  <div id="voltage-value" class="signal-number">5.0</div>
+                  <div class="signal-unit">Volts DC</div>
                 </div>
-                
-                <!-- Signal Controls -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-sliders-h"></i> Signal Controls
-                    </h4>
-                    <div style="display: grid; gap: 20px;">
-                        <div>
-                            <label style="color: #aaa; display: block; margin-bottom: 10px;">Voltage Input (0-10V)</label>
-                            <div id="voltage-slider"></div>
-                        </div>
-                        <div>
-                            <label style="color: #aaa; display: block; margin-bottom: 10px;">Scaling Factor (0.1-2.0)</label>
-                            <div id="scaling-slider"></div>
-                        </div>
-                        <div>
-                            <label style="color: #aaa; display: block; margin-bottom: 10px;">Offset (-5 to +5)</label>
-                            <div id="offset-slider"></div>
-                        </div>
-                        <div>
-                            <label style="color: #aaa; display: block; margin-bottom: 10px;">Noise Level (0-1)</label>
-                            <div id="noise-slider"></div>
-                        </div>
-                    </div>
+                <div class="signal-value raw">
+                  <div class="signal-label">PLC Raw Value</div>
+                  <div id="raw-value" class="signal-number">0</div>
+                  <div class="signal-unit">0-32767</div>
                 </div>
-                
-                <!-- Sensor Status -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-heartbeat"></i> Sensor Status
-                    </h4>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                        <div class="status-card">
-                            <i class="fas fa-signal status-icon"></i>
-                            <div class="status-label">Signal Quality</div>
-                            <div id="signal-quality" class="status-value status-good">Good</div>
-                        </div>
-                        <div class="status-card">
-                            <i class="fas fa-balance-scale status-icon"></i>
-                            <div class="status-label">Calibration</div>
-                            <div id="calibration-status" class="status-value status-good">Good</div>
-                        </div>
-                        <div class="status-card">
-                            <i class="fas fa-wave-square status-icon"></i>
-                            <div class="status-label">Noise Level</div>
-                            <div id="noise-status" class="status-value status-good">Low</div>
-                        </div>
-                    </div>
+                <div class="signal-value scaled">
+                  <div class="signal-label">Scaled Value</div>
+                  <div id="scaled-value" class="signal-number">0</div>
+                  <div class="signal-unit">Engineering Units</div>
                 </div>
+              </div>
+              <div class="signal-chart">
+                <canvas id="signal-chart"></canvas>
+              </div>
             </div>
-            
-            <div class="simulation-right">
-                <!-- Maintenance Tools -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tools"></i> Maintenance Tools
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="calibrate-signal" class="maintenance-btn">
-                            <i class="fas fa-balance-scale"></i> Calibrate Signal
-                        </button>
-                        <button id="adjust-scaling" class="maintenance-btn">
-                            <i class="fas fa-compress-arrows-alt"></i> Adjust Scaling
-                        </button>
-                        <button id="reduce-noise" class="maintenance-btn">
-                            <i class="fas fa-filter"></i> Reduce Noise
-                        </button>
-                        <button id="verify-accuracy" class="maintenance-btn">
-                            <i class="fas fa-check-circle"></i> Verify Accuracy
-                        </button>
-                    </div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 16px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-sliders-h"></i> Signal Controls</h4>
+              
+              <!-- Voltage Control -->
+              <div class="control-group">
+                <div class="control-header">
+                  <label class="control-label">Voltage Input</label>
+                  <span class="control-value" id="voltage-display">5.0V</span>
                 </div>
-                
-                <!-- Fault Injection -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #FF5722; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-exclamation-triangle"></i> Fault Injection
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="inject-scaling" class="fault-btn">
-                            <i class="fas fa-compress"></i> Scaling Fault
-                        </button>
-                        <button id="inject-offset" class="fault-btn">
-                            <i class="fas fa-arrows-alt-v"></i> Offset Fault
-                        </button>
-                        <button id="inject-noise" class="fault-btn">
-                            <i class="fas fa-random"></i> Noise Fault
-                        </button>
-                        <button id="clear-faults" style="background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-broom"></i> Clear All Faults
-                        </button>
-                    </div>
+                <div class="control-slider">
+                  <div id="voltage-slider"></div>
                 </div>
-                
-                <!-- Maintenance Tasks -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px;">
-                    <h4 style="color: #4CAF50; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tasks"></i> Maintenance Tasks
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <label class="task-item">
-                            <input type="checkbox" id="task-scaling">
-                            <span>Check signal scaling</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-offset">
-                            <span>Verify offset values</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-noise">
-                            <span>Assess noise levels</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-shielding">
-                            <span>Check shielding</span>
-                        </label>
-                    </div>
+                <div class="control-range">0V - 10V</div>
+              </div>
+              
+              <!-- Scaling Control -->
+              <div class="control-group">
+                <div class="control-header">
+                  <label class="control-label">Scaling Factor</label>
+                  <span class="control-value" id="scaling-display">1.00x</span>
                 </div>
+                <div class="control-slider">
+                  <div id="scaling-slider"></div>
+                </div>
+                <div class="control-range">0.1x - 2.0x</div>
+              </div>
+              
+              <!-- Offset Control -->
+              <div class="control-group">
+                <div class="control-header">
+                  <label class="control-label">Offset</label>
+                  <span class="control-value" id="offset-display">+0.0</span>
+                </div>
+                <div class="control-slider">
+                  <div id="offset-slider"></div>
+                </div>
+                <div class="control-range">-5.0 - +5.0</div>
+              </div>
+              
+              <!-- Noise Control -->
+              <div class="control-group">
+                <div class="control-header">
+                  <label class="control-label">Noise Level</label>
+                  <span class="control-value" id="noise-display">0%</span>
+                </div>
+                <div class="control-slider">
+                  <div id="noise-slider"></div>
+                </div>
+                <div class="control-range">0% - 100%</div>
+              </div>
             </div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-heartbeat"></i> Sensor Status</h4>
+              <div class="status-grid">
+                <div class="status-card">
+                  <i class="fas fa-signal status-icon"></i>
+                  <div class="status-label">Signal Quality</div>
+                  <div id="signal-quality" class="status-value status-good">Good</div>
+                </div>
+                <div class="status-card">
+                  <i class="fas fa-balance-scale status-icon"></i>
+                  <div class="status-label">Calibration</div>
+                  <div id="calibration-status" class="status-value status-good">Good</div>
+                </div>
+                <div class="status-card">
+                  <i class="fas fa-wave-square status-icon"></i>
+                  <div class="status-label">Noise Level</div>
+                  <div id="noise-status" class="status-value status-good">Low</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tools"></i> Maintenance Tools</h4>
+              <div class="grid">
+                <button id="calibrate-signal" class="maintenance-btn"><i class="fas fa-balance-scale"></i> Calibrate Signal</button>
+                <button id="adjust-scaling" class="maintenance-btn"><i class="fas fa-compress-arrows-alt"></i> Adjust Scaling</button>
+                <button id="reduce-noise" class="maintenance-btn"><i class="fas fa-filter"></i> Reduce Noise</button>
+                <button id="verify-accuracy" class="maintenance-btn"><i class="fas fa-check-circle"></i> Verify Accuracy</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#FF5722; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-exclamation-triangle"></i> Fault Injection</h4>
+              <div class="grid">
+                <button id="inject-scaling" class="fault-btn"><i class="fas fa-compress"></i> Scaling Fault</button>
+                <button id="inject-offset" class="fault-btn"><i class="fas fa-arrows-alt-v"></i> Offset Fault</button>
+                <button id="inject-noise" class="fault-btn"><i class="fas fa-random"></i> Noise Fault</button>
+                <button id="clear-faults" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9em;"><i class="fas fa-broom"></i> Clear All Faults</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#4CAF50; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tasks"></i> Maintenance Tasks</h4>
+              <div class="grid">
+                <label class="task-item"><input type="checkbox" id="task-scaling"><span>Check signal scaling</span></label>
+                <label class="task-item"><input type="checkbox" id="task-offset"><span>Verify offset values</span></label>
+                <label class="task-item"><input type="checkbox" id="task-noise"><span>Assess noise levels</span></label>
+                <label class="task-item"><input type="checkbox" id="task-shielding"><span>Check shielding</span></label>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <!-- Diagnostic Information -->
-        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-top: 20px;">
-            <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-terminal"></i> Diagnostic Information
-            </h4>
-            <div id="diagnostic-log" class="diagnostic-log">
-                <p>System initialized. Analogue sensors ready for testing.</p>
-            </div>
+        <div class="card">
+          <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-terminal"></i> Diagnostic Information</h4>
+          <div id="diagnostic-log" class="diagnostic-log"><p>System initialized. Analogue sensors ready for testing.</p></div>
         </div>
     `;
     
@@ -399,6 +437,7 @@ function updateAnalogueSensorsDisplay() {
     const rawDisplay = document.getElementById('raw-value');
     const scaledDisplay = document.getElementById('scaled-value');
     
+    // Update signal display values
     if (voltageDisplay) {
         const oldValue = parseFloat(voltageDisplay.textContent);
         const newValue = analogueSensorsData.voltageInput;
@@ -427,6 +466,29 @@ function updateAnalogueSensorsDisplay() {
             scaledDisplay.textContent = newValue.toFixed(2);
             setTimeout(() => scaledDisplay.style.animation = '', 300);
         }
+    }
+    
+    // Update control display values
+    const voltageControlDisplay = document.getElementById('voltage-display');
+    const scalingControlDisplay = document.getElementById('scaling-display');
+    const offsetControlDisplay = document.getElementById('offset-display');
+    const noiseControlDisplay = document.getElementById('noise-display');
+    
+    if (voltageControlDisplay) {
+        voltageControlDisplay.textContent = analogueSensorsData.voltageInput.toFixed(1) + 'V';
+    }
+    
+    if (scalingControlDisplay) {
+        scalingControlDisplay.textContent = analogueSensorsData.scalingFactor.toFixed(2) + 'x';
+    }
+    
+    if (offsetControlDisplay) {
+        const offset = analogueSensorsData.offset;
+        offsetControlDisplay.textContent = (offset >= 0 ? '+' : '') + offset.toFixed(1);
+    }
+    
+    if (noiseControlDisplay) {
+        noiseControlDisplay.textContent = Math.round(analogueSensorsData.noiseLevel * 100) + '%';
     }
     
     // Update chart
