@@ -18,6 +18,38 @@
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple mobile tweaks for the simulation area so items stack nicely */
+    @media (max-width: 768px) {
+      /* Force the two-column I/O grid to a single column on small screens */
+      .simulation-section .io-grid {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Lightly reduce paddings so the cards fit better */
+      .simulation-section .scenario-card {
+        padding: 16px !important;
+      }
+
+      .simulation-section .scenario-io-display {
+        padding: 12px !important;
+      }
+
+      /* Ensure column containers occupy full width in the stacked layout */
+      .simulation-section .digital-inputs,
+      .simulation-section .analogue-values {
+        width: 100%;
+      }
+
+      /* Make each multiple-choice option use the full line for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -308,7 +340,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) A Programmable Logic Controller (PLC) is an industrial computer designed for real-time control of machines and processes in harsh environments</span>
+              <span class="option-text">A) Industrial computer for real-time machine/process control</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -336,7 +368,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) They show real-time feedback of input and output signals, helping verify if components are functioning correctly</span>
+              <span class="option-text">A) They show the time of day</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -348,7 +380,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="D" class="option-radio">
-              <span class="option-text">D) They show the time of day</span>
+              <span class="option-text">D) Real-time I/O feedback for verification</span>
             </label>
           </div>
           <div class="question-actions">
@@ -364,7 +396,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) It could indicate a faulty sensor, wiring problem, or failed connection</span>
+              <span class="option-text">A) It means the system is in standby mode</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -372,7 +404,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
-              <span class="option-text">C) It means the system is in standby mode</span>
+              <span class="option-text">C) Possible sensor/wiring/connection fault</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
@@ -392,15 +424,15 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) One of the output LEDs will flash briefly, this represents the system's status LED</span>
+              <span class="option-text">A) All output LEDs should stay on continuously</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) All output LEDs should turn off</span>
+              <span class="option-text">B) One output LED flashes briefly (status LED)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) All output LEDs should stay on continuously</span>
+              <span class="option-text">C) All output LEDs should turn off</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
@@ -420,11 +452,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) One of the input LEDs will flash rapidly; if flow is reduced, it slows down, and if flow increases, it nearly goes solid, showing the sensor is active</span>
+              <span class="option-text">A) The input LED should stay off completely</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) The input LED should stay off completely</span>
+              <span class="option-text">B) Input LED flashes with flow (faster = higher flow)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
@@ -1041,10 +1073,10 @@
           
           // Define correct answers for worksheet 4
           const correctAnswers = {
-                "1": "C",
-                "2": "B",
-                "3": "D",
-                "4": "A",
+                "1": "A",
+                "2": "D",
+                "3": "C",
+                "4": "B",
                 "5": "B",
                 "scenario-1": "A",
                 "scenario-2": "B", 
@@ -1088,9 +1120,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style=\"color: #4CAF50;\">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }
@@ -1158,9 +1199,18 @@
         }, 2000);
       }
       
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = answerInput.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style=\"color: #4CAF50;\">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }
