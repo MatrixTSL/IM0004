@@ -736,9 +736,12 @@ function submitAnswer(questionNumber) {
       submitBtn.style.background = '#4CAF50';
     }, 2000);
   }
-  
+
   const correctLetter = getCorrectLetterForQuestion(questionContainer);
   showCorrectnessFeedback(questionContainer, selectedLetter, correctLetter);
+
+  // Apply visual completion feedback
+  markQuestionAsCompleted(questionContainer, questionNumber, rawValue);
 }
 
 // Helper function to get worksheet ID from URL
@@ -911,17 +914,25 @@ function loadSavedAnswers() {
   Object.keys(savedAnswers).forEach(questionNumber => {
     const answerValue = savedAnswers[questionNumber];
 
+    // Find the question container
+    const questionContainer = document.querySelector(`[data-question="${questionNumber}"]`);
+
     // Try to find radio inputs first (for multiple choice questions)
     const radioInput = document.querySelector(`input[name="question-${questionNumber}"][value="${answerValue}"]`);
     if (radioInput) {
       radioInput.checked = true;
+
+      // Mark question as completed and show visual feedback
+      if (questionContainer) {
+        markQuestionAsCompleted(questionContainer, questionNumber, answerValue);
+      }
       return;
     }
 
     // Try to find textarea inputs (for text questions)
-    const answerInput = document.querySelector(`[data-question="${questionNumber}"]`);
-    if (answerInput && answerInput.tagName === 'TEXTAREA') {
-      answerInput.value = answerValue;
+    if (questionContainer && questionContainer.tagName === 'TEXTAREA') {
+      questionContainer.value = answerValue;
+      markQuestionAsCompleted(questionContainer.closest('[data-question]') || questionContainer, questionNumber, answerValue);
       return;
     }
 
@@ -929,6 +940,81 @@ function loadSavedAnswers() {
     const textInput = document.querySelector(`textarea[data-question="${questionNumber}"]`);
     if (textInput) {
       textInput.value = answerValue;
+      markQuestionAsCompleted(textInput.closest('[data-question]') || textInput, questionNumber, answerValue);
     }
   });
+}
+
+// Mark question as completed with visual feedback
+function markQuestionAsCompleted(questionContainer, questionNumber, selectedAnswer) {
+  if (!questionContainer) return;
+
+  // Add completed styling to the question container
+  questionContainer.classList.add('question-completed');
+  questionContainer.style.opacity = '0.8';
+  questionContainer.style.background = 'linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(76, 175, 80, 0.05))';
+  questionContainer.style.border = '2px solid rgba(76, 175, 80, 0.3)';
+  questionContainer.style.borderRadius = '8px';
+
+  // Find and disable the submit button
+  const submitBtn = questionContainer.querySelector('.submit-question-btn');
+  if (submitBtn) {
+    submitBtn.textContent = 'Completed ✓';
+    submitBtn.style.background = '#4CAF50';
+    submitBtn.style.cursor = 'default';
+    submitBtn.disabled = true;
+  }
+
+  // Show the correct answer section if it exists
+  const correctAnswerDiv = questionContainer.querySelector('.correct-answer');
+  if (correctAnswerDiv) {
+    correctAnswerDiv.style.display = 'block';
+  }
+
+  // Add completion badge
+  if (!questionContainer.querySelector('.completion-badge')) {
+    const badge = document.createElement('div');
+    badge.className = 'completion-badge';
+    badge.innerHTML = '<i class="fas fa-check-circle"></i> Completed';
+    badge.style.cssText = `
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #4CAF50;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 12px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+    `;
+    questionContainer.style.position = 'relative';
+    questionContainer.appendChild(badge);
+  }
+
+  // Disable all inputs in the question to prevent changes
+  const allInputs = questionContainer.querySelectorAll('input, textarea');
+  allInputs.forEach(input => {
+    input.disabled = true;
+    input.style.cursor = 'not-allowed';
+  });
+
+  // Show which answer was selected
+  const selectedLabel = questionContainer.querySelector(`input[name="question-${questionNumber}"][value="${selectedAnswer}"]`)?.closest('label');
+  if (selectedLabel) {
+    selectedLabel.style.background = 'rgba(76, 175, 80, 0.2)';
+    selectedLabel.style.borderColor = '#4CAF50';
+    selectedLabel.style.fontWeight = 'bold';
+
+    // Add "Your Answer" indicator
+    if (!selectedLabel.querySelector('.your-answer-indicator')) {
+      const indicator = document.createElement('span');
+      indicator.className = 'your-answer-indicator';
+      indicator.innerHTML = ' <strong style="color: #4CAF50;">(Your Answer)</strong>';
+      selectedLabel.appendChild(indicator);
+    }
+  }
 } 

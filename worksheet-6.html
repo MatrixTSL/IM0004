@@ -618,6 +618,11 @@
             }
             correctAnswerDiv.style.display = 'block';
           }
+
+          // Apply visual completion feedback
+          if (typeof markQuestionAsCompleted === 'function') {
+            markQuestionAsCompleted(answerInput, questionNumber, answer);
+          }
         }
         
         
