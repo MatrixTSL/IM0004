@@ -20,6 +20,153 @@
   <script src="worksheet-core.js"></script>
   <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple mobile layout for the simulation section */
+    @media (max-width: 768px) {
+      /* Hard clamp the flow simulation container so children cannot overflow */
+      #flow-sensor-panel.simulation-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        position: relative;
+      }
+
+      /* Any element inside the flow-sensor-panel must respect the container width */
+      #flow-sensor-panel * {
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+
+      /* Collapse fixed two-column layouts inside the panel to a single column */
+      #flow-sensor-panel [style*="grid-template-columns: 300px 1fr"],
+      #flow-sensor-panel [style*="grid-template-columns: 1fr 1fr"],
+      #flow-sensor-panel [style*="grid-template-columns: 2fr 1fr"] {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Neutralize fixed widths that push past the container */
+      #flow-sensor-panel [style*="min-width"],
+      #flow-sensor-panel [style*="width: 400px"],
+      #flow-sensor-panel [style*="min-width: 400px"] {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+
+      /* Make simulation container responsive */
+      .simulation-section .simulation-container {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        overflow: visible;
+      }
+
+      /* Make any control panels full width */
+      .simulation-section .control-panel,
+      .simulation-section .flow-control-panel {
+        width: 100% !important;
+        padding: 16px !important;
+      }
+
+      /* Make charts and visualizations responsive */
+      .simulation-section canvas {
+        width: 100% !important;
+        height: 200px !important;
+      }
+
+      /* Make any flow visualizations responsive */
+      .simulation-section .flow-visualization,
+      .simulation-section .sensor-visualization {
+        width: 100% !important;
+        min-width: 0 !important; /* override inline min-width:400px */
+        height: min(240px, 56vw) !important; /* responsive height that scales with screen */
+        overflow: hidden !important; /* contain animation within block */
+        position: relative;
+      }
+
+      /* Adjust sliders for mobile */
+      .simulation-section input[type="range"] {
+        height: 12px !important;
+      }
+
+      /* Make buttons easier to tap */
+      .simulation-section button,
+      .simulation-section .control-btn {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* Make option labels full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+
+      /* Make loading panel responsive */
+      .simulation-section .simulation-loading {
+        padding: 20px !important;
+        text-align: center;
+      }
+
+      /* Stack any grid layouts on mobile */
+      .simulation-section .explanation-card .card-content > div[style*="grid-template-columns"] {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Prevent text cards from overflowing on mobile */
+      .simulation-section .explanation-card,
+      .simulation-section .key-points-card {
+        overflow: hidden;
+      }
+      .simulation-section .explanation-card .card-content p,
+      .simulation-section .explanation-card .card-content ul,
+      .simulation-section .explanation-card .card-content li {
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+      .simulation-section .key-points-grid {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Improve mobile typography and spacing for text cards */
+      .simulation-section .explanation-card,
+      .simulation-section .key-points-card {
+        padding: 16px !important;
+      }
+      .simulation-section .explanation-card .card-header h3,
+      .simulation-section .key-points-card .card-header h3 {
+        font-size: 16px !important;
+        line-height: 1.3 !important;
+      }
+      .simulation-section .explanation-card .card-content,
+      .simulation-section .key-points-card .key-points-grid {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+      }
+      .simulation-section .explanation-card ul,
+      .simulation-section .key-points-card ul {
+        padding-left: 18px !important;
+        margin: 8px 0 !important;
+      }
+      .simulation-section .explanation-card li,
+      .simulation-section .key-points-card li {
+        margin: 6px 0 !important;
+      }
+
+      /* Ensure big visual blocks leave enough space below */
+      .simulation-section .simulation-container > div {
+        box-sizing: border-box;
+        width: 100%;
+        margin-bottom: 12px;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -262,7 +409,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) It measures fluid movement and helps regulate flow, which is critical for system reliability, detecting faults, and maintaining performance</span>
+              <span class="option-text">A) It measures pressure and controls valves</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -270,7 +417,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
-              <span class="option-text">C) It measures pressure and controls valves</span>
+              <span class="option-text">C) Measures fluid flow</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="D" class="option-radio">
@@ -290,7 +437,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) It uses a spinning rotor, and the number of spins (pulses) is counted to determine the flow rate</span>
+              <span class="option-text">A) It uses ultrasonic waves to measure flow</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -298,7 +445,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
-              <span class="option-text">C) It uses ultrasonic waves to measure flow</span>
+              <span class="option-text">C) Spinning rotor counts pulses</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="D" class="option-radio">
@@ -318,7 +465,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The PLC counts pulses from the turbine sensor and calculates the flow rate, which is shown on the HMI</span>
+              <span class="option-text">A) The PLC calibrates the flow sensor</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -330,7 +477,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) The PLC calibrates the flow sensor</span>
+              <span class="option-text">D) PLC counts and calculates flow</span>
             </label>
           </div>
           <div class="question-actions">
@@ -346,11 +493,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) They could indicate blockages, valve restrictions, air pockets, sensor faults, or wiring issues</span>
+              <span class="option-text">A) They indicate the system is working perfectly</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) They indicate the system is working perfectly</span>
+              <span class="option-text">B) Blockages or sensor faults</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
@@ -374,7 +521,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Calibration ensures the sensor remains accurate over time and helps prevent false readings or system faults</span>
+              <span class="option-text">A) Maintains accuracy</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -418,13 +565,13 @@
   <script src="flow-sensor-simulation.js"></script>
   
   <script>
-    // Define correct answers for worksheet 10
+    // Define correct answers for worksheet 10 (reshuffled to CCDBA)
     const correctAnswers = {
-      "1": "A",
+      "1": "C",
       "2": "C",
-      "3": "B",
-      "4": "D",
-      "5": "B"
+      "3": "D",
+      "4": "B",
+      "5": "A"
     };
 
     function submitAnswer(questionNumber) {
@@ -477,9 +624,18 @@
         button.classList.remove('incorrect');
       }, 2000);
 
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = questionItem.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = questionItem.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }

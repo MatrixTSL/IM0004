@@ -21,194 +21,94 @@ function initializeTemperatureSensorSimulation() {
     }
     
     panel.innerHTML = `
-        <div class="simulation-header" style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h3 style="color: #FF5722; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-thermometer-half"></i> Temperature Sensor System
-            </h3>
-            <p style="color: #aaa; margin: 10px 0;">Interactive temperature sensor maintenance and troubleshooting simulation</p>
-            
-            <div style="background: #23272b; padding: 15px; border-radius: 5px; margin-top: 15px;">
-                <h4 style="color: #4CAF50; margin-top: 0;">How to Use This Simulation:</h4>
-                <ul style="color: #aaa; margin: 10px 0; padding-left: 20px; line-height: 1.4;">
-                    <li><strong>Temperature Control:</strong> Adjust simulated process temperature (-50°C to 150°C)</li>
-                    <li><strong>Offset Adjustment:</strong> Simulate sensor calibration errors (-20°C to +20°C)</li>
-                    <li><strong>Drift Setting:</strong> Simulate sensor drift over time (0°C to 10°C)</li>
-                </ul>
-            </div>
+        <style>
+          #temperature-sensor-panel .card { background: #1a1a1a; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+          #temperature-sensor-panel .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #temperature-sensor-panel .two-col { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #temperature-sensor-panel .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+          #temperature-sensor-panel .center { text-align: center; }
+          #temperature-sensor-panel .metric { background:#1a1a1a; padding:12px; border-radius:8px; }
+          @media (min-width: 900px) {
+            #temperature-sensor-panel .two-col { grid-template-columns: 1fr 320px; }
+          }
+        </style>
+        <div class="card">
+          <h3 style="color:#FF5722; margin:0; display:flex; align-items:center; gap:10px;">
+            <i class="fas fa-thermometer-half"></i> Temperature Sensor System
+          </h3>
+          <p style="color:#aaa; margin:8px 0 0 0;">Interactive temperature sensor maintenance and troubleshooting simulation</p>
         </div>
-        
-        <div class="simulation-grid" style="display: grid; grid-template-columns: 1fr 300px; gap: 20px;">
-            <div class="simulation-left">
-                <!-- Temperature Visualization -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #FF5722; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-chart-line"></i> Temperature Measurement
-                    </h4>
-                    
-                    <!-- Temperature Display -->
-                    <div style="background: #23272b; padding: 20px; border-radius: 8px; margin: 20px 0; position: relative; height: 200px; overflow: hidden;">
-                        <!-- Temperature Gauge -->
-                        <div id="temp-gauge" style="position: absolute; left: 0; bottom: 0; width: 100%; height: 100%; background: linear-gradient(to top, #1B5E20, #4CAF50, #FFC107, #FF5722); opacity: 0.1; transition: height 0.3s ease;"></div>
-                        
-                        <!-- Temperature Value -->
-                        <div style="position: relative; text-align: center;">
-                            <div style="font-size: 48px; color: #FF5722; font-weight: bold; text-shadow: 0 0 10px rgba(255,87,34,0.5);">
-                                <span id="temp-value">25</span>°C
-                            </div>
-                            <div style="margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                                <div style="background: #1a1a1a; padding: 15px; border-radius: 8px;">
-                                    <div style="color: #aaa; font-size: 0.9em;">Voltage Output</div>
-                                    <div style="color: #2196F3; font-size: 1.5em; font-weight: bold;">
-                                        <span id="voltage-value">0</span>V
-                                    </div>
-                                </div>
-                                <div style="background: #1a1a1a; padding: 15px; border-radius: 8px;">
-                                    <div style="color: #aaa; font-size: 0.9em;">Scaled Value</div>
-                                    <div style="color: #2196F3; font-size: 1.5em; font-weight: bold;">
-                                        <span id="scaled-value">0</span>°C
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Temperature Controls -->
-                    <div style="display: grid; gap: 20px;">
-                        <!-- Temperature Control -->
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <label style="color: #FF5722; font-weight: bold;">Process Temperature</label>
-                                <span style="color: #FF5722; font-weight: bold;">
-                                    <span id="temperature-value">25</span>°C
-                                </span>
-                            </div>
-                            <div id="temperature-slider" style="margin: 10px 0 20px 0;"></div>
-                        </div>
-                        
-                        <!-- Offset Control -->
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <label style="color: #2196F3; font-weight: bold;">Sensor Offset</label>
-                                <span style="color: #2196F3; font-weight: bold;">
-                                    <span id="offset-value">0</span>°C
-                                </span>
-                            </div>
-                            <div id="offset-slider" style="margin: 10px 0 20px 0;"></div>
-                        </div>
-                        
-                        <!-- Drift Control -->
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; border: 1px solid #333;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                                <label style="color: #FFC107; font-weight: bold;">Sensor Drift</label>
-                                <span style="color: #FFC107; font-weight: bold;">
-                                    <span id="drift-value">0</span>°C
-                                </span>
-                            </div>
-                            <div id="drift-slider" style="margin: 10px 0 20px 0;"></div>
-                        </div>
-                    </div>
+        <div class="two-col">
+          <div>
+            <div class="card">
+              <h4 style="color:#FF5722; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-chart-line"></i> Temperature Measurement</h4>
+              <div class="metric" style="position:relative; height:200px; overflow:hidden; background:#23272b;">
+                <div id="temp-gauge" style="position:absolute; left:0; bottom:0; width:100%; height:100%; background:linear-gradient(to top, #1B5E20, #4CAF50, #FFC107, #FF5722); opacity:0.1; transition:height .3s ease;"></div>
+                <div class="center" style="position:relative;">
+                  <div style="font-size:42px; color:#FF5722; font-weight:bold; text-shadow:0 0 10px rgba(255,87,34,.5);"><span id="temp-value">25</span>°C</div>
+                  <div class="grid" style="grid-template-columns:1fr 1fr; margin-top:12px;">
+                    <div class="metric center"><div style="color:#aaa; font-size:.9em;">Voltage Output</div><div style="color:#2196F3; font-size:1.4em; font-weight:bold;"><span id="voltage-value">0</span>V</div></div>
+                    <div class="metric center"><div style="color:#aaa; font-size:.9em;">Scaled Value</div><div style="color:#2196F3; font-size:1.4em; font-weight:bold;"><span id="scaled-value">0</span>°C</div></div>
+                  </div>
                 </div>
-                
-                <!-- Sensor Status -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #4CAF50; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-heartbeat"></i> Sensor Status
-                    </h4>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="color: #aaa; margin-bottom: 5px;">Sensor Health</div>
-                            <div id="sensor-health" style="font-size: 24px; font-weight: bold; color: #4CAF50;">100%</div>
-                        </div>
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="color: #aaa; margin-bottom: 5px;">Calibration</div>
-                            <div id="calibration-status" style="font-size: 24px; font-weight: bold; color: #4CAF50;">Good</div>
-                        </div>
-                        <div style="background: #23272b; padding: 15px; border-radius: 8px; text-align: center;">
-                            <div style="color: #aaa; margin-bottom: 5px;">Drift Level</div>
-                            <div id="drift-level" style="font-size: 24px; font-weight: bold; color: #4CAF50;">0°C</div>
-                        </div>
-                    </div>
+              </div>
+              <div class="grid">
+                <div class="metric" style="border:1px solid #333;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><label style="color:#FF5722; font-weight:bold;">Process Temperature</label><span style="color:#FF5722; font-weight:bold;"><span id="temperature-value">25</span>°C</span></div>
+                  <div id="temperature-slider" style="margin:8px 0 6px 0;"></div>
                 </div>
+                <div class="metric" style="border:1px solid #333;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><label style="color:#2196F3; font-weight:bold;">Sensor Offset</label><span style="color:#2196F3; font-weight:bold;"><span id="offset-value">0</span>°C</span></div>
+                  <div id="offset-slider" style="margin:8px 0 6px 0;"></div>
+                </div>
+                <div class="metric" style="border:1px solid #333;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><label style="color:#FFC107; font-weight:bold;">Sensor Drift</label><span style="color:#FFC107; font-weight:bold;"><span id="drift-value">0</span>°C</span></div>
+                  <div id="drift-slider" style="margin:8px 0 6px 0;"></div>
+                </div>
+              </div>
             </div>
-            
-            <div class="simulation-right">
-                <!-- Maintenance Tools -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tools"></i> Maintenance Tools
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="calibrate-sensor" style="background: #2196F3; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-sync"></i> Calibrate Sensor
-                        </button>
-                        <button id="reset-offset" style="background: #2196F3; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-undo"></i> Reset Offset
-                        </button>
-                        <button id="check-drift" style="background: #2196F3; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-chart-line"></i> Check Drift
-                        </button>
-                        <button id="verify-signals" style="background: #2196F3; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-check-circle"></i> Verify Signals
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Fault Injection -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #FF5722; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-exclamation-triangle"></i> Fault Injection
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="inject-offset" style="background: #FF5722; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-random"></i> Offset Fault
-                        </button>
-                        <button id="inject-drift" style="background: #FF5722; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-chart-line"></i> Drift Fault
-                        </button>
-                        <button id="inject-noise" style="background: #FF5722; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-wave-square"></i> Noise Fault
-                        </button>
-                        <button id="clear-faults" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-broom"></i> Clear All Faults
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Maintenance Tasks -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px;">
-                    <h4 style="color: #4CAF50; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tasks"></i> Maintenance Tasks
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <label style="display: flex; align-items: center; gap: 10px; color: #aaa; cursor: pointer;">
-                            <input type="checkbox" id="task-calibrate" style="width: 20px; height: 20px;">
-                            <span>Calibrate temperature sensor</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 10px; color: #aaa; cursor: pointer;">
-                            <input type="checkbox" id="task-offset" style="width: 20px; height: 20px;">
-                            <span>Reset offset values</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 10px; color: #aaa; cursor: pointer;">
-                            <input type="checkbox" id="task-drift" style="width: 20px; height: 20px;">
-                            <span>Check for drift</span>
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 10px; color: #aaa; cursor: pointer;">
-                            <input type="checkbox" id="task-verify" style="width: 20px; height: 20px;">
-                            <span>Verify signal accuracy</span>
-                        </label>
-                    </div>
-                </div>
+            <div class="card">
+              <h4 style="color:#4CAF50; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-heartbeat"></i> Sensor Status</h4>
+              <div class="status-grid">
+                <div class="metric center"><div style="color:#aaa; margin-bottom:4px;">Sensor Health</div><div id="sensor-health" style="font-size:22px; font-weight:bold; color:#4CAF50;">100%</div></div>
+                <div class="metric center"><div style="color:#aaa; margin-bottom:4px;">Calibration</div><div id="calibration-status" style="font-size:22px; font-weight:bold; color:#4CAF50;">Good</div></div>
+                <div class="metric center"><div style="color:#aaa; margin-bottom:4px;">Drift Level</div><div id="drift-level" style="font-size:22px; font-weight:bold; color:#4CAF50;">0°C</div></div>
+              </div>
             </div>
+          </div>
+          <div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tools"></i> Maintenance Tools</h4>
+              <div class="grid">
+                <button id="calibrate-sensor" style="background:#2196F3; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-sync"></i> Calibrate Sensor</button>
+                <button id="reset-offset" style="background:#2196F3; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-undo"></i> Reset Offset</button>
+                <button id="check-drift" style="background:#2196F3; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-chart-line"></i> Check Drift</button>
+                <button id="verify-signals" style="background:#2196F3; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-check-circle"></i> Verify Signals</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#FF5722; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-exclamation-triangle"></i> Fault Injection</h4>
+              <div class="grid">
+                <button id="inject-offset" style="background:#FF5722; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-random"></i> Offset Fault</button>
+                <button id="inject-drift" style="background:#FF5722; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-chart-line"></i> Drift Fault</button>
+                <button id="inject-noise" style="background:#FF5722; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-wave-square"></i> Noise Fault</button>
+                <button id="clear-faults" style="background:#4CAF50; color:#fff; border:none; padding:10px; border-radius:5px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px;"><i class="fas fa-broom"></i> Clear All Faults</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#4CAF50; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tasks"></i> Maintenance Tasks</h4>
+              <div class="grid">
+                <label class="task-item" style="display:flex; align-items:center; gap:10px; color:#aaa; cursor:pointer;"><input type="checkbox" id="task-calibrate" style="width:20px; height:20px;"><span>Calibrate temperature sensor</span></label>
+                <label class="task-item" style="display:flex; align-items:center; gap:10px; color:#aaa; cursor:pointer;"><input type="checkbox" id="task-offset" style="width:20px; height:20px;"><span>Reset offset values</span></label>
+                <label class="task-item" style="display:flex; align-items:center; gap:10px; color:#aaa; cursor:pointer;"><input type="checkbox" id="task-drift" style="width:20px; height:20px;"><span>Check for drift</span></label>
+                <label class="task-item" style="display:flex; align-items:center; gap:10px; color:#aaa; cursor:pointer;"><input type="checkbox" id="task-verify" style="width:20px; height:20px;"><span>Verify signal accuracy</span></label>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <!-- Diagnostic Information -->
-        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-top: 20px;">
-            <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-terminal"></i> Diagnostic Information
-            </h4>
-            <div id="diagnostic-log" style="background: #23272b; padding: 15px; border-radius: 5px; max-height: 150px; overflow-y: auto; font-family: monospace; color: #aaa;">
-                <p>System initialized. Temperature sensor ready for testing.</p>
-            </div>
+        <div class="card">
+          <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-terminal"></i> Diagnostic Information</h4>
+          <div id="diagnostic-log" style="background:#23272b; padding:12px; border-radius:5px; max-height:150px; overflow-y:auto; font-family:monospace; color:#aaa;"><p>System initialized. Temperature sensor ready for testing.</p></div>
         </div>
     `;
     

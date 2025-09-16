@@ -82,6 +82,181 @@
     #drift-slider .noUi-handle {
       border-color: #FFC107 !important;
     }
+    /* Prevent status text/badges from causing layout shift */
+    #temperature-sensor-panel .status-line,
+    #temperature-sensor-panel .status-row,
+    #temperature-sensor-panel .status-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    #temperature-sensor-panel .status-text,
+    #temperature-sensor-panel .status-message,
+    #temperature-sensor-panel .status-value,
+    #temperature-sensor-panel [data-role="status"] {
+      /* Lock width so label changes don't shift layout */
+      flex: 0 0 10rem;
+      width: 10rem;
+      min-width: 10rem;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.4;
+    }
+
+    /* Fallback for unknown status element names */
+    #temperature-sensor-panel .status,
+    #temperature-sensor-panel .badge,
+    #temperature-sensor-panel .status-badge {
+      flex: 0 0 10rem;
+      width: 10rem;
+      min-width: 10rem;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* On small screens, use a tighter width and smaller font to reduce movement */
+    @media (max-width: 480px) {
+      #temperature-sensor-panel .status-text,
+      #temperature-sensor-panel .status-message,
+      #temperature-sensor-panel .status-value,
+      #temperature-sensor-panel [data-role="status"],
+      #temperature-sensor-panel .status,
+      #temperature-sensor-panel .badge,
+      #temperature-sensor-panel .status-badge {
+        flex: 0 0 7rem;
+        width: 7rem;
+        min-width: 7rem;
+        font-size: 12px !important;
+      }
+    }
+  </style>
+</head>
+<head>
+  <style>
+    /* Mobile responsiveness for the simulation area */
+    @media (max-width: 768px) {
+      /* Clamp the panel and prevent horizontal overflow */
+      #temperature-sensor-panel.simulation-container {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important; /* fix horizontal bleed only */
+        overflow-y: initial !important; /* do not introduce inner vertical scrolling */
+        position: relative;
+      }
+
+      #temperature-sensor-panel * {
+        max-width: 100% !important;
+        box-sizing: border-box;
+      }
+
+      /* Stack any fixed grids to one column */
+      #temperature-sensor-panel [style*="grid-template-columns: 300px 1fr"],
+      #temperature-sensor-panel [style*="grid-template-columns: 1fr 1fr"],
+      #temperature-sensor-panel [style*="grid-template-columns: 2fr 1fr"] {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Neutralize inline min-widths that cause overflow */
+      #temperature-sensor-panel [style*="min-width"],
+      #temperature-sensor-panel [style*="width: 400px"],
+      #temperature-sensor-panel [style*="min-width: 400px"] {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+
+      /* Ensure sliders and charts scale */
+      #temperature-sensor-panel canvas,
+      #temperature-sensor-panel .noUi-target {
+        width: 100% !important;
+      }
+      #temperature-sensor-panel img,
+      #temperature-sensor-panel video {
+        display: block;
+        max-width: 100% !important;
+        height: auto !important;
+        margin: 0 auto;
+      }
+
+      /* noUiSlider internals can create horizontal bleed; clamp them */
+      #temperature-sensor-panel .noUi-base,
+      #temperature-sensor-panel .noUi-connects,
+      #temperature-sensor-panel .noUi-pips {
+        width: 100% !important;
+        left: 0 !important;
+        right: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+      }
+      /* Some themes add negative offsets on pips; neutralize */
+      #temperature-sensor-panel .noUi-pips-vertical,
+      #temperature-sensor-panel .noUi-pips-horizontal {
+        left: 0 !important;
+        right: 0 !important;
+      }
+      /* Ensure any slider container does not exceed width */
+      #temperature-sensor-panel [class*="slider"],
+      #temperature-sensor-panel [class*="control"],
+      #temperature-sensor-panel [class*="card"] {
+        max-width: 100% !important;
+        overflow: hidden;
+      }
+
+      /* Status section: allow cards to show full content and wrap nicely */
+      #temperature-sensor-panel [class*="status"] [class*="card"],
+      #temperature-sensor-panel .status-grid [class*="card"] {
+        overflow: visible !important;
+      }
+      #temperature-sensor-panel .status-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)) !important;
+        gap: 12px !important;
+        width: 100% !important;
+      }
+
+      /* Make multiple-choice options full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+
+      /* Touch-friendly slider tweaks */
+      #temperature-sensor-panel .noUi-target {
+        height: 12px !important;
+        margin: 10px 0 !important;
+        border-radius: 6px !important;
+      }
+      #temperature-sensor-panel .noUi-handle {
+        width: 28px !important;
+        height: 28px !important;
+        border: 3px solid #fff !important;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.35) !important;
+      }
+      #temperature-sensor-panel .noUi-tooltip {
+        font-size: 11px !important;
+        padding: 3px 6px !important;
+      }
+      /* Reduce tick label size if pips are enabled */
+      #temperature-sensor-panel .noUi-pips,
+      #temperature-sensor-panel .noUi-value {
+        font-size: 10px !important;
+        color: #cccccc !important;
+      }
+      /* Prevent headings from truncating */
+      #temperature-sensor-panel h3,
+      #temperature-sensor-panel h4,
+      #temperature-sensor-panel h5 {
+        font-size: 14px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
   </style>
 </head>
 <body>
@@ -335,7 +510,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To monitor heat levels and prevent overheating or freezing, ensuring safe and efficient operation</span>
+              <span class="option-text">A) To measure pressure levels</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -343,7 +518,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
-              <span class="option-text">C) To measure pressure levels</span>
+              <span class="option-text">C) Monitors heat; prevents over/under temp</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="D" class="option-radio">
@@ -363,11 +538,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) It changes resistance based on temperature, which is then converted into a signal the PLC can read</span>
+              <span class="option-text">A) It uses a magnetic field to measure temperature</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) It uses a magnetic field to measure temperature</span>
+              <span class="option-text">B) Resistance changes with temperature</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
@@ -391,7 +566,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The system will shut down to protect against overheating or unsafe conditions</span>
+              <span class="option-text">A) System shuts down</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -419,7 +594,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Possible causes include wiring faults, sensor damage, dirt, vibration, or electrical interference</span>
+              <span class="option-text">A) High voltage, low voltage, or no voltage</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -431,7 +606,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
-              <span class="option-text">D) High voltage, low voltage, or no voltage</span>
+              <span class="option-text">D) Wiring/sensor damage, dirt, vibration, interference</span>
             </label>
           </div>
           <div class="question-actions">
@@ -447,7 +622,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Calibration keeps the readings accurate and ensures the sensor responds correctly to real conditions</span>
+              <span class="option-text">A) Calibration makes the sensor quieter</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -459,7 +634,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="D" class="option-radio">
-              <span class="option-text">D) Calibration makes the sensor quieter</span>
+              <span class="option-text">D) Keeps readings accurate</span>
             </label>
           </div>
           <div class="question-actions">
@@ -491,13 +666,13 @@
   <script src="temperature-sensor-simulation.js"></script>
   
   <script>
-    // Define correct answers for worksheet 11
+    // Define correct answers for worksheet 11 (reshuffled to CBADD)
     const correctAnswers = {
-      "1": "A",
-      "2": "D",
-      "3": "B",
-      "4": "C",
-      "5": "B"
+      "1": "C",
+      "2": "B",
+      "3": "A",
+      "4": "D",
+      "5": "D"
     };
 
     function submitAnswer(questionNumber) {
@@ -550,9 +725,18 @@
         button.classList.remove('incorrect');
       }, 2000);
 
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = questionItem.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = questionItem.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }

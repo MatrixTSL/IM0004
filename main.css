@@ -29,6 +29,28 @@ body {
     overflow-y: auto;
 }
 
+/* Prevent accidental horizontal scrolling on mobile due to oversized children */
+* {
+    box-sizing: border-box;
+}
+
+/* Clamp any element wider than the viewport */
+@media (max-width: 768px) {
+    body, .worksheet-box, .worksheet-section, .simulation-section, .simulation-container, .nav-container {
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+    img, canvas, video, table, .system-diagram img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    /* Neutralize inline min-widths that force horizontal scroll */
+    [style*="min-width"], [style*="width: 400px"], [style*="min-width: 400px"] {
+        min-width: 0 !important;
+        width: 100% !important;
+    }
+}
+
 .main-container {
     flex: 1;
     display: flex;
