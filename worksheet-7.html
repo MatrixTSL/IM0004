@@ -370,11 +370,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) Controls fluid flow</span>
+              <span class="option-text">A) To measure the pressure of the fluid</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) To measure the pressure of the fluid</span>
+              <span class="option-text">B) Controls fluid flow</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
@@ -398,11 +398,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) PWM voltage control</span>
+              <span class="option-text">A) By manually turning a handle</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) By manually turning a handle</span>
+              <span class="option-text">B) PWM voltage control</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
@@ -426,7 +426,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) Low demand shutoff range (0-10%)</span>
+              <span class="option-text">A) Deadband is the valve's response time</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -438,7 +438,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) Deadband is the valve's response time</span>
+              <span class="option-text">D) Low demand shutoff range (0-10%)</span>
             </label>
           </div>
           <div class="question-actions">
@@ -454,7 +454,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Check connector warmth</span>
+              <span class="option-text">A) Touch the valve body directly</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -462,7 +462,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) Listen for noise from the valve</span>
+              <span class="option-text">C) Check connector warmth</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
@@ -632,12 +632,12 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(7, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 7 (from official document)
+          // Define correct answers for worksheet 7 (reshuffled to BBDCA)
           const correctAnswers = {
-                "1": "A",
-                "2": "A",
-                "3": "A",
-                "4": "A",
+                "1": "B",
+                "2": "B",
+                "3": "D",
+                "4": "C",
                 "5": "A"
           };
           
