@@ -269,7 +269,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To move fluids through a system by creating flow and pressure, supporting process control and system regulation</span>
+              <span class="option-text">A) Moves fluids through system</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -297,7 +297,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) By varying the voltage (0–24V), using PWM signals, or through a Variable Frequency Drive (VFD) to adjust speed proportionally</span>
+              <span class="option-text">A) Variable voltage/PWM/VFD control</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -325,7 +325,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) It could signal a system fault such as a partially closed valve, clogged filter, or restriction in the piping</span>
+              <span class="option-text">A) System fault detected (valve/filter/restriction)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -353,7 +353,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Pumps use the fluid as coolant and lubricant; running dry can cause overheating or damage. A low-level sensor in the tank prevents this</span>
+              <span class="option-text">A) Prevents dry running (low-level sensor)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -381,7 +381,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Gradual drops in flow with rising power use, unusual noises, or excessive vibration are signs of potential pump problems</span>
+              <span class="option-text">A) Flow drops, noise, vibration</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -558,13 +558,13 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(6, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 6
+          // Define correct answers for worksheet 6 (from official document)
           const correctAnswers = {
             1: 'A',
-            2: 'C',
-            3: 'B',
+            2: 'A',
+            3: 'A',
             4: 'A',
-            5: 'D'
+            5: 'A'
           };
           
           // Apply visual feedback
@@ -604,9 +604,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style=\"color: #4CAF50;\">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }

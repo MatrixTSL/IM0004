@@ -18,6 +18,47 @@
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple mobile layout for the simulation section */
+    @media (max-width: 768px) {
+      /* Stack the valve simulation containers vertically */
+      .simulation-section .valve-simulation-container {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Make control panels full width */
+      .simulation-section .valve-control-panel {
+        width: 100% !important;
+        padding: 16px !important;
+      }
+
+      /* Make charts full width and adjust height */
+      .simulation-section canvas {
+        width: 100% !important;
+        height: 200px !important;
+      }
+
+      /* Make buttons easier to tap */
+      .simulation-section .control-btn {
+        padding: 12px 20px !important;
+        font-size: 14px !important;
+        margin-bottom: 8px !important;
+      }
+
+      /* Adjust slider for mobile */
+      .simulation-section input[type="range"] {
+        height: 12px !important;
+      }
+
+      /* Make option labels full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -329,7 +370,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To control the flow of fluids by opening, closing, or partially restricting the passage through the system</span>
+              <span class="option-text">A) Controls fluid flow</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -357,7 +398,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) By using Pulse Width Modulation (PWM) to vary voltage, which proportionally adjusts how open or closed the valve is</span>
+              <span class="option-text">A) PWM voltage control</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -385,7 +426,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) Deadband refers to the range (typically 0–10% demand) where the valve remains shut and doesn't begin opening until demand exceeds this threshold</span>
+              <span class="option-text">A) Low demand shutoff range (0-10%)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
@@ -413,7 +454,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) Carefully feel for warmth on the valve's electrical connector, it typically gets warm when active (never check for leaks by hand)</span>
+              <span class="option-text">A) Check connector warmth</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -441,7 +482,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) To ensure the valve fails to the correct position (open or closed) for safety, in this system, it should go fully closed</span>
+              <span class="option-text">A) Fails to safe position</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -591,13 +632,13 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(7, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 7
+          // Define correct answers for worksheet 7 (from official document)
           const correctAnswers = {
                 "1": "A",
-                "2": "D",
-                "3": "B",
-                "4": "C",
-                "5": "B"
+                "2": "A",
+                "3": "A",
+                "4": "A",
+                "5": "A"
           };
           
           // Apply visual feedback
@@ -637,9 +678,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }

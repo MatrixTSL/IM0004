@@ -18,6 +18,88 @@
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">    <script src="worksheet-core.js"></script>
 <script src="worksheet-tracking.js"></script>
 
+  <style>
+    /* Simple, beginner-friendly mobile layout for the simulation section */
+    @media (max-width: 768px) {
+      /* Stack the three guide cards vertically */
+      .simulation-section .screen-guides {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Reduce inner paddings to fit small screens */
+      .simulation-section .guide-card,
+      .simulation-section .hmi-screen-frame {
+        padding: 16px !important;
+      }
+
+      /* Controls: place buttons on their own lines if needed */
+      .simulation-section .alarm-controls,
+      .simulation-section .setup-controls,
+      .simulation-section .trend-controls {
+        flex-wrap: wrap;
+      }
+      .simulation-section .alarm-controls .hmi-button,
+      .simulation-section .setup-controls .hmi-button,
+      .simulation-section .trend-controls .hmi-button {
+        flex: 1 1 100%;
+      }
+
+      /* Setup page panels: single column */
+      .simulation-section .setup-panels {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Trend graphs: single column */
+      .simulation-section .trend-graphs {
+        display: grid;
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+
+      /* Make tables scroll horizontally on tiny screens */
+      .simulation-section .alarm-list {
+        overflow-x: auto;
+        overflow-y: auto;
+        max-height: 60vh;
+        -webkit-overflow-scrolling: touch;
+      }
+      .simulation-section .alarm-list table {
+        min-width: 760px !important;
+      }
+      .simulation-section .alarm-list th,
+      .simulation-section .alarm-list td {
+        padding: 10px !important;
+        font-size: 13px !important;
+        line-height: 1.4 !important;
+      }
+      /* Keep short columns on one line, allow description to wrap */
+      .simulation-section .alarm-list td:nth-child(1),
+      .simulation-section .alarm-list td:nth-child(2),
+      .simulation-section .alarm-list td:nth-child(4),
+      .simulation-section .alarm-list td:nth-child(5) {
+        white-space: nowrap !important;
+      }
+      .simulation-section .alarm-list td:nth-child(3) {
+        white-space: normal !important;
+      }
+      /* Make header stay visible when scrolling list */
+      .simulation-section .alarm-list thead th {
+        position: sticky !important;
+        top: 0;
+        z-index: 1;
+      }
+
+      /* Make option labels full width for easy tapping */
+      .simulation-section .multiple-choice-options .option-label {
+        display: block;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- Navigation -->
@@ -216,7 +298,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) To allow operators to interact with the system, view live data, control settings, and diagnose faults</span>
+              <span class="option-text">A) To measure system temperature</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
@@ -228,7 +310,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="D" class="option-radio">
-              <span class="option-text">D) To measure system temperature</span>
+              <span class="option-text">D) Operators view data, adjust settings, and diagnose faults</span>
             </label>
           </div>
           <div class="question-actions">
@@ -244,7 +326,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) Faults are shown in the Faults section; alarms are shown in the Alarms section of the HMI</span>
+              <span class="option-text">A) Faults and alarms are shown on the main screen only</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
@@ -256,7 +338,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="D" class="option-radio">
-              <span class="option-text">D) Faults and alarms are shown in the settings menu</span>
+              <span class="option-text">D) Faults in Faults; alarms in Alarms</span>
             </label>
           </div>
           <div class="question-actions">
@@ -272,11 +354,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The system shuts down and displays a fault; it will not restart until the settings are returned to safe values</span>
+              <span class="option-text">A) The system continues running normally</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) The system continues running normally</span>
+              <span class="option-text">B) System shuts down and faults until values are safe</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
@@ -300,7 +382,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) It logs alarms, shows sensor readings, lets engineers adjust settings, and helps detect issues like hardware faults or inefficiencies</span>
+              <span class="option-text">A) Logs alarms, shows readings, allows adjustments, aids diagnosis</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -328,11 +410,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) The main screen displays the current water temperature in the top left, along with the system diagram. It also shows flow rate, valve position, and pump demand in real time</span>
+              <span class="option-text">A) Only the temperature is shown</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) Only the temperature is shown</span>
+              <span class="option-text">B) Temp, diagram, flow, valve position, pump demand</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
@@ -980,13 +1062,13 @@
           // Save with enhanced tracking
           worksheetTracker.saveAnswer(5, questionNumber, answer, 'maintenance');
           
-          // Define correct answers for worksheet 5
+          // Define correct answers for worksheet 5 (custom order DDBAA)
           const correctAnswers = {
-                "1": "B",
+                "1": "D",
                 "2": "D",
-                "3": "A",
-                "4": "C",
-                "5": "B"
+                "3": "B",
+                "4": "A",
+                "5": "A"
           };
           
           // Apply visual feedback
@@ -1026,9 +1108,18 @@
             }, 2000);
           }
           
-          // Show correct answer if available
+          // Show correct answer if available (dynamically from option text)
           const correctAnswerDiv = answerInput.querySelector('.correct-answer');
           if (correctAnswerDiv) {
+            const correctOptionRadio = answerInput.querySelector(`.option-radio[value="${correctAnswer}"]`);
+            if (correctOptionRadio) {
+              const correctLabel = correctOptionRadio.closest('.option-label');
+              if (correctLabel) {
+                const correctTextSpan = correctLabel.querySelector('.option-text');
+                const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+                correctAnswerDiv.innerHTML = `<strong style=\"color: #4CAF50;\">Correct Answer:</strong> ${correctText}.`;
+              }
+            }
             correctAnswerDiv.style.display = 'block';
           }
         }
