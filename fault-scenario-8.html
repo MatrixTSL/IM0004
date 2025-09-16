@@ -335,6 +335,43 @@
       }
     }
     
+    // Load saved answers
+    function loadSavedAnswers() {
+      const questionTypes = ['observations', 'problem', 'solution'];
+      const worksheetId = 8;
+      const type = 'fault';
+
+      // Try new tracking system format first
+      if (typeof worksheetTracker !== 'undefined') {
+        const progress = worksheetTracker.getWorksheetProgress(worksheetId, type);
+        if (progress.answers && Object.keys(progress.answers).length > 0) {
+          questionTypes.forEach((questionType, index) => {
+            const questionNumber = index + 1; // Convert to 1-based numbering
+            const answerData = progress.answers[questionNumber];
+            if (answerData) {
+              const answerValue = typeof answerData === 'object' ? answerData.value : answerData;
+              const input = document.querySelector(`[data-question="${questionType}"]`);
+              if (input && answerValue) {
+                input.value = answerValue;
+              }
+            }
+          });
+          return; // Don't check old format if new format has data
+        }
+      }
+
+      // Fall back to old format if new format doesn't exist
+      questionTypes.forEach(questionType => {
+        const saved = localStorage.getItem(`fault8_${questionType}`);
+        if (saved) {
+          const input = document.querySelector(`[data-question="${questionType}"]`);
+          if (input) {
+            input.value = saved;
+          }
+        }
+      });
+    }
+
     // Load saved answers on page load
     document.addEventListener('DOMContentLoaded', function() {
       // Flow rate dithering functionality
@@ -348,7 +385,7 @@
           flowElement.textContent = `${currentFlow} L/min`;
         }
       }
-      
+
       // Start the flow rate dithering every 2-3 seconds for realistic behavior
       function startFlowRateDithering() {
         updateFlowRate(); // Initial update
@@ -356,30 +393,12 @@
           updateFlowRate();
         }, 2000 + Math.random() * 1000); // Random interval between 2-3 seconds
       }
-      
+
       // Start dithering
       startFlowRateDithering();
-      
-      // Load observations
-      const savedObservations = localStorage.getItem('fault8_observations');
-      if (savedObservations !== null) {
-        const textarea = document.querySelector('[data-question="observations"]');
-        if (textarea) textarea.value = savedObservations;
-      }
-      
-      // Load problem
-      const savedProblem = localStorage.getItem('fault8_problem');
-      if (savedProblem !== null) {
-        const textarea = document.querySelector('[data-question="problem"]');
-        if (textarea) textarea.value = savedProblem;
-      }
-      
-      // Load solution
-      const savedSolution = localStorage.getItem('fault8_solution');
-      if (savedSolution !== null) {
-        const textarea = document.querySelector('[data-question="solution"]');
-        if (textarea) textarea.value = savedSolution;
-      }
+
+      // Load saved answers
+      loadSavedAnswers();
     });
   </script>
 </body>

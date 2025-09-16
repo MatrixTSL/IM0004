@@ -889,19 +889,46 @@ function loadSavedAnswers() {
   const path = window.location.pathname;
   const isFaultScenario = path.includes('fault-scenario');
   const type = getUrlParameter('type') || (isFaultScenario ? 'fault' : 'maintenance');
-  const key = `worksheet-${type}-${worksheetId}-answers`;
-  
-  const savedAnswers = JSON.parse(localStorage.getItem(key) || '{}');
-  
+
+  // Try new tracking system format first
+  const newKey = `worksheet-${type}-${worksheetId}`;
+  const newData = JSON.parse(localStorage.getItem(newKey) || '{}');
+  let savedAnswers = {};
+
+  if (newData.answers && Object.keys(newData.answers).length > 0) {
+    // New format: extract answer values from the structured data
+    Object.keys(newData.answers).forEach(questionNumber => {
+      const answerData = newData.answers[questionNumber];
+      savedAnswers[questionNumber] = typeof answerData === 'object' ? answerData.value : answerData;
+    });
+  } else {
+    // Fall back to old format if new format doesn't exist
+    const oldKey = `worksheet-${type}-${worksheetId}-answers`;
+    savedAnswers = JSON.parse(localStorage.getItem(oldKey) || '{}');
+  }
+
+  // Load saved answers into the form
   Object.keys(savedAnswers).forEach(questionNumber => {
+    const answerValue = savedAnswers[questionNumber];
+
+    // Try to find radio inputs first (for multiple choice questions)
+    const radioInput = document.querySelector(`input[name="question-${questionNumber}"][value="${answerValue}"]`);
+    if (radioInput) {
+      radioInput.checked = true;
+      return;
+    }
+
+    // Try to find textarea inputs (for text questions)
     const answerInput = document.querySelector(`[data-question="${questionNumber}"]`);
     if (answerInput && answerInput.tagName === 'TEXTAREA') {
-      answerInput.value = savedAnswers[questionNumber];
-    } else if (answerInput && answerInput.type === 'radio') {
-      const radioInput = document.querySelector(`input[name="question-${questionNumber}"][value="${savedAnswers[questionNumber]}"]`);
-      if (radioInput) {
-        radioInput.checked = true;
-      }
+      answerInput.value = answerValue;
+      return;
+    }
+
+    // Try alternative selector patterns
+    const textInput = document.querySelector(`textarea[data-question="${questionNumber}"]`);
+    if (textInput) {
+      textInput.value = answerValue;
     }
   });
 } 

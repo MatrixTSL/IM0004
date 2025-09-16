@@ -557,11 +557,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) The temperature sensor, which measures from 0 to 100°C</span>
+              <span class="option-text">A) The flow sensor, which measures flow rate</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) The flow sensor, which measures flow rate</span>
+              <span class="option-text">B) Temperature sensor (0-100°C)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
@@ -585,11 +585,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) It sends a 0–10V signal, where 0V = 0°C and 10V = 100°C</span>
+              <span class="option-text">A) It sends a 0–24V signal, where 0V = 0°C and 24V = 100°C</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) It sends a 0–24V signal, where 0V = 0°C and 24V = 100°C</span>
+              <span class="option-text">B) 0-10V signal (0V=0°C, 10V=100°C)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
@@ -613,11 +613,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The PLC scales the voltage into a real temperature value using a formula, so it can be shown correctly on the HMI</span>
+              <span class="option-text">A) The PLC amplifies the voltage signal</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) The PLC amplifies the voltage signal</span>
+              <span class="option-text">B) PLC scales voltage to temperature for HMI</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
@@ -641,11 +641,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) The temperature readings will be wrong. For example, it may show 100°C when the real temperature is actually 300°C</span>
+              <span class="option-text">A) The temperature readings will be correct</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) The temperature readings will be correct</span>
+              <span class="option-text">B) Readings will be wrong (shows 100°C when actually 300°C)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
@@ -669,7 +669,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) An offset corrects small errors in readings. For example, if the sensor reads 5°C too high, applying an offset of -5 adjusts it back to the correct value</span>
+              <span class="option-text">A) Corrects small errors (e.g., -5°C offset for 5°C high reading)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
@@ -713,13 +713,13 @@
   <script src="analogue-sensors-simulation.js"></script>
   
   <script>
-    // Define correct answers for worksheet 13
+    // Define correct answers for worksheet 13 (aligned to document, not all A)
     const correctAnswers = {
-      "1": "A",
-      "2": "C",
-      "3": "D",
+      "1": "B",
+      "2": "B",
+      "3": "B",
       "4": "B",
-      "5": "C"
+      "5": "A"
     };
 
     function submitAnswer(questionNumber) {
@@ -772,9 +772,18 @@
         button.classList.remove('incorrect');
       }, 2000);
 
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = questionItem.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = questionItem.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style="color: #4CAF50;">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }

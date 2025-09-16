@@ -22,180 +22,142 @@ function initializeDigitalSensorsSimulation() {
     }
     
     panel.innerHTML = `
-        <div class="simulation-header" style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-            <h3 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-toggle-on"></i> Digital Sensors System
-            </h3>
-            <p style="color: #aaa; margin: 10px 0;">Interactive digital sensors maintenance and troubleshooting simulation</p>
-            
-            <div style="background: #23272b; padding: 15px; border-radius: 5px; margin-top: 15px;">
-                <h4 style="color: #4CAF50; margin-top: 0;">How to Use This Simulation:</h4>
-                <ul style="color: #aaa; margin: 10px 0; padding-left: 20px; line-height: 1.4;">
-                    <li><strong>Digital Sensors:</strong> Toggle sensors to simulate activation/deactivation</li>
-                    <li><strong>PLC Inputs:</strong> Monitor how sensor states affect PLC inputs</li>
-                    <li><strong>Wiring:</strong> Test connections and identify faults</li>
-                    <li><strong>Maintenance:</strong> Perform system checks and verify operation</li>
-                </ul>
-            </div>
+        <style>
+          #digital-sensors-panel .card { background: #1a1a1a; padding: 16px; border-radius: 8px; margin-bottom: 16px; }
+          #digital-sensors-panel .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #digital-sensors-panel .two-col { display: grid; grid-template-columns: 1fr; gap: 16px; }
+          #digital-sensors-panel .sensor-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+          #digital-sensors-panel .plc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; }
+          #digital-sensors-panel .sensor-item { background: #23272b; padding: 12px; border-radius: 8px; border: 1px solid #333; display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; }
+          #digital-sensors-panel .sensor-label { color: #aaa; font-weight: bold; display: flex; align-items: center; gap: 8px; }
+          #digital-sensors-panel .sensor-indicator { width: 32px; height: 32px; border-radius: 50%; position: relative; transition: all 0.3s ease; }
+          #digital-sensors-panel .sensor-indicator.off { background: linear-gradient(145deg, #1a1a1a, #333); box-shadow: inset 0 0 8px rgba(0,0,0,0.5); }
+          #digital-sensors-panel .sensor-indicator.on { background: linear-gradient(145deg, #4CAF50, #388E3C); box-shadow: 0 0 16px rgba(76,175,80,0.4); }
+          #digital-sensors-panel .sensor-indicator::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 16px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+          #digital-sensors-panel .toggle-btn { background: #2196F3; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s ease; display: flex; align-items: center; gap: 6px; font-size: 0.9em; }
+          #digital-sensors-panel .toggle-btn:hover { background: #1976D2; box-shadow: 0 0 12px rgba(33,150,243,0.3); }
+          #digital-sensors-panel .wiring-diagram { background: #23272b; padding: 16px; border-radius: 8px; margin: 16px 0; position: relative; height: 180px; overflow: hidden; }
+          #digital-sensors-panel .wire { position: absolute; background: #444; transition: all 0.3s ease; }
+          #digital-sensors-panel .wire.active { background: #2196F3; box-shadow: 0 0 8px rgba(33,150,243,0.4); }
+          #digital-sensors-panel .wire.fault { background: #FF5722; box-shadow: 0 0 8px rgba(255,87,34,0.4); }
+          #digital-sensors-panel .connection-point { position: absolute; width: 10px; height: 10px; background: #666; border-radius: 50%; border: 2px solid #444; transition: all 0.3s ease; }
+          #digital-sensors-panel .connection-point.active { background: #2196F3; border-color: #1976D2; box-shadow: 0 0 8px rgba(33,150,243,0.4); }
+          #digital-sensors-panel .connection-point.fault { background: #FF5722; border-color: #F4511E; box-shadow: 0 0 8px rgba(255,87,34,0.4); }
+          #digital-sensors-panel .plc-input { background: #23272b; padding: 12px; border-radius: 8px; text-align: center; border: 1px solid #333; }
+          #digital-sensors-panel .input-label { color: #aaa; display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9em; }
+          #digital-sensors-panel .plc-indicator { width: 24px; height: 24px; border-radius: 50%; margin: 0 auto; transition: all 0.3s ease; }
+          #digital-sensors-panel .plc-indicator.off { background: linear-gradient(145deg, #1a1a1a, #333); box-shadow: inset 0 0 8px rgba(0,0,0,0.5); }
+          #digital-sensors-panel .plc-indicator.on { background: linear-gradient(145deg, #2196F3, #1976D2); box-shadow: 0 0 16px rgba(33,150,243,0.4); }
+          #digital-sensors-panel .maintenance-btn, #digital-sensors-panel .fault-btn { width: 100%; padding: 10px; border: none; border-radius: 5px; color: white; font-weight: bold; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px; font-size: 0.9em; }
+          #digital-sensors-panel .maintenance-btn { background: #2196F3; }
+          #digital-sensors-panel .maintenance-btn:hover { background: #1976D2; box-shadow: 0 0 12px rgba(33,150,243,0.3); }
+          #digital-sensors-panel .fault-btn { background: #FF5722; }
+          #digital-sensors-panel .fault-btn:hover { background: #F4511E; box-shadow: 0 0 12px rgba(255,87,34,0.3); }
+          #digital-sensors-panel .task-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; padding: 8px; background: #23272b; border-radius: 5px; cursor: pointer; }
+          #digital-sensors-panel .task-item input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
+          #digital-sensors-panel .task-item label { color: #aaa; cursor: pointer; flex: 1; font-size: 0.9em; }
+          #digital-sensors-panel .diagnostic-log { background: #23272b; padding: 12px; border-radius: 5px; max-height: 180px; overflow-y: auto; font-family: monospace; color: #aaa; margin-top: 8px; font-size: 0.85em; }
+          #digital-sensors-panel .diagnostic-log p { margin: 4px 0; padding: 4px; border-radius: 3px; transition: background-color 0.3s ease; }
+          #digital-sensors-panel .diagnostic-log p:hover { background: rgba(255,255,255,0.05); }
+          @media (min-width: 900px) {
+            #digital-sensors-panel .two-col { grid-template-columns: 1fr 320px; }
+            #digital-sensors-panel .sensor-grid { grid-template-columns: 1fr; }
+            #digital-sensors-panel .plc-grid { grid-template-columns: repeat(3, 1fr); }
+          }
+        </style>
+        <div class="card">
+          <h3 style="color:#2196F3; margin:0; display:flex; align-items:center; gap:10px;">
+            <i class="fas fa-toggle-on"></i> Digital Sensors System
+          </h3>
+          <p style="color:#aaa; margin:8px 0 0 0;">Interactive digital sensors maintenance and troubleshooting simulation</p>
         </div>
-        
-        <div class="simulation-grid" style="display: grid; grid-template-columns: 1fr 300px; gap: 20px;">
-            <div class="simulation-left">
-                <!-- Sensors Visualization -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-microchip"></i> Digital Sensors Status
-                    </h4>
-                    
-                    <div id="sensors-display" class="sensors-display">
-                        <div class="sensor-item">
-                            <div class="sensor-label">
-                                <i class="fas fa-circle"></i> Sensor 1 (NO)
-                            </div>
-                            <div id="sensor1-indicator" class="sensor-indicator off"></div>
-                            <button id="toggle-sensor1" class="toggle-btn">
-                                <i class="fas fa-power-off"></i> Toggle
-                            </button>
-                        </div>
-                        <div class="sensor-item">
-                            <div class="sensor-label">
-                                <i class="fas fa-circle"></i> Sensor 2 (NC)
-                            </div>
-                            <div id="sensor2-indicator" class="sensor-indicator off"></div>
-                            <button id="toggle-sensor2" class="toggle-btn">
-                                <i class="fas fa-power-off"></i> Toggle
-                            </button>
-                        </div>
-                        <div class="sensor-item">
-                            <div class="sensor-label">
-                                <i class="fas fa-circle"></i> Sensor 3 (NO)
-                            </div>
-                            <div id="sensor3-indicator" class="sensor-indicator off"></div>
-                            <button id="toggle-sensor3" class="toggle-btn">
-                                <i class="fas fa-power-off"></i> Toggle
-                            </button>
-                        </div>
-                    </div>
+        <div class="two-col">
+          <div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-microchip"></i> Digital Sensors Status</h4>
+              <div id="sensors-display" class="sensor-grid">
+                <div class="sensor-item">
+                  <div class="sensor-label"><i class="fas fa-circle"></i> Sensor 1 (NO)</div>
+                  <div id="sensor1-indicator" class="sensor-indicator off"></div>
+                  <button id="toggle-sensor1" class="toggle-btn"><i class="fas fa-power-off"></i> Toggle</button>
                 </div>
-                
-                <!-- Wiring Diagram -->
-                <div class="wiring-diagram">
-                    <div id="wire1" class="wire"></div>
-                    <div id="wire2" class="wire"></div>
-                    <div id="wire3" class="wire"></div>
-                    
-                    <div id="sensor1-point" class="connection-point" style="left: 20px; top: 50px;"></div>
-                    <div id="sensor2-point" class="connection-point" style="left: 20px; top: 100px;"></div>
-                    <div id="sensor3-point" class="connection-point" style="left: 20px; top: 150px;"></div>
-                    
-                    <div id="plc1-point" class="connection-point" style="right: 20px; top: 50px;"></div>
-                    <div id="plc2-point" class="connection-point" style="right: 20px; top: 100px;"></div>
-                    <div id="plc3-point" class="connection-point" style="right: 20px; top: 150px;"></div>
+                <div class="sensor-item">
+                  <div class="sensor-label"><i class="fas fa-circle"></i> Sensor 2 (NC)</div>
+                  <div id="sensor2-indicator" class="sensor-indicator off"></div>
+                  <button id="toggle-sensor2" class="toggle-btn"><i class="fas fa-power-off"></i> Toggle</button>
                 </div>
-                
-                <!-- PLC Status -->
-                <div class="plc-status">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-microchip"></i> PLC Input Status
-                    </h4>
-                    <div class="plc-indicators">
-                        <div class="plc-input">
-                            <span class="input-label">Input 1</span>
-                            <div id="plc-input1" class="plc-indicator off"></div>
-                            <div style="color: #666; margin-top: 5px;">0-24V DC</div>
-                        </div>
-                        <div class="plc-input">
-                            <span class="input-label">Input 2</span>
-                            <div id="plc-input2" class="plc-indicator off"></div>
-                            <div style="color: #666; margin-top: 5px;">0-24V DC</div>
-                        </div>
-                        <div class="plc-input">
-                            <span class="input-label">Input 3</span>
-                            <div id="plc-input3" class="plc-indicator off"></div>
-                            <div style="color: #666; margin-top: 5px;">0-24V DC</div>
-                        </div>
-                    </div>
+                <div class="sensor-item">
+                  <div class="sensor-label"><i class="fas fa-circle"></i> Sensor 3 (NO)</div>
+                  <div id="sensor3-indicator" class="sensor-indicator off"></div>
+                  <button id="toggle-sensor3" class="toggle-btn"><i class="fas fa-power-off"></i> Toggle</button>
                 </div>
+              </div>
             </div>
-            
-            <div class="simulation-right">
-                <!-- Maintenance Tools -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tools"></i> Maintenance Tools
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="test-continuity" class="maintenance-btn">
-                            <i class="fas fa-bolt"></i> Test Continuity
-                        </button>
-                        <button id="check-wiring" class="maintenance-btn">
-                            <i class="fas fa-plug"></i> Check Wiring
-                        </button>
-                        <button id="verify-logic" class="maintenance-btn">
-                            <i class="fas fa-code-branch"></i> Verify Logic
-                        </button>
-                        <button id="reset-sensors" class="maintenance-btn">
-                            <i class="fas fa-undo"></i> Reset Sensors
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Fault Injection -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h4 style="color: #FF5722; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-exclamation-triangle"></i> Fault Injection
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <button id="inject-wiring" class="fault-btn">
-                            <i class="fas fa-cut"></i> Wiring Fault
-                        </button>
-                        <button id="inject-sensor" class="fault-btn">
-                            <i class="fas fa-exclamation-circle"></i> Sensor Fault
-                        </button>
-                        <button id="inject-logic" class="fault-btn">
-                            <i class="fas fa-random"></i> Logic Fault
-                        </button>
-                        <button id="clear-faults" style="background: #4CAF50; color: white; border: none; padding: 12px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-broom"></i> Clear All Faults
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Maintenance Tasks -->
-                <div style="background: #1a1a1a; padding: 20px; border-radius: 8px;">
-                    <h4 style="color: #4CAF50; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                        <i class="fas fa-tasks"></i> Maintenance Tasks
-                    </h4>
-                    <div style="display: grid; gap: 10px;">
-                        <label class="task-item">
-                            <input type="checkbox" id="task-continuity">
-                            <span>Test wire continuity</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-wiring">
-                            <span>Check terminal connections</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-logic">
-                            <span>Verify NO/NC logic</span>
-                        </label>
-                        <label class="task-item">
-                            <input type="checkbox" id="task-interface">
-                            <span>Test interface requirements</span>
-                        </label>
-                    </div>
-                </div>
+            <div class="wiring-diagram">
+              <div id="wire1" class="wire"></div>
+              <div id="wire2" class="wire"></div>
+              <div id="wire3" class="wire"></div>
+              <div id="sensor1-point" class="connection-point" style="left: 16px; top: 40px;"></div>
+              <div id="sensor2-point" class="connection-point" style="left: 16px; top: 80px;"></div>
+              <div id="sensor3-point" class="connection-point" style="left: 16px; top: 120px;"></div>
+              <div id="plc1-point" class="connection-point" style="right: 16px; top: 40px;"></div>
+              <div id="plc2-point" class="connection-point" style="right: 16px; top: 80px;"></div>
+              <div id="plc3-point" class="connection-point" style="right: 16px; top: 120px;"></div>
             </div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-microchip"></i> PLC Input Status</h4>
+              <div class="plc-grid">
+                <div class="plc-input">
+                  <span class="input-label">Input 1</span>
+                  <div id="plc-input1" class="plc-indicator off"></div>
+                  <div style="color: #666; margin-top: 4px; font-size: 0.8em;">0-24V DC</div>
+                </div>
+                <div class="plc-input">
+                  <span class="input-label">Input 2</span>
+                  <div id="plc-input2" class="plc-indicator off"></div>
+                  <div style="color: #666; margin-top: 4px; font-size: 0.8em;">0-24V DC</div>
+                </div>
+                <div class="plc-input">
+                  <span class="input-label">Input 3</span>
+                  <div id="plc-input3" class="plc-indicator off"></div>
+                  <div style="color: #666; margin-top: 4px; font-size: 0.8em;">0-24V DC</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="card">
+              <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tools"></i> Maintenance Tools</h4>
+              <div class="grid">
+                <button id="test-continuity" class="maintenance-btn"><i class="fas fa-bolt"></i> Test Continuity</button>
+                <button id="check-wiring" class="maintenance-btn"><i class="fas fa-plug"></i> Check Wiring</button>
+                <button id="verify-logic" class="maintenance-btn"><i class="fas fa-code-branch"></i> Verify Logic</button>
+                <button id="reset-sensors" class="maintenance-btn"><i class="fas fa-undo"></i> Reset Sensors</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#FF5722; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-exclamation-triangle"></i> Fault Injection</h4>
+              <div class="grid">
+                <button id="inject-wiring" class="fault-btn"><i class="fas fa-cut"></i> Wiring Fault</button>
+                <button id="inject-sensor" class="fault-btn"><i class="fas fa-exclamation-circle"></i> Sensor Fault</button>
+                <button id="inject-logic" class="fault-btn"><i class="fas fa-random"></i> Logic Fault</button>
+                <button id="clear-faults" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9em;"><i class="fas fa-broom"></i> Clear All Faults</button>
+              </div>
+            </div>
+            <div class="card">
+              <h4 style="color:#4CAF50; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-tasks"></i> Maintenance Tasks</h4>
+              <div class="grid">
+                <label class="task-item"><input type="checkbox" id="task-continuity"><span>Test wire continuity</span></label>
+                <label class="task-item"><input type="checkbox" id="task-wiring"><span>Check terminal connections</span></label>
+                <label class="task-item"><input type="checkbox" id="task-logic"><span>Verify NO/NC logic</span></label>
+                <label class="task-item"><input type="checkbox" id="task-interface"><span>Test interface requirements</span></label>
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <!-- Diagnostic Information -->
-        <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-top: 20px;">
-            <h4 style="color: #2196F3; margin-top: 0; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-terminal"></i> Diagnostic Information
-            </h4>
-            <div id="diagnostic-log" class="diagnostic-log">
-                <p>System initialized. Digital sensors ready for testing.</p>
-            </div>
+        <div class="card">
+          <h4 style="color:#2196F3; margin:0 0 10px 0; display:flex; align-items:center; gap:10px;"><i class="fas fa-terminal"></i> Diagnostic Information</h4>
+          <div id="diagnostic-log" class="diagnostic-log"><p>System initialized. Digital sensors ready for testing.</p></div>
         </div>
     `;
     

@@ -1,8 +1,8 @@
 git add -A
-git commit -m "version"
+git commit -m "ws13 corrected"
 git push origin main; git push matrix
 
 python -m http.server 8000
 
 
-git tag -a v1.2.3 -m "Release v1.2.3"; git push origin v1.2.3; git push matrix v1.2.3
+git tag -a v1.2.6 -m "Release v1.2.6"; git push origin v1.2.6; git push matrix v1.2.6

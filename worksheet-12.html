@@ -494,11 +494,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) A digital sensor sends a simple on/off signal, usually using 24V DC</span>
+              <span class="option-text">A) A digital sensor sends a continuous analog signal</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) A digital sensor sends a continuous analog signal</span>
+              <span class="option-text">B) On/off signal (typically 24V)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-1" value="C" class="option-radio">
@@ -522,11 +522,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) You can view the input status directly on the PLC or on the IO screen of the HMI</span>
+              <span class="option-text">A) You can only monitor it with a multimeter</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) You can only monitor it with a multimeter</span>
+              <span class="option-text">B) View status on PLC or HMI IO screen</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-2" value="C" class="option-radio">
@@ -550,19 +550,19 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) A NO sensor sends a signal only when triggered, while an NC sensor sends a signal when idle and stops when triggered</span>
+              <span class="option-text">A) A NO sensor is always on, an NC sensor is always off</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) A NO sensor is always on, an NC sensor is always off</span>
+              <span class="option-text">B) There is no difference between them</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="C" class="option-radio">
-              <span class="option-text">C) A NO sensor measures temperature, an NC sensor measures pressure</span>
+              <span class="option-text">C) NO: sends when triggered; NC: sends when idle</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) There is no difference between them</span>
+              <span class="option-text">D) A NO sensor measures temperature, an NC sensor measures pressure</span>
             </label>
           </div>
           <div class="question-actions">
@@ -578,7 +578,7 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) So that if a wire breaks or becomes disconnected, the system sees it as a fault and shuts down for safety</span>
+              <span class="option-text">A) So they use less power</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="B" class="option-radio">
@@ -586,7 +586,7 @@
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) So they use less power</span>
+              <span class="option-text">C) Wire break safety (failsafe)</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-4" value="D" class="option-radio">
@@ -606,11 +606,11 @@
           <div class="multiple-choice-options">
             <label class="option-label">
               <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) Flow sensor, tank high switch, tank low switch, tank lid proximity switch, two E-Stop channels, and the blue reset switch</span>
+              <span class="option-text">A) Flow, temp, pressure, level, valve, pump, reset</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) E-Stop Ch1, E-Stop Ch2, Reset Button, Tank High Float [NC], Tank Low Float [NO], Tank Cover Switch.</span>
+              <span class="option-text">B) Flow, High, Low, Lid proximity, E-Stop Ch1, E-Stop Ch2, Reset</span>
             </label>
             <label class="option-label">
               <input type="radio" name="question-5" value="C" class="option-radio">
@@ -650,11 +650,11 @@
   <script src="digital-sensors-simulation.js"></script>
   
   <script>
-    // Define correct answers for worksheet 12
+    // Define correct answers for worksheet 12 (aligned to document, not all A)
     const correctAnswers = {
-      "1": "A",
+      "1": "B",
       "2": "B",
-      "3": "D",
+      "3": "C",
       "4": "C",
       "5": "B"
     };
@@ -709,9 +709,18 @@
         button.classList.remove('incorrect');
       }, 2000);
 
-      // Show correct answer
+      // Show correct answer (dynamically from option text)
       const correctAnswerDiv = questionItem.querySelector('.correct-answer');
       if (correctAnswerDiv) {
+        const correctOptionRadio = questionItem.querySelector(`.option-radio[value="${correctAnswer}"]`);
+        if (correctOptionRadio) {
+          const correctLabel = correctOptionRadio.closest('.option-label');
+          if (correctLabel) {
+            const correctTextSpan = correctLabel.querySelector('.option-text');
+            const correctText = correctTextSpan ? correctTextSpan.textContent : `${correctAnswer}`;
+            correctAnswerDiv.innerHTML = `<strong style=\"color: #4CAF50;\">Correct Answer:</strong> ${correctText}.`;
+          }
+        }
         correctAnswerDiv.style.display = 'block';
       }
     }

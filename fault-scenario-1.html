@@ -1118,10 +1118,33 @@
     // Load saved answers
     function loadSavedAnswers() {
       const questionTypes = ['observations', 'problem', 'solution'];
-      questionTypes.forEach(type => {
-        const saved = localStorage.getItem(`fault1_${type}`);
+      const worksheetId = 1;
+      const type = 'fault';
+
+      // Try new tracking system format first
+      if (typeof worksheetTracker !== 'undefined') {
+        const progress = worksheetTracker.getWorksheetProgress(worksheetId, type);
+        if (progress.answers && Object.keys(progress.answers).length > 0) {
+          questionTypes.forEach((questionType, index) => {
+            const questionNumber = index + 1; // Convert to 1-based numbering
+            const answerData = progress.answers[questionNumber];
+            if (answerData) {
+              const answerValue = typeof answerData === 'object' ? answerData.value : answerData;
+              const input = document.querySelector(`[data-question="${questionType}"]`);
+              if (input && answerValue) {
+                input.value = answerValue;
+              }
+            }
+          });
+          return; // Don't check old format if new format has data
+        }
+      }
+
+      // Fall back to old format if new format doesn't exist
+      questionTypes.forEach(questionType => {
+        const saved = localStorage.getItem(`fault1_${questionType}`);
         if (saved) {
-          const input = document.querySelector(`[data-question="${type}"]`);
+          const input = document.querySelector(`[data-question="${questionType}"]`);
           if (input) {
             input.value = saved;
           }
