@@ -163,6 +163,17 @@
           </div>
         </div>
 
+        <!-- Flashing Green LED Card -->
+        <div class="explanation-card">
+          <div class="card-header">
+            <i class="fas fa-circle flashing-green" style="color: #4CAF50;"></i>
+            <h3>Flashing Green LED - System Starting Up</h3>
+          </div>
+          <div class="card-content">
+            <p>Flashing green indicates the system is in the startup sequence. This state shows during initialization and self-test procedures before normal operation begins.</p>
+          </div>
+        </div>
+
         <!-- Orange LED Card -->
         <div class="explanation-card">
           <div class="card-header">
@@ -209,6 +220,15 @@
               </div>
               <div class="key-point-content">
                 <strong>Green means normal operation.</strong>
+              </div>
+            </div>
+            
+            <div class="key-point-item">
+              <div class="key-point-icon flashing-green" style="background: #4CAF50;">
+                <i class="fas fa-circle" style="color: #ffffff;"></i>
+              </div>
+              <div class="key-point-content">
+                <strong>Flashing green indicates system startup sequence.</strong>
               </div>
             </div>
             
@@ -476,6 +496,9 @@
                   <button class="led-state-btn" data-state="green" style="background: linear-gradient(145deg, #4CAF50, #45A049); color: white; border: 2px solid #66BB6A; padding: 18px 12px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4), 0 3px 6px rgba(0,0,0,0.3); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(76, 175, 80, 0.5), 0 4px 8px rgba(0,0,0,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 12px rgba(76, 175, 80, 0.4), 0 3px 6px rgba(0,0,0,0.3)'" onmousedown="this.style.transform='translateY(1px)'" onmouseup="this.style.transform='translateY(-2px)'">
                     <i class="fas fa-circle" style="font-size: 16px; margin-bottom: 6px; display: block;"></i>NORMAL
                   </button>
+                  <button class="led-state-btn" data-state="flashing-green" style="background: linear-gradient(145deg, #4CAF50, #45A049); color: white; border: 2px solid #66BB6A; padding: 18px 12px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4), 0 3px 6px rgba(0,0,0,0.3); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(76, 175, 80, 0.5), 0 4px 8px rgba(0,0,0,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 12px rgba(76, 175, 80, 0.4), 0 3px 6px rgba(0,0,0,0.3)'" onmousedown="this.style.transform='translateY(1px)'" onmouseup="this.style.transform='translateY(-2px)'">
+                    <i class="fas fa-circle" style="font-size: 16px; margin-bottom: 6px; display: block;"></i>STARTUP
+                  </button>
                   <button class="led-state-btn" data-state="yellow" style="background: linear-gradient(145deg, #FF9800, #FB8C00); color: white; border: 2px solid #FFB74D; padding: 18px 12px; border-radius: 12px; cursor: pointer; font-weight: bold; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 6px 12px rgba(255, 152, 0, 0.4), 0 3px 6px rgba(0,0,0,0.3); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 16px rgba(255, 152, 0, 0.5), 0 4px 8px rgba(0,0,0,0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 6px 12px rgba(255, 152, 0, 0.4), 0 3px 6px rgba(0,0,0,0.3)'" onmousedown="this.style.transform='translateY(1px)'" onmouseup="this.style.transform='translateY(-2px)'">
                     <i class="fas fa-exclamation-triangle" style="font-size: 16px; margin-bottom: 6px; display: block;"></i>WARNING
                   </button>
@@ -498,6 +521,7 @@
                   <h6 style="color: #FFFFFF; margin-bottom: 10px; font-size: 18px;">LED State Reference:</h6>
                   <div style="font-size: 16px; color: #AAA; line-height: 1.5;">
                     <div style="margin-bottom: 8px;">🟢 <strong>Green:</strong> Normal operation, all systems OK</div>
+                    <div style="margin-bottom: 8px;">🟢 <strong>Flashing Green:</strong> System startup sequence, initialization in progress</div>
                     <div style="margin-bottom: 8px;">🟡 <strong>Yellow:</strong> Warning condition, attention needed</div>
                     <div style="margin-bottom: 8px;">🔴 <strong>Red:</strong> Fault condition, immediate action required</div>
                     <div style="margin-bottom: 8px;">🟡 <strong>Flashing Yellow:</strong> Escalating warning, urgent attention</div>
@@ -862,6 +886,7 @@
       const states = {
         'off': { color: '#333', glow: 'none', description: 'System Off', meaning: 'No power or system shutdown' },
         'green': { color: '#4CAF50', glow: '0 0 30px rgba(76, 175, 80, 0.6)', description: 'Normal Operation', meaning: 'All systems operating normally' },
+        'flashing-green': { color: '#4CAF50', glow: '0 0 30px rgba(76, 175, 80, 0.6)', description: 'System Starting Up', meaning: 'System startup sequence, initialization in progress' },
         'yellow': { color: '#FF9800', glow: '0 0 30px rgba(255, 152, 0, 0.6)', description: 'Warning', meaning: 'Minor fault detected, attention required' },
         'red': { color: '#F44336', glow: '0 0 30px rgba(244, 67, 54, 0.6)', description: 'Fault', meaning: 'Critical fault, immediate action required' },
         'flashing-yellow': { color: '#FF9800', glow: '0 0 30px rgba(255, 152, 0, 0.6)', description: 'Warning - Flashing', meaning: 'Warning condition escalating, urgent attention needed' },
@@ -949,7 +974,7 @@
     }
     
     function checkStep1Completion() {
-      const requiredStates = ['green', 'yellow', 'red', 'flashing-yellow', 'flashing-red', 'off'];
+      const requiredStates = ['green', 'flashing-green', 'yellow', 'red', 'flashing-yellow', 'flashing-red', 'off'];
       const allExplored = requiredStates.every(state => statesExplored.includes(state));
       
       const completeBtn = document.getElementById('complete-step-1');

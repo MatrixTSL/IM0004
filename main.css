@@ -158,6 +158,21 @@ body::before {
     }
 }
 
+@keyframes flashGreen {
+    0%, 50% {
+        background: #4CAF50;
+        box-shadow: 0 0 30px rgba(76, 175, 80, 0.6);
+    }
+    51%, 100% {
+        background: #333;
+        box-shadow: none;
+    }
+}
+
+.flashing-green {
+    animation: flashGreen 1s infinite;
+}
+
 
 
 h1 {
