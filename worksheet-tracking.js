@@ -18,7 +18,8 @@ class WorksheetTracker {
         { id: 11, title: "Temperature Sensor System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 12, title: "Digital Sensors System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 13, title: "Analogue Sensors System Maintenance", type: "maintenance", totalQuestions: 5 },
-        { id: 14, title: "Fault Detection & Troubleshooting", type: "maintenance", totalQuestions: 5 }
+        { id: 14, title: "Fault Detection & Troubleshooting", type: "maintenance", totalQuestions: 5 },
+        { id: 15, title: "Lock Out Tag Out", type: "maintenance", totalQuestions: 5 }
       ],
       fault: [
         { id: 1, title: "Titanium Forging System Failure", type: "fault", totalQuestions: 3 },

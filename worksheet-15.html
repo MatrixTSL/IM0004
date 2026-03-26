@@ -12,7 +12,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Matrix TSL - Fault Detection & Troubleshooting</title>
+  <title>Matrix TSL - Lock Out Tag Out</title>
   <link rel="stylesheet" href="main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="icon" type="image/x-icon" href="assets/icons/matrix-icon.ico">
@@ -341,18 +341,18 @@
     <div class="worksheet-header">
       <div class="worksheet-header-content">
         <div class="worksheet-header-left">
-          <button class="worksheet-nav-btn worksheet-back-btn" onclick="window.location.href='worksheet-13.html'">
+          <button class="worksheet-nav-btn worksheet-back-btn" onclick="window.location.href='worksheet-14.html'">
             <i class="fas fa-arrow-left"></i>
             <span>Previous Worksheet</span>
           </button>
         </div>
         <div class="worksheet-header-center">
-          <h1 class="worksheet-title">Worksheet 14 - Fault Detection & Troubleshooting</h1>
+          <h1 class="worksheet-title">Worksheet 15 - Lock Out Tag Out</h1>
         </div>
         <div class="worksheet-header-right">
-          <button class="worksheet-nav-btn worksheet-next-btn" onclick="window.location.href='worksheet-15.html'">
-            <span>Next Worksheet</span>
-            <i class="fas fa-arrow-right"></i>
+          <button class="worksheet-nav-btn worksheet-next-btn" onclick="window.location.href='index.html'">
+            <span>Back to Home</span>
+            <i class="fas fa-home"></i>
           </button>
         </div>
       </div>
@@ -362,11 +362,11 @@
       <div class="worksheet-content">
         <div class="introduction-content-wrapper">
           <div class="introduction-text">
-            <p>This worksheet covers comprehensive fault detection and troubleshooting procedures for closed-loop control systems. Learn systematic approaches to identify, diagnose, and resolve faults in industrial systems using advanced diagnostic techniques and root cause analysis.</p>
+            <p>Lockout Tagout (LOTO) is a safety procedure used to ensure equipment is properly isolated before maintenance or inspection. Locking off a valve prevents flow through the system, for example when removing a pipe downstream of the valve. This worksheet helps you understand how proper isolation protects people and equipment when working on a PLC controlled closed loop system.</p>
           </div>
           <div class="introduction-image">
             <div class="system-diagram">
-              <img src="assets/maintenance/faults.png" alt="Fault Detection & Troubleshooting">
+              <img src="assets/maintenance/LOTO.png" alt="Lock Out Tag Out">
             </div>
           </div>
         </div>
@@ -382,69 +382,52 @@
             <div class="step-number">1</div>
             <div class="step-content">
               <div class="step-header">
-                <h4>Run the System and Trigger E-Stop</h4>
+                <h4>Close the Valve</h4>
                 <label class="step-checkbox">
                   <input type="checkbox" class="step-complete-checkbox">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <p>Run the system and then hit the E-Stop.</p>
+              <p>Close the valve by rotating it fully clockwise.</p>
             </div>
           </div>
           <div class="step-card" data-step="2">
             <div class="step-number">2</div>
             <div class="step-content">
               <div class="step-header">
-                <h4>Check Alarms Page</h4>
+                <h4>Fit the LOTO Cover</h4>
                 <label class="step-checkbox">
                   <input type="checkbox" class="step-complete-checkbox">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <p>Before clearing the fault, close the popup and navigate to the <strong>Alarms</strong> page on the HMI.<br>
-              This is a common way of displaying alarms, in a tabular format, with date and time.</p>
+              <p>Place the LOTO cover for the valve around the valve.</p>
             </div>
           </div>
           <div class="step-card" data-step="3">
             <div class="step-number">3</div>
             <div class="step-content">
               <div class="step-header">
-                <h4>Check Alarm Raise Time</h4>
+                <h4>Install and Lock the Padlock</h4>
                 <label class="step-checkbox">
                   <input type="checkbox" class="step-complete-checkbox">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <p>Check the raise time of the alarm. This is the time the alarm occurred. Checking this time when an alarm occurs is important.</p>
+              <p>Open the padlock and place the padlock through the two holes to lock the cover in place. Lock the padlock and remove the key.</p>
             </div>
           </div>
           <div class="step-card" data-step="4">
             <div class="step-number">4</div>
             <div class="step-content">
               <div class="step-header">
-                <h4>Check Fault Page</h4>
+                <h4>Run the System and Observe</h4>
                 <label class="step-checkbox">
                   <input type="checkbox" class="step-complete-checkbox">
                   <span class="checkmark"></span>
                 </label>
               </div>
-              <p>Navigate back to the Main Menu and then to the <strong>Fault Page</strong> on the HMI.<br>
-              This is a page similar to the IO page, where it displays all the faults that occur in the software.<br>
-              It shows the status of each fault, active or inactive.</p>
-            </div>
-          </div>
-          <div class="step-card" data-step="5">
-            <div class="step-number">5</div>
-            <div class="step-content">
-              <div class="step-header">
-                <h4>Test Other Faults</h4>
-                <label class="step-checkbox">
-                  <input type="checkbox" class="step-complete-checkbox">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-              <p>Reset the Emergency Stop and try another fault, like the proximity switch or temperature offset.<br>
-              Navigate to the Faults and Alarms pages and view the new fault.</p>
+              <p>The system will attempt to run but should eventually shut off due to no flow. With the key kept on your person, it is safe to remove components downstream of the locked valve.</p>
             </div>
           </div>
         </div>
@@ -455,118 +438,30 @@
     <div class="worksheet-section so-what-section">
       <h2 class="section-header"><i class="fas fa-lightbulb"></i> 3. So What?</h2>
       <div class="so-what-content">
-        <!-- Fault Finding Overview Card -->
         <div class="explanation-card">
           <div class="card-header">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h3>Fault Finding System Overview</h3>
+            <i class="fas fa-lock"></i>
+            <h3>Why Lockout Tagout Matters</h3>
           </div>
           <div class="card-content">
-            <p>To become proficient in fault finding, you must develop an understanding of system behaviours and learn to recognize abnormal conditions.</p>
+            <p>Lockout Tagout is used in industry to prevent the release of hazardous energy during maintenance. By locking off a valve, you physically stop flow in the process and ensure that downstream pipework or components can be safely removed without unexpected fluid movement.</p>
+            <p>Even if a PLC commands the system to run, the locked valve prevents flow, creating a controlled and safe condition. This demonstrates that physical isolation is essential and should not rely on software control alone.</p>
+            <p>Keeping the key with the person performing the work ensures that only they can remove the lock, preventing accidental re-energisation. Keep the key with you at all times, your life may depend on it.</p>
           </div>
         </div>
 
-        <!-- Fault Types Card -->
-        <div class="explanation-card">
-          <div class="card-header">
-            <i class="fas fa-cogs"></i>
-            <h3>Types of Industrial Faults</h3>
-          </div>
-          <div class="card-content">
-            <div class="key-points-grid">
-              <div class="key-point-item">
-                <div class="key-point-icon">
-                  <i class="fas fa-code"></i>
-                </div>
-                <div class="key-point-content">
-                  <strong>Software Faults</strong>
-                  <p>These occur due to incorrect programming or parameter settings that cause the system to behave unpredictably. For example, a temperature offset in software can prevent the system from starting.</p>
-                </div>
-              </div>
-              
-              <div class="key-point-item">
-                <div class="key-point-icon">
-                  <i class="fas fa-bolt"></i>
-                </div>
-                <div class="key-point-content">
-                  <strong>Electrical Faults</strong>
-                  <p>These arise from issues such as broken connections, faulty wiring, or sensor failures, leading to incorrect readings or system shutdowns.</p>
-                </div>
-              </div>
-              
-              <div class="key-point-item">
-                <div class="key-point-icon">
-                  <i class="fas fa-cogs"></i>
-                </div>
-                <div class="key-point-content">
-                  <strong>Mechanical Faults</strong>
-                  <p>These involve physical issues like stuck valves or damaged components, affecting the movement of fluids or mechanical parts.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Key Learning Points Card -->
         <div class="key-points-card">
           <div class="card-header">
-            <i class="fas fa-lightbulb"></i>
-            <h3>Key Learning Points</h3>
+            <i class="fas fa-check-circle"></i>
+            <h3>Key Takeaways</h3>
           </div>
           <div class="key-points-grid">
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-tools"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Fault finding is a critical skill in industrial maintenance, used to identify and fix mechanical, electrical, and software issues.</strong>
-              </div>
-            </div>
-            
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-search"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Industrial faults are either software (settings or code issues), electrical (wiring or sensor faults), or mechanical (stuck or damaged parts).</strong>
-              </div>
-            </div>
-            
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-desktop"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Alarms and fault screens on the HMI help diagnose issues by showing when and where a fault occurred.</strong>
-              </div>
-            </div>
-            
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Checking the alarm raise time can help trace when a problem started.</strong>
-              </div>
-            </div>
-            
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Recognising patterns and abnormal behaviour in the system is key to diagnosing faults effectively.</strong>
-              </div>
-            </div>
-            
-            <div class="key-point-item">
-              <div class="key-point-icon">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <div class="key-point-content">
-                <strong>Practising with simulated faults, such as E-stops or sensor offsets, helps build confidence in real-world troubleshooting.</strong>
-              </div>
-            </div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-shield-alt"></i></div><div class="key-point-content"><strong>LOTO is used to create a safe working condition before maintenance begins.</strong></div></div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-water"></i></div><div class="key-point-content"><strong>Securing a valve in the closed position stops process flow to the downstream section.</strong></div></div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-cogs"></i></div><div class="key-point-content"><strong>Mechanical isolation provides protection even if the control system tries to run.</strong></div></div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-search"></i></div><div class="key-point-content"><strong>Confirm the process has stopped before disconnecting any pipework or devices.</strong></div></div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-user-lock"></i></div><div class="key-point-content"><strong>The lock should only be removed by the person carrying out the task.</strong></div></div>
+            <div class="key-point-item"><div class="key-point-icon"><i class="fas fa-key"></i></div><div class="key-point-content"><strong>Keep the key on your person at all times while the system is isolated.</strong></div></div>
           </div>
         </div>
       </div>
@@ -576,152 +471,76 @@
       <h2 class="section-header"><i class="fas fa-question-circle"></i> Questions & Answers</h2>
       <div class="questions-content">
         <div class="question-item" data-question="1">
-          <h4>Question 1: Why is fault finding important in industrial maintenance?</h4>
+          <h4>Question 1: What is the purpose of Lockout Tagout (LOTO)?</h4>
           <div class="multiple-choice-options">
-            <label class="option-label">
-              <input type="radio" name="question-1" value="A" class="option-radio">
-              <span class="option-text">A) It is only required for new systems</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-1" value="B" class="option-radio">
-              <span class="option-text">B) Identifies and fixes issues for safe/efficient operation</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-1" value="C" class="option-radio">
-              <span class="option-text">C) It is mainly for reducing paperwork</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-1" value="D" class="option-radio">
-              <span class="option-text">D) It is only done after a breakdown</span>
-            </label>
+            <label class="option-label"><input type="radio" name="question-1" value="A" class="option-radio"><span class="option-text">A) To speed up production during maintenance</span></label>
+            <label class="option-label"><input type="radio" name="question-1" value="B" class="option-radio"><span class="option-text">B) To ensure equipment is safely isolated so maintenance can be done safely</span></label>
+            <label class="option-label"><input type="radio" name="question-1" value="C" class="option-radio"><span class="option-text">C) To keep the system running while people work on it</span></label>
+            <label class="option-label"><input type="radio" name="question-1" value="D" class="option-radio"><span class="option-text">D) To reduce alarm messages on the HMI</span></label>
           </div>
-          <div class="question-actions">
-            <button class="submit-question-btn" onclick="submitAnswer(1)">Submit Answer</button>
-          </div>
-          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> B) Identifies and fixes issues.
-          </div>
+          <div class="question-actions"><button class="submit-question-btn" onclick="submitAnswer(1)">Submit Answer</button></div>
+          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;"></div>
         </div>
         <div class="question-item" data-question="2">
-          <h4>Question 2: What are the three main types of faults in industrial systems?</h4>
+          <h4>Question 2: Why is locking off a valve important before removing downstream pipework?</h4>
           <div class="multiple-choice-options">
-            <label class="option-label">
-              <input type="radio" name="question-2" value="A" class="option-radio">
-              <span class="option-text">A) Hydraulic faults, pneumatic faults, and optical faults</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-2" value="B" class="option-radio">
-              <span class="option-text">B) Software, electrical, and mechanical faults</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-2" value="C" class="option-radio">
-              <span class="option-text">C) Operator faults, design faults, and environmental faults</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-2" value="D" class="option-radio">
-              <span class="option-text">D) Sensor faults, actuator faults, and network faults</span>
-            </label>
+            <label class="option-label"><input type="radio" name="question-2" value="A" class="option-radio"><span class="option-text">A) It improves software response time</span></label>
+            <label class="option-label"><input type="radio" name="question-2" value="B" class="option-radio"><span class="option-text">B) It prevents flow through the system so downstream work is safe</span></label>
+            <label class="option-label"><input type="radio" name="question-2" value="C" class="option-radio"><span class="option-text">C) It makes the valve easier to clean</span></label>
+            <label class="option-label"><input type="radio" name="question-2" value="D" class="option-radio"><span class="option-text">D) It keeps the flow sensor active</span></label>
           </div>
-          <div class="question-actions">
-            <button class="submit-question-btn" onclick="submitAnswer(2)">Submit Answer</button>
-          </div>
-          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> B) Software, electrical, mechanical.
-          </div>
+          <div class="question-actions"><button class="submit-question-btn" onclick="submitAnswer(2)">Submit Answer</button></div>
+          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;"></div>
         </div>
         <div class="question-item" data-question="3">
-          <h4>Question 3: How does the HMI help with diagnosing faults?</h4>
+          <h4>Question 3: Why should you not rely on PLC logic or software alone for safe isolation?</h4>
           <div class="multiple-choice-options">
-            <label class="option-label">
-              <input type="radio" name="question-3" value="A" class="option-radio">
-              <span class="option-text">A) The HMI only displays system graphics</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-3" value="B" class="option-radio">
-              <span class="option-text">B) The HMI is not used for fault diagnosis</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-3" value="C" class="option-radio">
-              <span class="option-text">C) Shows alarms and fault status for diagnosis</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-3" value="D" class="option-radio">
-              <span class="option-text">D) The HMI only logs user actions</span>
-            </label>
+            <label class="option-label"><input type="radio" name="question-3" value="A" class="option-radio"><span class="option-text">A) PLC code is never used in industry</span></label>
+            <label class="option-label"><input type="radio" name="question-3" value="B" class="option-radio"><span class="option-text">B) PLC logic only works when alarms are disabled</span></label>
+            <label class="option-label"><input type="radio" name="question-3" value="C" class="option-radio"><span class="option-text">C) Software can change or fail, but physical isolation guarantees safety</span></label>
+            <label class="option-label"><input type="radio" name="question-3" value="D" class="option-radio"><span class="option-text">D) Software cannot communicate with valves</span></label>
           </div>
-          <div class="question-actions">
-            <button class="submit-question-btn" onclick="submitAnswer(3)">Submit Answer</button>
-          </div>
-          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> C) Shows alarms and status.
-          </div>
+          <div class="question-actions"><button class="submit-question-btn" onclick="submitAnswer(3)">Submit Answer</button></div>
+          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;"></div>
         </div>
         <div class="question-item" data-question="4">
-          <h4>Question 4: What is the purpose of checking the alarm raise time on the HMI?</h4>
+          <h4>Question 4: Who should keep the key to the padlock during a LOTO procedure?</h4>
           <div class="multiple-choice-options">
-            <label class="option-label">
-              <input type="radio" name="question-4" value="A" class="option-radio">
-              <span class="option-text">A) It is only for record keeping</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-4" value="B" class="option-radio">
-              <span class="option-text">B) It is used to reset the system</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-4" value="C" class="option-radio">
-              <span class="option-text">C) It is not important for troubleshooting</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-4" value="D" class="option-radio">
-              <span class="option-text">D) Shows when fault occurred to trace cause</span>
-            </label>
+            <label class="option-label"><input type="radio" name="question-4" value="A" class="option-radio"><span class="option-text">A) The person carrying out the work</span></label>
+            <label class="option-label"><input type="radio" name="question-4" value="B" class="option-radio"><span class="option-text">B) Any person on the site</span></label>
+            <label class="option-label"><input type="radio" name="question-4" value="C" class="option-radio"><span class="option-text">C) The nearest operator panel</span></label>
+            <label class="option-label"><input type="radio" name="question-4" value="D" class="option-radio"><span class="option-text">D) Leave it in the lock for convenience</span></label>
           </div>
-          <div class="question-actions">
-            <button class="submit-question-btn" onclick="submitAnswer(4)">Submit Answer</button>
-          </div>
-          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> D) Shows fault timing.
-          </div>
+          <div class="question-actions"><button class="submit-question-btn" onclick="submitAnswer(4)">Submit Answer</button></div>
+          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;"></div>
         </div>
         <div class="question-item" data-question="5">
-          <h4>Question 5: How can practising with simulated faults improve troubleshooting skills?</h4>
+          <h4>Question 5: What should you verify before removing a component downstream of a locked valve?</h4>
           <div class="multiple-choice-options">
-            <label class="option-label">
-              <input type="radio" name="question-5" value="A" class="option-radio">
-              <span class="option-text">A) It is only for entertainment</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-5" value="B" class="option-radio">
-              <span class="option-text">B) Builds confidence and real-world skills</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-5" value="C" class="option-radio">
-              <span class="option-text">C) It is not useful for real-world skills</span>
-            </label>
-            <label class="option-label">
-              <input type="radio" name="question-5" value="D" class="option-radio">
-              <span class="option-text">D) It is only for advanced users</span>
-            </label>
+            <label class="option-label"><input type="radio" name="question-5" value="A" class="option-radio"><span class="option-text">A) That the run lamp is green</span></label>
+            <label class="option-label"><input type="radio" name="question-5" value="B" class="option-radio"><span class="option-text">B) That the alarm list is empty</span></label>
+            <label class="option-label"><input type="radio" name="question-5" value="C" class="option-radio"><span class="option-text">C) That the operator has logged out</span></label>
+            <label class="option-label"><input type="radio" name="question-5" value="D" class="option-radio"><span class="option-text">D) That flow has stopped and the system is fully isolated</span></label>
           </div>
-          <div class="question-actions">
-            <button class="submit-question-btn" onclick="submitAnswer(5)">Submit Answer</button>
-          </div>
-          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;">
-            <strong style="color: #4CAF50;">Correct Answer:</strong> A) Builds confidence and skills.
-          </div>
+          <div class="question-actions"><button class="submit-question-btn" onclick="submitAnswer(5)">Submit Answer</button></div>
+          <div class="correct-answer" style="display: none; margin-top: 15px; padding: 15px; background: #1a2f1a; border-radius: 4px; border-left: 3px solid #4CAF50;"></div>
         </div>
       </div>
     </div>
 
     <!-- Simulation Section -->
     <div class="simulation-section">
-      <h2 class="section-header"><i class="fas fa-cogs"></i> 3. Interactive Fault Detection & Troubleshooting</h2>
-      <div id="fault-detection-panel" class="simulation-container">
-        <div class="simulation-loading">
-          <i class="fas fa-spinner fa-spin"></i>
-          <p>Loading fault detection simulation...</p>
-          <p>Simulation will initialize automatically</p>
+      <h2 class="section-header"><i class="fas fa-cogs"></i> 4. Interactive LOTO Simulation</h2>
+      <div id="loto-panel" class="simulation-container" style="padding:20px;background:#1a1a1a;border-radius:8px;">
+        <p>Use this simple simulation to complete Lock Out Tag Out in the correct order.</p>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(220px,1fr));gap:10px;margin:15px 0;">
+          <button class="diagnostic-btn" onclick="setValveClosed()">1) Close Valve</button>
+          <button class="diagnostic-btn" onclick="fitCover()">2) Fit LOTO Cover</button>
+          <button class="diagnostic-btn" onclick="applyPadlock()">3) Apply Padlock</button>
+          <button class="diagnostic-btn" onclick="removeKey()">4) Remove Key</button>
+          <button class="diagnostic-btn" onclick="runLotoSystem()" style="grid-column:span 2;">Run System</button>
         </div>
+        <div id="loto-status" style="background:#23272b;padding:12px;border-radius:6px;line-height:1.8;"></div>
       </div>
     </div>
   </div>
@@ -729,16 +548,14 @@
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="fault-detection-simulation.js"></script>
-  
   <script>
-    // Define correct answers for worksheet 14 (aligned to document, not all A)
+    // Define correct answers for worksheet 15
     const correctAnswers = {
       "1": "B",
       "2": "B",
       "3": "C",
-      "4": "D",
-      "5": "B"
+      "4": "A",
+      "5": "D"
     };
 
     function submitAnswer(questionNumber) {
@@ -754,7 +571,7 @@
       const answer = selectedOption.value;
       
       // Save with enhanced tracking
-      worksheetTracker.saveAnswer(14, questionNumber, answer, 'maintenance');
+      worksheetTracker.saveAnswer(15, questionNumber, answer, 'maintenance');
       
       // Apply visual feedback
       const allOptions = questionItem.querySelectorAll('.option-label');
@@ -821,7 +638,7 @@
       }
 
       // Load any saved answers
-      const progress = worksheetTracker.getWorksheetProgress(14, 'maintenance');
+      const progress = worksheetTracker.getWorksheetProgress(15, 'maintenance');
       if (progress && progress.answers) {
         Object.entries(progress.answers).forEach(([questionNumber, answerData]) => {
           const questionItem = document.querySelector(`[data-question="${questionNumber}"]`);
@@ -840,6 +657,73 @@
       }
     });
     
+    const lotoState = {
+      valveClosed: false,
+      coverFitted: false,
+      padlockApplied: false,
+      keyRemoved: false
+    };
+
+    function renderLotoStatus(message) {
+      const statusPanel = document.getElementById('loto-status');
+      if (!statusPanel) return;
+
+      const flowBlocked = lotoState.valveClosed;
+      const safeIsolation = lotoState.valveClosed && lotoState.coverFitted && lotoState.padlockApplied && lotoState.keyRemoved;
+
+      statusPanel.innerHTML = `
+        <div><strong>Valve:</strong> ${lotoState.valveClosed ? 'Closed' : 'Open'}</div>
+        <div><strong>LOTO Cover:</strong> ${lotoState.coverFitted ? 'Fitted' : 'Not fitted'}</div>
+        <div><strong>Padlock:</strong> ${lotoState.padlockApplied ? 'Applied' : 'Not applied'}</div>
+        <div><strong>Key:</strong> ${lotoState.keyRemoved ? 'Removed and kept on person' : 'Not removed yet'}</div>
+        <div><strong>Flow State:</strong> ${flowBlocked ? 'No flow through locked valve' : 'Flow still possible'}</div>
+        <div style="margin-top:8px;color:${safeIsolation ? '#4CAF50' : '#FFC107'};">
+          <strong>${safeIsolation ? 'SAFE: System is physically isolated.' : 'NOT YET SAFE: Complete all LOTO steps.'}</strong>
+        </div>
+        <div style="margin-top:8px;">${message || 'Start by closing the valve, then complete lockout steps.'}</div>
+      `;
+    }
+
+    function setValveClosed() {
+      lotoState.valveClosed = true;
+      renderLotoStatus('Valve closed fully clockwise.');
+    }
+
+    function fitCover() {
+      if (!lotoState.valveClosed) {
+        renderLotoStatus('Close the valve first before fitting the LOTO cover.');
+        return;
+      }
+      lotoState.coverFitted = true;
+      renderLotoStatus('LOTO cover fitted around the valve.');
+    }
+
+    function applyPadlock() {
+      if (!lotoState.coverFitted) {
+        renderLotoStatus('Fit the LOTO cover before applying the padlock.');
+        return;
+      }
+      lotoState.padlockApplied = true;
+      renderLotoStatus('Padlock applied through the cover holes.');
+    }
+
+    function removeKey() {
+      if (!lotoState.padlockApplied) {
+        renderLotoStatus('Apply the padlock before removing the key.');
+        return;
+      }
+      lotoState.keyRemoved = true;
+      renderLotoStatus('Key removed and kept on your person.');
+    }
+
+    function runLotoSystem() {
+      if (lotoState.valveClosed) {
+        renderLotoStatus('System attempted to run, then shut down due to no flow. This is expected.');
+      } else {
+        renderLotoStatus('System can still flow because the valve is open. Isolation is not complete.');
+      }
+    }
+
     // Step card click functionality
     function initializeStepCardClicks() {
       const stepCards = document.querySelectorAll('.step-card');
@@ -874,6 +758,7 @@
     // Initialize step card functionality when DOM is loaded
     document.addEventListener('DOMContentLoaded', function() {
       initializeStepCardClicks();
+      renderLotoStatus();
       
       // Use the existing step tracking system
       if (typeof initializeStepTracking === 'function') {
@@ -886,18 +771,18 @@
   <div class="worksheet-bottom-nav">
     <div class="worksheet-header-content">
       <div class="worksheet-header-left">
-        <button class="worksheet-nav-btn worksheet-back-btn" onclick="window.location.href='worksheet-13.html'">
+        <button class="worksheet-nav-btn worksheet-back-btn" onclick="window.location.href='worksheet-14.html'">
           <i class="fas fa-arrow-left"></i>
           <span>Previous Worksheet</span>
         </button>
       </div>
       <div class="worksheet-header-center">
-        <h1 class="worksheet-title">Worksheet 14 - Fault Detection & Troubleshooting</h1>
+        <h1 class="worksheet-title">Worksheet 15 - Lock Out Tag Out</h1>
       </div>
       <div class="worksheet-header-right">
-        <button class="worksheet-nav-btn worksheet-next-btn" onclick="window.location.href='worksheet-15.html'">
-          <span>Next Worksheet</span>
-          <i class="fas fa-arrow-right"></i>
+        <button class="worksheet-nav-btn worksheet-next-btn" onclick="window.location.href='index.html'">
+          <span>Back to Home</span>
+          <i class="fas fa-home"></i>
         </button>
       </div>
     </div>
