@@ -1086,6 +1086,7 @@
           // Apply visual feedback
           const allOptions = answerInput.querySelectorAll('.option-label');
           const correctAnswer = correctAnswers[questionNumber];
+          worksheetTracker.setAnswerCorrectness(4, questionNumber, 'maintenance', answer === correctAnswer);
           
           allOptions.forEach(option => {
             const radio = option.querySelector('.option-radio');
@@ -1165,9 +1166,10 @@
       scenarioAnswers[scenarioId] = answer;
       
       // Save with enhanced tracking
-      worksheetTracker.saveAnswer(4, scenarioId, answer, 'diagnostic');
-      
+      worksheetTracker.saveAnswer(4, scenarioId, answer, 'maintenance');
+
       const correctAnswer = correctAnswers[scenarioId];
+      worksheetTracker.setAnswerCorrectness(4, scenarioId, 'maintenance', answer === correctAnswer);
       
       // Apply visual feedback
       const allOptions = answerInput.querySelectorAll('.option-label');

@@ -8,7 +8,7 @@ class WorksheetTracker {
         { id: 1, title: "Flow Control System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 2, title: "Emergency Stop System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 3, title: "Status LED System Maintenance", type: "maintenance", totalQuestions: 5 },
-        { id: 4, title: "PLC System Maintenance", type: "maintenance", totalQuestions: 5 },
+        { id: 4, title: "PLC System Maintenance", type: "maintenance", totalQuestions: 8 },
         { id: 5, title: "HMI System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 6, title: "Pump System Maintenance", type: "maintenance", totalQuestions: 5 },
         { id: 7, title: "Valve System Maintenance", type: "maintenance", totalQuestions: 5 },
@@ -109,45 +109,72 @@ class WorksheetTracker {
     }
   }
 
-  // Save answer with enhanced tracking
-  saveAnswer(worksheetId, questionNumber, answer, type = 'maintenance') {
+  // Save answer with enhanced tracking. isCorrect is optional (null when unknown,
+  // e.g. free-text questions with no defined correct answer) so completion can
+  // still be tracked separately from correctness.
+  saveAnswer(worksheetId, questionNumber, answer, type = 'maintenance', isCorrect = null) {
     try {
       const timestamp = new Date().toISOString();
       const key = `worksheet-${type}-${worksheetId}`;
-      
+
       // Get existing data or initialize new
       let data = JSON.parse(localStorage.getItem(key) || '{}');
-      
+
       // Initialize if empty
       if (!data.answers) data.answers = {};
       if (!data.metadata) data.metadata = {};
-      
+
       // Update answer data
       data.answers[questionNumber] = {
         value: answer,
-        timestamp: timestamp
+        timestamp: timestamp,
+        isCorrect: isCorrect
       };
-      
+
       // Update metadata
       data.metadata.lastUpdated = timestamp;
       data.metadata.completedQuestions = Object.keys(data.answers).length;
-      
+      data.metadata.correctQuestions = Object.values(data.answers).filter(a => a.isCorrect === true).length;
+
       // Get worksheet definition
       const worksheet = this.worksheets[type].find(w => w.id === parseInt(worksheetId));
       if (worksheet) {
         data.metadata.totalQuestions = worksheet.totalQuestions;
         data.metadata.completionPercentage = Math.round((data.metadata.completedQuestions / worksheet.totalQuestions) * 100);
       }
-      
+
       // Save data
       localStorage.setItem(key, JSON.stringify(data));
-      
+
       // Update overall progress
       this.updateOverallProgress(timestamp);
-      
+
       return true;
     } catch (error) {
       console.error('Error saving answer:', error);
+      return false;
+    }
+  }
+
+  // Record (or update) the correctness of an already-saved answer without
+  // resaving its value/timestamp. Lets pages compute correctness after the
+  // fact using their own answer key, then attach it to the tracker record.
+  setAnswerCorrectness(worksheetId, questionNumber, type = 'maintenance', isCorrect) {
+    try {
+      const key = `worksheet-${type}-${worksheetId}`;
+      let data = JSON.parse(localStorage.getItem(key) || '{}');
+      if (!data.answers || !data.answers[questionNumber]) return false;
+
+      const timestamp = new Date().toISOString();
+      data.answers[questionNumber].isCorrect = isCorrect;
+      data.metadata.correctQuestions = Object.values(data.answers).filter(a => a.isCorrect === true).length;
+
+      localStorage.setItem(key, JSON.stringify(data));
+      this.updateOverallProgress(timestamp);
+
+      return true;
+    } catch (error) {
+      console.error('Error setting answer correctness:', error);
       return false;
     }
   }
@@ -165,9 +192,15 @@ class WorksheetTracker {
       // Calculate completion
       const answers = data.answers || {};
       const completedQuestions = Object.keys(answers).length;
-      const completionPercentage = totalQuestions > 0 ? 
+      const completionPercentage = totalQuestions > 0 ?
         Math.round((completedQuestions / totalQuestions) * 100) : 0;
-      
+
+      // Calculate correctness among graded, completed answers
+      const gradedAnswers = Object.values(answers).filter(a => a && a.isCorrect !== null && a.isCorrect !== undefined);
+      const correctQuestions = gradedAnswers.filter(a => a.isCorrect === true).length;
+      const accuracyPercentage = gradedAnswers.length > 0 ?
+        Math.round((correctQuestions / gradedAnswers.length) * 100) : null;
+
       return {
         worksheetId,
         type,
@@ -176,6 +209,9 @@ class WorksheetTracker {
         completedQuestions,
         totalQuestions,
         completionPercentage,
+        correctQuestions,
+        gradedQuestions: gradedAnswers.length,
+        accuracyPercentage,
         lastUpdated: data.metadata ? data.metadata.lastUpdated : null
       };
     } catch (error) {
@@ -187,6 +223,9 @@ class WorksheetTracker {
         completedQuestions: 0,
         totalQuestions: 0,
         completionPercentage: 0,
+        correctQuestions: 0,
+        gradedQuestions: 0,
+        accuracyPercentage: null,
         lastUpdated: null
       };
     }
@@ -224,20 +263,26 @@ class WorksheetTracker {
         completedWorksheets: 0,
         totalQuestions: 0,
         completedQuestions: 0,
+        correctQuestions: 0,
+        gradedQuestions: 0,
         lastActivity: this.validateTimestamp(newLastActivity) || null
       };
-      
+
       Object.values(allProgress).forEach(progress => {
         if (progress.completedQuestions === progress.totalQuestions) {
           overallStats.completedWorksheets++;
         }
         overallStats.totalQuestions += progress.totalQuestions;
         overallStats.completedQuestions += progress.completedQuestions;
+        overallStats.correctQuestions += progress.correctQuestions;
+        overallStats.gradedQuestions += progress.gradedQuestions;
       });
-      
-      overallStats.completionPercentage = overallStats.totalQuestions > 0 ? 
+
+      overallStats.completionPercentage = overallStats.totalQuestions > 0 ?
         Math.round((overallStats.completedQuestions / overallStats.totalQuestions) * 100) : 0;
-      
+      overallStats.accuracyPercentage = overallStats.gradedQuestions > 0 ?
+        Math.round((overallStats.correctQuestions / overallStats.gradedQuestions) * 100) : null;
+
       localStorage.setItem('worksheet-overall-progress', JSON.stringify(overallStats));
       return overallStats;
     } catch (error) {
@@ -247,7 +292,10 @@ class WorksheetTracker {
         completedWorksheets: 0,
         totalQuestions: 0,
         completedQuestions: 0,
+        correctQuestions: 0,
+        gradedQuestions: 0,
         completionPercentage: 0,
+        accuracyPercentage: null,
         lastActivity: null
       };
     }
@@ -267,17 +315,15 @@ class WorksheetTracker {
     }
   }
 
-  // Get overall progress with error handling
+  // Get overall progress with error handling. Always recomputed from the
+  // per-worksheet answer records rather than trusting the cached summary, so
+  // fields added later (e.g. accuracyPercentage) don't read stale/missing on
+  // old cached data.
   getOverallProgress() {
     try {
       const saved = localStorage.getItem('worksheet-overall-progress');
-      if (saved) {
-        const stats = JSON.parse(saved);
-        // Validate lastActivity
-        stats.lastActivity = this.validateTimestamp(stats.lastActivity);
-        return stats;
-      }
-      return this.updateOverallProgress();
+      const cachedLastActivity = saved ? this.validateTimestamp(JSON.parse(saved).lastActivity) : null;
+      return this.updateOverallProgress(cachedLastActivity);
     } catch (error) {
       console.error('Error getting overall progress:', error);
       return this.updateOverallProgress();
@@ -454,22 +500,23 @@ class WorksheetTracker {
       csvContent += "Overall Statistics\n";
       csvContent += `Total Completion,${overallStats.completionPercentage}%\n`;
       csvContent += `Completed Worksheets,${overallStats.completedWorksheets}/${overallStats.totalWorksheets}\n`;
-      csvContent += `Completed Questions,${overallStats.completedQuestions}/${overallStats.totalQuestions}\n\n`;
-      
+      csvContent += `Completed Questions,${overallStats.completedQuestions}/${overallStats.totalQuestions}\n`;
+      csvContent += `Correct Answers,${overallStats.correctQuestions}/${overallStats.gradedQuestions}${overallStats.accuracyPercentage !== null ? ` (${overallStats.accuracyPercentage}%)` : ''}\n\n`;
+
       // Add worksheet details
       csvContent += "Worksheet Progress\n";
-      csvContent += "Type,ID,Title,Completed Questions,Total Questions,Completion %,Last Updated\n";
-      
+      csvContent += "Type,ID,Title,Completed Questions,Total Questions,Completion %,Correct Answers,Accuracy %,Last Updated\n";
+
       // Add maintenance worksheets
       this.worksheets.maintenance.forEach(worksheet => {
         const progress = allProgress[`maintenance-${worksheet.id}`];
-        csvContent += `Maintenance,${worksheet.id},"${worksheet.title}",${progress.completedQuestions},${progress.totalQuestions},${progress.completionPercentage}%,${progress.lastUpdated || 'Never'}\n`;
+        csvContent += `Maintenance,${worksheet.id},"${worksheet.title}",${progress.completedQuestions},${progress.totalQuestions},${progress.completionPercentage}%,${progress.correctQuestions}/${progress.gradedQuestions},${progress.accuracyPercentage !== null ? progress.accuracyPercentage + '%' : 'N/A'},${progress.lastUpdated || 'Never'}\n`;
       });
-      
+
       // Add fault worksheets
       this.worksheets.fault.forEach(worksheet => {
         const progress = allProgress[`fault-${worksheet.id}`];
-        csvContent += `Fault,${worksheet.id},"${worksheet.title}",${progress.completedQuestions},${progress.totalQuestions},${progress.completionPercentage}%,${progress.lastUpdated || 'Never'}\n`;
+        csvContent += `Fault,${worksheet.id},"${worksheet.title}",${progress.completedQuestions},${progress.totalQuestions},${progress.completionPercentage}%,${progress.correctQuestions}/${progress.gradedQuestions},${progress.accuracyPercentage !== null ? progress.accuracyPercentage + '%' : 'N/A'},${progress.lastUpdated || 'Never'}\n`;
       });
       
       const encodedUri = encodeURI(csvContent);
@@ -556,6 +603,7 @@ class WorksheetTracker {
           <p><strong>Total Completion:</strong> ${overallStats.completionPercentage}%</p>
           <p><strong>Completed Worksheets:</strong> ${overallStats.completedWorksheets}/${overallStats.totalWorksheets}</p>
           <p><strong>Questions Completed:</strong> ${overallStats.completedQuestions}/${overallStats.totalQuestions}</p>
+          <p><strong>Correct Answers:</strong> ${overallStats.correctQuestions}/${overallStats.gradedQuestions}${overallStats.accuracyPercentage !== null ? ` (${overallStats.accuracyPercentage}%)` : ' (N/A)'}</p>
           <p><strong>Last Activity:</strong> ${overallStats.lastActivity ? new Date(overallStats.lastActivity).toLocaleDateString() : 'Never'}</p>
         </div>
         
@@ -576,7 +624,11 @@ class WorksheetTracker {
                     <span>${progress.completedQuestions}/${progress.totalQuestions} questions</span>
                     <span>${progress.completionPercentage}%</span>
                   </div>
-                  ${progress.lastUpdated ? 
+                  <div class="worksheet-stats">
+                    <span>Correct: ${progress.correctQuestions}/${progress.gradedQuestions}</span>
+                    <span>${progress.accuracyPercentage !== null ? progress.accuracyPercentage + '%' : 'N/A'}</span>
+                  </div>
+                  ${progress.lastUpdated ?
                     `<p class="last-update">Last updated: ${new Date(progress.lastUpdated).toLocaleDateString()}</p>` 
                     : ''}
                 </div>
@@ -602,7 +654,11 @@ class WorksheetTracker {
                     <span>${progress.completedQuestions}/${progress.totalQuestions} questions</span>
                     <span>${progress.completionPercentage}%</span>
                   </div>
-                  ${progress.lastUpdated ? 
+                  <div class="worksheet-stats">
+                    <span>Correct: ${progress.correctQuestions}/${progress.gradedQuestions}</span>
+                    <span>${progress.accuracyPercentage !== null ? progress.accuracyPercentage + '%' : 'N/A'}</span>
+                  </div>
+                  ${progress.lastUpdated ?
                     `<p class="last-update">Last updated: ${new Date(progress.lastUpdated).toLocaleDateString()}</p>` 
                     : ''}
                 </div>
