@@ -759,6 +759,7 @@
       // Apply visual feedback
       const allOptions = questionItem.querySelectorAll('.option-label');
       const correctAnswer = correctAnswers[questionNumber];
+      worksheetTracker.setAnswerCorrectness(14, questionNumber, 'maintenance', answer === correctAnswer);
       
       allOptions.forEach(option => {
         const radio = option.querySelector('.option-radio');

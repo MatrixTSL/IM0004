@@ -976,6 +976,10 @@
           <span class="stat-value">${stats.completedQuestions}/${stats.totalQuestions}</span>
         </div>
         <div class="stat-item">
+          <span class="stat-label">Correct Answers</span>
+          <span class="stat-value">${stats.correctQuestions}/${stats.gradedQuestions}${stats.accuracyPercentage !== null ? ` (${stats.accuracyPercentage}%)` : ''}</span>
+        </div>
+        <div class="stat-item">
           <span class="stat-label">Last Activity</span>
           <span class="stat-value">${formatLastActivity(stats.lastActivity)}</span>
         </div>
@@ -1130,6 +1134,10 @@
               <span>${progress.completedQuestions || 0}/${progress.totalQuestions} questions</span>
               <span>${progress.completionPercentage || 0}%</span>
             </div>
+            <div class="worksheet-stats">
+              <span>Correct: ${progress.correctQuestions || 0}/${progress.gradedQuestions || 0}</span>
+              <span>${progress.accuracyPercentage !== null && progress.accuracyPercentage !== undefined ? progress.accuracyPercentage + '%' : 'N/A'}</span>
+            </div>
             ${progress.lastUpdated ? `<div class="last-activity">Last updated: ${new Date(progress.lastUpdated).toLocaleString()}</div>` : ''}
           </div>
         `;
@@ -1172,6 +1180,10 @@
             <div class="worksheet-stats">
               <span>${progress.completedQuestions || 0}/${progress.totalQuestions} questions</span>
               <span>${progress.completionPercentage || 0}%</span>
+            </div>
+            <div class="worksheet-stats">
+              <span>Correct: ${progress.correctQuestions || 0}/${progress.gradedQuestions || 0}</span>
+              <span>${progress.accuracyPercentage !== null && progress.accuracyPercentage !== undefined ? progress.accuracyPercentage + '%' : 'N/A'}</span>
             </div>
             ${progress.lastUpdated ? `<div class="last-activity">Last updated: ${new Date(progress.lastUpdated).toLocaleString()}</div>` : ''}
           </div>

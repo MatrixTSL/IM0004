@@ -135,8 +135,6 @@
       }
     }
   </style>
-</head>
-<head>
   <style>
     /* Mobile responsiveness for the simulation area */
     @media (max-width: 768px) {
@@ -693,6 +691,7 @@
       // Apply visual feedback
       const allOptions = questionItem.querySelectorAll('.option-label');
       const correctAnswer = correctAnswers[questionNumber];
+      worksheetTracker.setAnswerCorrectness(11, questionNumber, 'maintenance', answer === correctAnswer);
       
       allOptions.forEach(option => {
         const radio = option.querySelector('.option-radio');
