@@ -33,8 +33,28 @@ class WorksheetTracker {
       ]
     };
 
+    // Clear any leftover progress from a prior session on this browser/device
+    // before initializing, so a newly-launched browser always starts blank.
+    this.resetOnNewSession();
+
     // Initialize storage if needed
     this.initializeStorage();
+  }
+
+  // Wipe saved progress once per browser session. sessionStorage is cleared
+  // when the browser is fully closed (not just the tab/page navigated), so
+  // this guarantees a fresh start each time the browser is launched, while
+  // still preserving answers as a student moves between worksheet pages
+  // within the same sitting.
+  resetOnNewSession() {
+    try {
+      if (!sessionStorage.getItem('im0004-session-active')) {
+        this.clearAllProgress();
+        sessionStorage.setItem('im0004-session-active', '1');
+      }
+    } catch (error) {
+      console.error('Error resetting progress for new session:', error);
+    }
   }
 
   // Initialize storage with default values if not exists
